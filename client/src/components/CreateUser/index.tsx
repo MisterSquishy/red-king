@@ -5,7 +5,7 @@ import { createUser } from '../../api'
 
 export default () => {
 
-  const { userName, setUserName } = useContext(GameContext);
+  const { setUserName } = useContext(GameContext);
   const [ unsavedUserName, setUnsavedUserName ] = useState('')
 
   const createUserHandler = (userName:string, setUserName: Function) => {
@@ -25,8 +25,5 @@ export default () => {
     <button disabled={!unsavedUserName} onClick={() => createUserHandler(unsavedUserName || '', setUserName)}>
       Be you
     </button>
-    <p>
-      You are { userName }
-    </p>
   </>
 }
