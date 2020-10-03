@@ -5,6 +5,6 @@ export const createUser = (userName: string) => {
   return axios.post(`${config.ENDPOINT}/users`, { userName })
 }
 
-export const createRoom = () => {
-  return axios.post(`${config.ENDPOINT}/rooms`)
+export const createGame = (userName: string) => {
+  return axios.post(`${config.ENDPOINT}/games`)
 }

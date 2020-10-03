@@ -16,13 +16,13 @@ export default () => {
   }, []);
 
   return <GameContext.Consumer>
-    {({ userName, roomId }) => (
+    {({ userName, gameId }) => (
       <>
         <h1>
           Hey
         </h1>
         <div>
-          { userName }, you are ready to rumble in { roomId }
+          { userName }, you are ready to rumble in { gameId }
         </div>
         <code>
           <pre>

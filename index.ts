@@ -3,33 +3,42 @@ const app = express();
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 const cors = require('cors')
-const { start } = require('./modules/gameManager');
+
+const { create, addPlayer } = require('./modules/gameManager');
+const { createGame, updateGame } = require('./modules/database');
 
 app.use(cors())
 app.use(express.json())
 
+//create user
 app.post('/users', (req, res) => {
   const { userName } = req.body
   // todo persist
   res.send({ userName });
 });
 
-app.post('/rooms', (req, res) => {
-  const roomId = 'test';
-  // todo persist
-  res.send({ roomId });
+//create game
+app.post('/games', (req, res) => {
+  const { userName } = req.params
+  const gameId = Math.random().toString(36).substr(2, 5);
+  const game = create(gameId, [ userName ])
+  createGame(game)
+  res.send({ gameId })
 });
 
-app.post('/rooms/:roomId', (req, res) => {
-  const { roomId } = req.params
-  // todo persist
-  res.send({ roomId });
+//join game
+app.post('/games/:gameId', (req, res) => {
+  const { gameId } = req.params
+  const { userName } = req.body
+  const game = addPlayer(userName)
+  updateGame(game)
+  res.send({ gameId })
 });
 
 io.on('connection', (socket) => {
   console.log('a user connected');
   setTimeout(() => {
-    socket.emit("StartGame", start(["petey", "julie"]));
+    // socket.emit("StartGame", start(["petey", "julie"]));
   }, 1000);
   socket.on('disconnect', () => {
     console.log('user disconnected');

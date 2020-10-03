@@ -1,7 +1,8 @@
 import { Game, Player } from './interfaces';
 import { CardName, Deck, Hand, Suit } from 'typedeck';
 
-exports.start = (
+exports.create = (
+  gameId: string,
   playerNames: string[]
 ): Game => {
 
@@ -19,5 +20,16 @@ exports.start = (
     players.push({ name: playerNames[index], hand, score: 0 })
   }
 
-  return { deck, players }
+  return { deck, players, _id: gameId }
+}
+
+exports.addPlayer = (
+  game: Game,
+  playerName: string
+): Game => {
+  const { deck } = game;
+  const hand: Hand = new Hand();
+  deck.deal(hand, 4);
+  game.players.push({ name: playerName, hand, score: 0 });
+  return game;
 }

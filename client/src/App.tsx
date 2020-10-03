@@ -1,20 +1,20 @@
 import React, { useState } from "react";
 
 import { Context } from './gameContext'
-import CreateRoom from './components/CreateRoom';
+import CreateGame from './components/CreateGame';
 import CreateUser from "./components/CreateUser";
-import Room from "./components/Room";
+import Game from "./components/Game";
 
 export const GameContext = React.createContext({} as Context);
 
 function App() {
   const [ userName, setUserName ] = useState();
-  const [ roomId, setRoomId ] = useState();
+  const [ gameId, setGameId ] = useState();
 
-  return <GameContext.Provider value={{ userName, setUserName, roomId, setRoomId }}>
+  return <GameContext.Provider value={{ userName, setUserName, gameId, setGameId }}>
     { !userName && <CreateUser /> }
-    { userName && !roomId && <CreateRoom /> }
-    { userName && roomId && <Room /> }
+    { userName && !gameId && <CreateGame /> }
+    { userName && gameId && <Game /> }
   </GameContext.Provider>;
 }
 

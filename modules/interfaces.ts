@@ -9,4 +9,5 @@ export interface Player {
 export interface Game {
   deck: Deck
   players: Player[]
+  _id: string
 }
