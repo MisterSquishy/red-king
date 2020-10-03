@@ -6,5 +6,5 @@ export const createUser = (userName: string) => {
 }
 
 export const createGame = (userName: string) => {
-  return axios.post(`${config.ENDPOINT}/games`)
+  return axios.post(`${config.ENDPOINT}/games`, { userName })
 }
