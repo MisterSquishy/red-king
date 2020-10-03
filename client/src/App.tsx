@@ -3,19 +3,19 @@ import socketIOClient from "socket.io-client";
 const ENDPOINT = "http://127.0.0.1:3000";
 
 function App() {
-  const [response, setResponse] = useState("");
+  const [game, setGame] = useState({});
 
   useEffect(() => {
     const socket = socketIOClient(ENDPOINT);
-    socket.on("TestEvent", (data: React.SetStateAction<string>) => {
-      setResponse(data);
+    socket.on("StartGame", (data: React.SetStateAction<{}>) => {
+      setGame(data);
     });
     return () => { socket.close() };
   }, []);
 
   return (
     <p>
-      The server says { response }
+      The server says { JSON.stringify(game) }
     </p>
   );
 }
