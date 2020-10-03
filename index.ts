@@ -1,7 +1,20 @@
 const app = require('express')();
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
-const { start } = require('./modules/gameManager'); 
+const cors = require('cors')
+const { start } = require('./modules/gameManager');
+
+app.use(cors())
+
+app.post('/rooms', (req, res) => {
+  const roomId = 'test';
+  res.send({ roomId });
+});
+
+app.post('/rooms/:roomId', (req, res) => {
+  const { roomId } = req.params
+  res.send({ roomId });
+});
 
 io.on('connection', (socket) => {
   console.log('a user connected');
