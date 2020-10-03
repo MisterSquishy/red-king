@@ -8,3 +8,7 @@ export const createUser = (userName: string) => {
 export const createGame = (userName: string) => {
   return axios.post(`${config.ENDPOINT}/games`, { userName })
 }
+
+export const joinGame = (userName: string, gameId: string) => {
+  return axios.post(`${config.ENDPOINT}/games/${gameId}`, { userName })
+}

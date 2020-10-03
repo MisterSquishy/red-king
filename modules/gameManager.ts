@@ -28,8 +28,9 @@ exports.addPlayer = (
   playerName: string
 ): Game => {
   const { deck } = game;
+  const shamelessHackDeck = Object.assign(Object.create(Deck.prototype), JSON.parse(JSON.stringify(deck)));
   const hand: Hand = new Hand();
-  deck.deal(hand, 4);
+  shamelessHackDeck.deal(hand, 4);
   game.players.push({ name: playerName, hand, score: 0 });
   return game;
 }

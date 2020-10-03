@@ -30,16 +30,18 @@ app.post('/games', (req, res) => {
 app.post('/games/:gameId', (req, res) => {
   const { gameId } = req.params
   const { userName } = req.body
-  const game = addPlayer(userName)
-  updateGame(game)
-  res.send({ gameId })
+  findGame(gameId, game => {
+    const updatedGame = addPlayer(game, userName)
+    updateGame(updatedGame)
+    res.send({ gameId })
+  })   
 });
 
 io.on('connection', (socket) => {
   socket.on('join', function(gameId) {
     findGame(gameId, game => {
       socket.join(gameId);
-      socket.emit("GameUpdate", game)
+      io.to(gameId).emit('GameUpdate', game);
     })    
   });
   socket.on('disconnect', () => {

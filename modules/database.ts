@@ -19,7 +19,7 @@ exports.findGame = (gameId: string, callback: Function) => {
   MongoClient.connect(url, (err, db) => {
     if (err) throw err;
     var dbo = db.db("red-king");
-    const game = dbo.collection("games").findOne({ _id: gameId }, (err, res) => {
+    dbo.collection("games").findOne({ _id: gameId }, (err, res) => {
       if (err) throw err;
       callback(res)
       db.close();
@@ -31,7 +31,7 @@ exports.updateGame = (game: Game) => {
   MongoClient.connect(url, (err, db) => {
     if (err) throw err;
     var dbo = db.db("red-king");
-    dbo.collection("games").update({ _id: game._id }, (err, res) => {
+    dbo.collection("games").update({ _id: game._id }, game, (err, res) => {
       if (err) throw err;
       db.close();
     });

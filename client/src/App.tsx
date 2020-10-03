@@ -4,6 +4,7 @@ import { Context } from './gameContext'
 import CreateGame from './components/CreateGame';
 import CreateUser from "./components/CreateUser";
 import Game from "./components/Game";
+import JoinGame from "./components/JoinGame";
 
 export const GameContext = React.createContext({} as Context);
 
@@ -14,6 +15,7 @@ function App() {
   return <GameContext.Provider value={{ userName, setUserName, gameId, setGameId }}>
     { !userName && <CreateUser /> }
     { userName && !gameId && <CreateGame /> }
+    { userName && !gameId && <JoinGame /> }
     { userName && gameId && <Game /> }
   </GameContext.Provider>;
 }
