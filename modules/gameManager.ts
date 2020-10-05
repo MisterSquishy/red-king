@@ -12,7 +12,7 @@ exports.create = (
       .map(key => Suit[key]),
     Object.keys(CardName)
       .filter(key => !isNaN(parseInt(key)))
-      .filter(key => CardName[key] !== CardName.Joker)
+      .filter(key => +key !== CardName.Joker)
       .map(key => CardName[key])
   )
   
