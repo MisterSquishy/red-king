@@ -7,8 +7,13 @@ exports.create = (
 ): Game => {
 
   const deck = Deck.Build(
-    Object.keys(Suit).filter(key => !isNaN(parseInt(key))).map(key => Suit[key]),
-    Object.keys(CardName).filter(key => !isNaN(parseInt(key))).map(val => CardName[val])
+    Object.keys(Suit)
+      .filter(key => !isNaN(parseInt(key)))
+      .map(key => Suit[key]),
+    Object.keys(CardName)
+      .filter(key => !isNaN(parseInt(key)))
+      .filter(key => CardName[key] !== CardName.Joker)
+      .map(key => CardName[key])
   )
   
   deck.shuffle()
