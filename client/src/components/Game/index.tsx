@@ -34,7 +34,7 @@ export default () => {
       who the hell else is here?
     </h3>
     { otherPlayers && otherPlayers.length ? 
-      otherPlayers.map((player: Player) => <p>player.name</p>) :
+      otherPlayers.map((player: Player) => <p>{ player.name }</p>) :
       <p>nobody</p>
     }
     <h3>
