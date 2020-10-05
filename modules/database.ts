@@ -31,7 +31,7 @@ exports.updateGame = (game: Game) => {
   MongoClient.connect(url, (err, db) => {
     if (err) throw err;
     var dbo = db.db("red-king");
-    dbo.collection("games").update({ _id: game._id }, game, (err, res) => {
+    dbo.collection("games").replaceOne({ _id: game._id }, game, (err, res) => {
       if (err) throw err;
       db.close();
     });
