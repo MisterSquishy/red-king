@@ -1,11 +1,11 @@
 import React, { useContext } from 'react'
 
-import { GameContext } from '../../App'
+import { PlayerContext } from '../../App'
 import { createGame } from '../../api'
 
 export default () => {
 
-  const { userName, setGameId } = useContext(GameContext)
+  const { userName, setGameId } = useContext(PlayerContext)
 
   const createGameHandler = () => {
     createGame(userName || '')

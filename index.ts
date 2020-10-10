@@ -31,19 +31,32 @@ app.post('/games/:gameId', (req, res) => {
   const { gameId } = req.params
   const { userName } = req.body
   findGame(gameId, game => {
-    const updatedGame = addPlayer(game, userName)
-    updateGame(updatedGame)
-    res.send({ gameId })
+    if(game) {
+      const updatedGame = addPlayer(game, userName)
+      updateGame(updatedGame)
+      res.send({ gameId })
+    } else {
+      res.status(404).send("Game not found")
+    }
   })   
 });
 
 io.on('connection', (socket) => {
-  socket.on('join', function(gameId) {
+  socket.on('join', (gameId) => {
     findGame(gameId, game => {
+      console.log(`user connected to ${gameId}`);
       socket.join(gameId);
       io.to(gameId).emit('GameUpdate', game);
     })    
   });
+  socket.on('GameUpdate', (gameId, game) => {
+    console.log(`pushing update to ${gameId}`)
+    io.to(gameId).emit('GameUpdate', game);
+  })
+  socket.on('StateChange', (gameId, gameState) => {
+    console.log(`pushing stateChange (${gameState}) to ${gameId}`)
+    io.to(gameId).emit('StateChange', gameState);
+  })
   socket.on('disconnect', () => {
     console.log('user disconnected');
   });

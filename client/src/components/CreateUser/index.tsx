@@ -1,11 +1,11 @@
 import React, { useContext, useState } from 'react'
 
-import { GameContext } from '../../App'
+import { PlayerContext } from '../../App'
 import { createUser } from '../../api'
 
 export default () => {
 
-  const { setUserName } = useContext(GameContext);
+  const { setUserName } = useContext(PlayerContext);
   const [ unsavedUserName, setUnsavedUserName ] = useState('')
 
   const createUserHandler = (userName:string, setUserName: Function) => {
