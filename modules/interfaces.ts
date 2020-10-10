@@ -8,6 +8,13 @@ export interface Player {
 
 export interface Game {
   deck: Deck
+  discardPile: Deck
   players: Player[]
+  currentPlayer: number
   _id: string
+}
+
+export enum DrawType {
+  DECK,
+  DISCARD
 }

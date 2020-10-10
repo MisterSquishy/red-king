@@ -1,9 +1,10 @@
 import React, { useContext } from 'react'
 
 import { GameContext, PlayerContext, SocketContext } from '../../App'
-import { GameState, DrawType } from '../../models/interfaces';
+import { GameState, DrawType, Card } from '../../models/interfaces';
 import WaitingRoom from './WaitingRoom'
 import Turn from './Turn'
+import { discard, draw } from '../../api';
 
 export default () => {
   const { userName, gameId } = useContext(PlayerContext);
@@ -11,25 +12,15 @@ export default () => {
   const { game, gameState } = useContext(GameContext);
 
   const onStart = () => {
-    if(game) {
-      game.currentPlayer = game?.players[0];
-      socket.emit('GameUpdate', gameId, game)
-      socket.emit('StateChange', gameId, GameState.IN_PROGRESS);
-    }
+    socket.emit('StateChange', gameId, GameState.IN_PROGRESS);
   }
 
   const onDraw = (type: DrawType) => {
-
+    gameId && userName && draw(gameId, userName, type);
   }
 
-  const onDiscard = () => {
-    if(game) {
-
-      // rotate turn
-      const currentPlayerIndex = game.players.findIndex(player => player.name === game.currentPlayer?.name);
-      game.currentPlayer = game.players[(currentPlayerIndex + 1) % game.players.length]
-      socket.emit('GameUpdate', gameId, game)
-    }
+  const onDiscard = (card: Card) => {
+    gameId && userName && discard(gameId, userName, card);
   }
 
   return <>

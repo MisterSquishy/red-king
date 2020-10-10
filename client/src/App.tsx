@@ -16,7 +16,7 @@ export const GameContext = React.createContext({} as GameContextIF)
 function App() {
   const [ userName, setUserName ] = useState<string>();
   const [ gameId, setGameId ] = useState<string>();
-  const [ game, setGame ] = useState<GameIF>({_id:'',players:[]});
+  const [ game, setGame ] = useState<GameIF>({ _id:'', players:[], currentPlayer: 0, deck: { cards: [] }, discardPile: { cards: [] }});
   const [ gameState, setGameState ] = useState<GameState>(GameState.WAITING);
 
   const socket = socketIOClient(config.ENDPOINT);

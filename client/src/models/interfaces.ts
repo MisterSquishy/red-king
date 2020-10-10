@@ -1,7 +1,9 @@
 export interface Game {
   _id: string
   players: Player[]
-  currentPlayer?: Player
+  currentPlayer: number
+  deck: { cards: Card[] }
+  discardPile: { cards: Card[] }
 }
 
 export enum GameState {

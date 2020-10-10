@@ -9,7 +9,7 @@ export default () => {
   const [ unsavedGameId, setUnsavedGameId ] = useState('')
 
   const joinGameHandler = () => {
-    joinGame(userName || '', unsavedGameId)
+    joinGame(unsavedGameId, userName || '')
       .then(resp => setGameId(resp.data.gameId))
       .catch(console.error)
   }

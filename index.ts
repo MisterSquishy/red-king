@@ -4,7 +4,7 @@ const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 const cors = require('cors')
 
-const { create, addPlayer } = require('./modules/gameManager');
+const { create, addPlayer, drawCard, discardCard } = require('./modules/gameManager');
 const { createGame, updateGame, findGame } = require('./modules/database');
 
 app.use(cors())
@@ -35,6 +35,39 @@ app.post('/games/:gameId', (req, res) => {
       const updatedGame = addPlayer(game, userName)
       updateGame(updatedGame)
       res.send({ gameId })
+    } else {
+      res.status(404).send("Game not found")
+    }
+  })   
+});
+
+//draw card
+app.post('/games/:gameId/draw', (req, res) => {
+  const { gameId } = req.params
+  const { userName, type } = req.body
+  findGame(gameId, game => {
+    if(game) {
+      const updatedGame = drawCard(game, userName, type)
+      updateGame(updatedGame)
+      io.to(gameId).emit('GameUpdate', updatedGame);
+      res.send()
+    } else {
+      res.status(404).send("Game not found")
+    }
+  })   
+});
+
+//discard card
+app.post('/games/:gameId/discard', (req, res) => {
+  const { gameId } = req.params
+  const { userName, card } = req.body
+  findGame(gameId, game => {
+    if(game) {
+      const updatedGame = discardCard(game, userName, card)
+      updateGame(updatedGame)
+      console.log(updatedGame.discardPile)
+      io.to(gameId).emit('GameUpdate', updatedGame);
+      res.send()
     } else {
       res.status(404).send("Game not found")
     }
