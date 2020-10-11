@@ -3,7 +3,6 @@ import { Card, Deck, Hand } from 'typedeck';
 export interface Player {
   name: string
   hand: Hand
-  score: number
 }
 
 export interface Game {
@@ -29,7 +28,6 @@ interface SerializedGame {
 
 interface SerializedPlayer {
   name: string
-  score: number
   hand: Card[]
 }
 
@@ -39,7 +37,6 @@ export const GameSerializer = (game: Game): SerializedGame => {
     players: game.players.map(player => {
       return {
         name: player.name,
-        score: player.score,
         hand: player.hand.getCards()
       }
     }),
@@ -55,7 +52,6 @@ export const GameDeserializer = (serializedGame: SerializedGame): Game => {
     players: serializedGame.players.map(player => {
       return {
         name: player.name,
-        score: player.score,
         hand: new Hand(player.hand)
       }
     }),

@@ -1,9 +1,11 @@
+import { PlayingCard } from "typedeck";
+
 export interface Game {
   _id: string
   players: Player[]
   currentPlayer: number
-  deck: { cards: Card[] }
-  discardPile: { cards: Card[] }
+  deck: { cards: PlayingCard[] }
+  discardPile: { cards: PlayingCard[] }
 }
 
 export enum GameState {
@@ -20,14 +22,8 @@ export enum DrawType {
 export interface Player {
   name: string
   hand: Hand
-  score: number
 }
 
 export interface Hand {
-  cards: Card[]
-}
-
-export interface Card {
-  cardName: string
-  suit: string
+  cards: PlayingCard[]
 }

@@ -1,6 +1,7 @@
 import axios from 'axios';
+import { Card } from 'typedeck';
 import config from '../config'
-import { Card, DrawType } from '../models/interfaces';
+import { DrawType } from '../models/interfaces';
 
 export const createUser = (userName: string) => {
   return axios.post(`${config.ENDPOINT}/users`, { userName })

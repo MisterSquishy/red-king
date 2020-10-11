@@ -22,7 +22,7 @@ exports.create = (
   for (const index in playerNames) {
     const hand: Hand = new Hand()
     deck.deal(hand, 4)
-    players.push({ name: playerNames[index], hand, score: 0 })
+    players.push({ name: playerNames[index], hand })
   }
 
   return { deck, players, currentPlayer: 0, _id: gameId, discardPile: Deck.Build([], []) }
@@ -35,7 +35,7 @@ exports.addPlayer = (
   const { deck } = game;
   const hand: Hand = new Hand();
   deck.deal(hand, 4);
-  game.players.push({ name: playerName, hand, score: 0 });
+  game.players.push({ name: playerName, hand });
   return game;
 }
 
