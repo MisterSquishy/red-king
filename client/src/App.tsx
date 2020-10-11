@@ -23,9 +23,9 @@ function App() {
 
   const setGameIdAndSubscribe = (gameId: string) => {
     setGameId(gameId)
-    socket.on('GameUpdate', setGame);
+    socket.on("GameUpdate", setGame);
     socket.on("StateChange", setGameState);
-    socket.emit('join', gameId)
+    socket.emit("join", gameId)
   }
 
   return <SocketContext.Provider value={socket}>
