@@ -65,7 +65,6 @@ app.post('/games/:gameId/discard', (req, res) => {
     if(game) {
       const updatedGame = discardCard(game, userName, card)
       updateGame(updatedGame)
-      console.log(updatedGame.discardPile)
       io.to(gameId).emit('GameUpdate', updatedGame);
       res.send()
     } else {

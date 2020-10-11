@@ -28,31 +28,13 @@ exports.create = (
   return { deck, players, currentPlayer: 0, _id: gameId, discardPile: Deck.Build([], []) }
 }
 
-const getShamelessHackDeck = (deflatedGame: Game): Deck => {
-  const { deck } = deflatedGame;
-  // @ts-ignore
-  return Deck.BuildFrom(deck.cards)
-}
-
-const getShamelessHackDiscardPile = (deflatedGame: Game): Deck => {
-  const { discardPile } = deflatedGame;
-  // @ts-ignore
-  return Deck.BuildFrom(discardPile.cards)
-}
-
-const getShamelessHackHand = (deflatedPlayer: Player): Hand => {
-  const { hand } = deflatedPlayer;
-  // @ts-ignore
-  return new Hand(hand.cards)
-}
-
 exports.addPlayer = (
   game: Game,
   playerName: string
 ): Game => {
-  const shamelessHackDeck = getShamelessHackDeck(game);
+  const { deck } = game;
   const hand: Hand = new Hand();
-  shamelessHackDeck.deal(hand, 4);
+  deck.deal(hand, 4);
   game.players.push({ name: playerName, hand, score: 0 });
   return game;
 }
@@ -62,20 +44,13 @@ exports.drawCard = (
   playerName: string,
   type: DrawType
 ): Game => {
-  const shamelessHackCards: Deck = type === DrawType.DECK ? getShamelessHackDeck(game) : getShamelessHackDiscardPile(game);
+  const cards: Deck = type === DrawType.DECK ? game.deck : game.discardPile;
   const player = game.players.find(player => player.name === playerName)
-  const shamelessHackHand: Hand = getShamelessHackHand(player);
-  const card: Card = shamelessHackCards.takeCard();
-  shamelessHackHand.addCard(card);
-  player.hand = shamelessHackHand;
+  const { hand } = player;
+  const card: Card = cards.takeCard();
+  hand.addCard(card);
 
-  return {
-    _id: game._id,
-    players: game.players,
-    currentPlayer: game.currentPlayer,
-    deck: type === DrawType.DECK ? shamelessHackCards : game.deck,
-    discardPile: type === DrawType.DECK ? game.discardPile : shamelessHackCards
-  };
+  return game;
 }
 
 exports.discardCard = (
@@ -83,18 +58,12 @@ exports.discardCard = (
   playerName: string,
   card: Card
 ): Game => {
-  const shamelessHackDicardPile: Deck = getShamelessHackDiscardPile(game);
+  const { discardPile } = game;
   const player = game.players.find(player => player.name === playerName)
-  const shamelessHackHand: Hand = getShamelessHackHand(player);
-  shamelessHackHand.removeCards([ card ]);
-  shamelessHackDicardPile.addCard(card);
-  player.hand = shamelessHackHand;
+  const { hand } = player;
+  hand.removeCards([ card ]);
+  discardPile.addCard(card);
+  game.currentPlayer = (game.currentPlayer + 1) % game.players.length
   
-  return {
-    _id: game._id,
-    players: game.players,
-    currentPlayer: (game.currentPlayer + 1) % game.players.length,
-    deck: game.deck,
-    discardPile: shamelessHackDicardPile
-  };
+  return game;
 }
