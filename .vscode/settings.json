@@ -1,0 +1,15 @@
+{
+  "eslint.enable": true,
+  "eslint.run": "onSave",
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true,
+  "javascript.validate.enable": true,
+  "stylelint.packageManager": "yarn",
+  "typescript.validate.enable": false,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true,
+    "source.fixAll.stylelint": true
+  }
+}
