@@ -1154,6 +1154,11 @@ keyv@^3.0.0:
   dependencies:
     json-buffer "3.0.0"
 
+lanes@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/lanes/-/lanes-1.1.0.tgz#9b0de3fb47ffedb8b92ef5cc32e186164b08defc"
+  integrity sha1-mw3j+0f/7bi5LvXMMuGGFksI3vw=
+
 latest-version@^5.0.0:
   version "5.1.0"
   resolved "https://registry.yarnpkg.com/latest-version/-/latest-version-5.1.0.tgz#119dfe908fe38d15dfa43ecd13fa12ec8832face"
@@ -1967,6 +1972,13 @@ term-size@^2.1.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/term-size/-/term-size-2.2.0.tgz#1f16adedfe9bdc18800e1776821734086fcc6753"
   integrity sha512-a6sumDlzyHVJWb8+YofY4TW112G6p2FCPEAFk+59gIYHv3XHRhm9ltVQ9kli4hNWeQBwSpe8cRN25x0ROunMOw==
+
+throng@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/throng/-/throng-5.0.0.tgz#f9550c0221e579073f68a00be33a593d094e4d29"
+  integrity sha512-nrq7+qQhn/DL8yW/wiwImTepfi6ynOCAe7moSwgoYN1F32yQMdBkuFII40oAkb3cDfaL6q5BIoFTDCHdMWQ8Pw==
+  dependencies:
+    lodash "^4.17.20"
 
 to-array@0.1.4:
   version "0.1.4"
