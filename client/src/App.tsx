@@ -13,13 +13,13 @@ export const PlayerContext = React.createContext({} as PlayerContextIF);
 export const SocketContext = React.createContext({} as SocketIOClient.Socket)
 export const GameContext = React.createContext({} as GameContextIF)
 
+const socket = socketIOClient(config.ENDPOINT);
+
 function App() {
   const [ userName, setUserName ] = useState<string>();
   const [ gameId, setGameId ] = useState<string>();
   const [ game, setGame ] = useState<GameIF>({ _id:'', players:[], currentPlayer: 0, deck: { cards: [] }, discardPile: { cards: [] }});
   const [ gameState, setGameState ] = useState<GameState>(GameState.WAITING);
-
-  const socket = socketIOClient(config.ENDPOINT);
 
   const setGameIdAndSubscribe = (gameId: string) => {
     setGameId(gameId)
