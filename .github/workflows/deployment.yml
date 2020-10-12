@@ -11,14 +11,16 @@ jobs:
     name: Deploy via surge
     steps:
       - uses: actions/checkout@v1
-      - uses: borales/actions-yarn@v2.0.0
-        with:
-          cmd: install --cwd ./client
-      - uses: borales/actions-yarn@v2.0.0
-        with:
-          cmd: build --cwd ./client
       - uses: actions/setup-node@v1
         with:
           node-version: 12
+      - uses: borales/actions-yarn@v2.0.0
+        with:
+          cmd: install
+        working-directory: ./client
+      - uses: borales/actions-yarn@v2.0.0
+        with:
+          cmd: build --cwd ./client
+        working-directory: ./client
       - run: npm install -g surge
       - run: surge ./client/build red-king.pdavids.website --token ${{ secrets.SURGE_TOKEN }}
