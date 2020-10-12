@@ -1,4 +1,5 @@
 import React, { useContext, useState } from "react";
+import { useToasts } from "react-toast-notifications";
 
 import { PlayerContext } from "../../App";
 import { createUser } from "../../api";
@@ -6,11 +7,15 @@ import { createUser } from "../../api";
 export default () => {
   const { setUserName } = useContext(PlayerContext);
   const [unsavedUserName, setUnsavedUserName] = useState("");
+  const { addToast } = useToasts();
 
   const createUserHandler = (userName: string, setUserName: Function) => {
     createUser(userName)
       .then((resp) => setUserName(resp.data.userName))
-      .catch(console.error);
+      .catch((err) => {
+        console.error(err);
+        addToast(err.message, { appearance: "error", autoDismiss: true });
+      });
   };
 
   return (

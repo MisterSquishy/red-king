@@ -1,15 +1,20 @@
 import React, { useContext } from "react";
+import { useToasts } from "react-toast-notifications";
 
 import { PlayerContext } from "../../App";
 import { createGame } from "../../api";
 
 export default () => {
   const { userName, setGameId } = useContext(PlayerContext);
+  const { addToast } = useToasts();
 
   const createGameHandler = () => {
     createGame(userName || "")
       .then((resp) => setGameId(resp.data.gameId))
-      .catch(console.error);
+      .catch((err) => {
+        console.error(err);
+        addToast(err.message, { appearance: "error", autoDismiss: true });
+      });
   };
 
   return (

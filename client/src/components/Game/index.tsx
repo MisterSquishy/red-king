@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import { useToasts } from "react-toast-notifications";
 import { AxiosResponse } from "axios";
 
 import { GameContext, PlayerContext, SocketContext } from "../../App";
@@ -13,18 +14,29 @@ export default () => {
   const { userName, gameId } = useContext(PlayerContext);
   const socket = useContext(SocketContext);
   const { game, gameState } = useContext(GameContext);
+  const { addToast } = useToasts();
 
   const onStart = () => {
     socket.emit("StateChange", gameId, GameState.IN_PROGRESS);
   };
 
   const onDraw = (type: DrawType) => {
-    return gameId && userName && draw(gameId, userName, type);
+    return (
+      gameId &&
+      userName &&
+      draw(gameId, userName, type).catch((err) => {
+        console.error(err);
+        addToast(err.message, { appearance: "error", autoDismiss: true });
+      })
+    );
   };
 
   const onDiscard = (card: Card): Promise<AxiosResponse | void> => {
     if (gameId && userName) {
-      return discard(gameId, userName, card);
+      return discard(gameId, userName, card).catch((err) => {
+        console.error(err);
+        addToast(err.message, { appearance: "error", autoDismiss: true });
+      });
     }
     return Promise.resolve();
   };
