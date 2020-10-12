@@ -10,13 +10,7 @@ const expressLogger = expressPino({ logger });
 const throng = require("throng");
 const lanes = require("lanes")();
 
-const {
-  create,
-  addPlayer,
-  drawCard,
-  discardCard,
-} = require("./modules/gameManager");
-const { createGame, updateGame, findGame } = require("./modules/database");
+const webserver = require("./modules/webserver");
 
 app.use(cors());
 app.use(express.json());
@@ -33,94 +27,14 @@ const worker = (workerId) => {
   lanes.join(http, () => {
     logger.info({ port: PORT, workerId }, "worker_joined");
   });
-  //create user
-  app.post("/users", (req, res) => {
-    const { userName } = req.body;
-    // todo persist
-    res.send({ userName });
-    logger.info({ userName }, "created_user");
-  });
 
-  //create game
-  app.post("/games", (req, res) => {
-    const { userName } = req.body;
-    const gameId = Math.random().toString(36).substr(2, 5);
-    const game = create(gameId, [userName]);
-    createGame(game);
-    res.send({ gameId });
-    logger.info({ gameId, game, userName }, "created_game");
-  });
+  app.post("/users", webserver.createUser);
+  app.post("/games", webserver.createGame);
+  app.post("/games/:gameId", webserver.joinGame);
+  app.post("/games/:gameId/draw", webserver.drawCard);
+  app.post("/games/:gameId/discard", webserver.discardCard);
 
-  //join game
-  app.post("/games/:gameId", (req, res) => {
-    const { gameId } = req.params;
-    const { userName } = req.body;
-    findGame(gameId, (game) => {
-      if (game) {
-        const updatedGame = addPlayer(game, userName);
-        updateGame(updatedGame);
-        res.send({ gameId });
-        logger.info({ gameId, game, updatedGame, userName }, "joined_game");
-      } else {
-        res.status(404).send("Game not found");
-      }
-    });
-  });
-
-  //draw card
-  app.post("/games/:gameId/draw", (req, res) => {
-    const { gameId } = req.params;
-    const { userName, type } = req.body;
-    findGame(gameId, (game) => {
-      if (game) {
-        const updatedGame = drawCard(game, userName, type);
-        updateGame(updatedGame);
-        io.to(gameId).emit("GameUpdate", updatedGame);
-        res.send();
-        logger.info({ gameId, game, updatedGame }, "card_drawn");
-      } else {
-        res.status(404).send("Game not found");
-      }
-    });
-  });
-
-  //discard card
-  app.post("/games/:gameId/discard", (req, res) => {
-    const { gameId } = req.params;
-    const { userName, card } = req.body;
-    findGame(gameId, (game) => {
-      if (game) {
-        const updatedGame = discardCard(game, userName, card);
-        updateGame(updatedGame);
-        io.to(gameId).emit("GameUpdate", updatedGame);
-        res.send();
-        logger.info({ gameId, game, updatedGame, card }, "card_discarded");
-      } else {
-        res.status(404).send("Game not found");
-      }
-    });
-  });
-
-  io.on("connection", (socket) => {
-    logger.info({ socketId: socket.id }, "socket_connected");
-    socket.on("join", (gameId) => {
-      logger.info({ socketId: socket.id, gameId }, "joined_game");
-      findGame(gameId, (game) => {
-        socket.join(gameId);
-        io.to(gameId).emit("GameUpdate", game);
-      });
-    });
-    socket.on("StateChange", (gameId, gameState) => {
-      logger.info(
-        { socketId: socket.id, gameId, gameState },
-        "changed_game_state"
-      );
-      io.to(gameId).emit("StateChange", gameState);
-    });
-    socket.on("disconnect", () => {
-      logger.info({ socketId: socket.id }, "socket_disconnected");
-    });
-  });
+  io.on("connection", webserver.onSocketConnection);
 
   process.on("unhandledRejection", (reason, promise) => {
     logger.error(reason, "unhandled_promise_rejection");
@@ -136,3 +50,5 @@ throng({
   master,
   worker,
 });
+
+export { io, logger };
