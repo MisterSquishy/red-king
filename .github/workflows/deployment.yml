@@ -1,0 +1,24 @@
+name: Deploy Website
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: Deploy via surge
+    steps:
+      - uses: actions/checkout@v1
+      - uses: borales/actions-yarn@v2.0.0
+        with:
+          cmd: install --cwd ./build
+      - uses: borales/actions-yarn@v2.0.0
+        with:
+          cmd: build --cwd ./build
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - run: npm install -g surge
+      - run: surge ./build red-king.pdavids.website --token ${{ secrets.SURGE_TOKEN }}
