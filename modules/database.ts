@@ -12,8 +12,8 @@ exports.createGame = (game: Game) => {
     if (err) throw err;
     var dbo = db.db("red-king");
     dbo.collection("games").insertOne(serializedGame, (err, res) => {
-      if (err) throw err;
       db.close();
+      if (err) throw err;
     });
   });
 };
@@ -23,9 +23,10 @@ exports.findGame = (gameId: string, callback: Function) => {
     if (err) throw err;
     var dbo = db.db("red-king");
     dbo.collection("games").findOne({ _id: gameId }, (err, game) => {
-      if (err) throw err;
-      callback(GameDeserializer(game));
       db.close();
+      if (err) throw err;
+      else if (!game) callback(null);
+      else callback(GameDeserializer(game));
     });
   });
 };
@@ -38,8 +39,8 @@ exports.updateGame = (game: Game) => {
     dbo
       .collection("games")
       .replaceOne({ _id: serializedGame._id }, serializedGame, (err, res) => {
-        if (err) throw err;
         db.close();
+        if (err) throw err;
       });
   });
 };

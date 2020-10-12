@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import socketIOClient from "socket.io-client";
+import { ToastProvider } from "react-toast-notifications";
 
 import config from "./config";
 import { PlayerContextIF, GameContextIF } from "./contexts";
@@ -45,10 +46,12 @@ function App() {
         }}
       >
         <GameContext.Provider value={{ game, gameState }}>
-          {!userName && <CreateUser />}
-          {userName && !gameId && <CreateGame />}
-          {userName && !gameId && <JoinGame />}
-          {userName && gameId && <Game />}
+          <ToastProvider>
+            {!userName && <CreateUser />}
+            {userName && !gameId && <CreateGame />}
+            {userName && !gameId && <JoinGame />}
+            {userName && gameId && <Game />}
+          </ToastProvider>
         </GameContext.Provider>
       </PlayerContext.Provider>
     </SocketContext.Provider>

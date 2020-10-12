@@ -1,4 +1,5 @@
 import React, { useContext, useState } from "react";
+import { useToasts } from "react-toast-notifications";
 
 import { PlayerContext } from "../../App";
 import { joinGame } from "../../api";
@@ -6,11 +7,15 @@ import { joinGame } from "../../api";
 export default () => {
   const { userName, setGameId } = useContext(PlayerContext);
   const [unsavedGameId, setUnsavedGameId] = useState("");
+  const { addToast } = useToasts();
 
   const joinGameHandler = () => {
     joinGame(unsavedGameId, userName || "")
       .then((resp) => setGameId(resp.data.gameId))
-      .catch(console.error);
+      .catch((err) => {
+        console.error(err);
+        addToast(err.message, { appearance: "error", autoDismiss: true });
+      });
   };
 
   return (

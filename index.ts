@@ -9,6 +9,7 @@ const logger = pino({ level: process.env.LOG_LEVEL || "info" });
 const expressLogger = expressPino({ logger });
 const throng = require("throng");
 const lanes = require("lanes")();
+require("dotenv").config();
 
 const webserver = require("./modules/webserver");
 
