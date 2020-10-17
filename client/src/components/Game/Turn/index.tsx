@@ -1,5 +1,7 @@
 import React from "react";
 import { Game } from "../../../models/interfaces";
+import { displayName } from "../../Card/util";
+import Hand from "../../Hand";
 import MyTurn from "./MyTurn";
 
 export default ({
@@ -33,14 +35,10 @@ export default ({
       )}
       <h2>Top of discard pile:</h2>
       {game.discardPile.cards.length
-        ? `${game.discardPile.cards[0].cardName} of ${game.discardPile.cards[0].suit}`
+        ? displayName(game.discardPile.cards[0])
         : "No discard pile yet"}
       <h2>Your hand:</h2>
-      {myHand?.cards.map((card) => (
-        <p key={JSON.stringify(card)}>
-          {card.cardName} of {card.suit}
-        </p>
-      ))}
+      {myHand && <Hand hand={myHand} />}
       {isMine && (
         <MyTurn
           onDiscard={onDiscard}

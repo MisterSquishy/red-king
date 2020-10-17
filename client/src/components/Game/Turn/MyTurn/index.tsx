@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Select from "react-select";
 
 import { DrawType, Hand } from "../../../../models/interfaces";
+import { displayName } from "../../../Card/util";
 
 type CardOption = { label: string; value: number };
 
@@ -29,15 +30,13 @@ export default ({
             options={hand.cards.map((card, index) => {
               return {
                 value: index,
-                label: `${card.cardName} of ${card.suit}`,
+                label: displayName(card),
               } as CardOption;
             })}
             value={
               {
                 value: selectedCard,
-                label: `${hand.cards[selectedCard]?.cardName || "-"} of ${
-                  hand.cards[selectedCard].suit
-                }`,
+                label: displayName(hand.cards[selectedCard]),
               } as CardOption
             }
             onChange={(selectedOption) =>

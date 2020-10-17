@@ -1,0 +1,7 @@
+.hand-container {
+  display: grid;
+  grid-template-columns: 100px 100px;
+  grid-row: auto auto;
+  grid-column-gap: 20px;
+  grid-row-gap: 20px;
+}
