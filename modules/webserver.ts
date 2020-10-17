@@ -38,10 +38,14 @@ exports.drawCard = (req, res) => {
   const { userName, type } = req.body;
   database.findGame(gameId, (game) => {
     if (game) {
-      const updatedGame = gameManager.drawCard(game, userName, type);
+      const { game: updatedGame, card } = gameManager.drawCard(
+        game,
+        userName,
+        type
+      );
       database.updateGame(updatedGame);
       io.to(gameId).emit("GameUpdate", updatedGame);
-      res.send();
+      res.send(card);
       logger.info({ gameId, game, updatedGame }, "card_drawn");
     } else {
       res.status(404).send("Game not found");

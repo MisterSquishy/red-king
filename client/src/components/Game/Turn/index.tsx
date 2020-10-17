@@ -1,18 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
+import { PlayingCard } from "typedeck";
 import { Game } from "../../../models/interfaces";
-import { displayName } from "../../Card/util";
+import Card from "../../Card";
 import Hand from "../../Hand";
 import MyTurn from "./MyTurn";
 
 export default ({
   game,
   userName,
+  drawnCard,
   onDraw,
   onDiscard,
   onDiscardAndFinish,
 }: {
   game: Game;
   userName?: string;
+  drawnCard?: PlayingCard;
   onDraw: Function;
   onDiscard: Function;
   onDiscardAndFinish: Function;
@@ -20,6 +23,7 @@ export default ({
   const currentPlayer = game.players[game.currentPlayer];
   const isMine = game && currentPlayer.name === userName;
   const myHand = game.players.find((player) => player.name === userName)?.hand;
+  const [selectedCard, setSelectedCard] = useState<number>(0);
 
   return (
     <>
@@ -34,11 +38,23 @@ export default ({
         </>
       )}
       <h2>Top of discard pile:</h2>
-      {game.discardPile.cards.length
-        ? displayName(game.discardPile.cards[0])
-        : "No discard pile yet"}
+      {game.discardPile.cards.length ? (
+        <Card card={game.discardPile.cards[0]} hidden={false} />
+      ) : (
+        "No discard pile yet"
+      )}
       <h2>Your hand:</h2>
-      {myHand && <Hand hand={myHand} />}
+      {myHand && (
+        <Hand
+          hand={myHand}
+          shownCards={drawnCard ? [drawnCard] : []}
+          selectable={isMine && !!drawnCard}
+          onSelect={(card: PlayingCard) => {
+            setSelectedCard(myHand.cards.indexOf(card));
+          }}
+          selectedCard={myHand.cards[selectedCard]}
+        />
+      )}
       {isMine && (
         <MyTurn
           onDiscard={onDiscard}
@@ -46,6 +62,7 @@ export default ({
           onDiscardAndFinish={onDiscardAndFinish}
           hand={myHand}
           hasDiscard={game.discardPile.cards.length > 0}
+          selectedCard={selectedCard}
         />
       )}
     </>

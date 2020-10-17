@@ -8,22 +8,22 @@ import "./style.css";
 export default ({
   card,
   hidden = true,
-  showable = false,
-  onShow,
+  clickable = false,
+  onClick = () => {},
 }: {
   card: PlayingCard;
   hidden?: boolean;
-  showable?: boolean;
-  onShow: Function;
+  clickable?: boolean;
+  onClick?: Function;
 }) => {
   return (
     <div
       key={JSON.stringify(card)}
       className={classnames("playing-card-container", {
         hidden,
-        showable,
+        clickable,
       })}
-      onClick={() => showable && onShow(card)}
+      onClick={() => clickable && onClick(card)}
     >
       {!hidden && displayName(card)}
     </div>

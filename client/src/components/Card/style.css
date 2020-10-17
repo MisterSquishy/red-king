@@ -4,9 +4,10 @@
   border-radius: 10px;
   width: 100px;
   height: 150px;
+  background-color: #eee;
 }
 
-.playing-card-container.showable:hover {
+.playing-card-container.clickable:hover {
   cursor: pointer;
 }
 

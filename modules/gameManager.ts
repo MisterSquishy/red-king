@@ -1,5 +1,5 @@
 import { DrawType, Game, Player } from "./interfaces";
-import { Card, CardName, Deck, Hand, Suit } from "typedeck";
+import { Card, CardName, Deck, Hand, PlayingCard, Suit } from "typedeck";
 
 exports.create = (gameId: string, playerNames: string[]): Game => {
   const deck = Deck.Build(
@@ -38,14 +38,18 @@ exports.addPlayer = (game: Game, playerName: string): Game => {
   return game;
 };
 
-exports.drawCard = (game: Game, playerName: string, type: DrawType): Game => {
+exports.drawCard = (
+  game: Game,
+  playerName: string,
+  type: DrawType
+): { game: Game; card: Card } => {
   const cards: Deck = type === DrawType.DECK ? game.deck : game.discardPile;
   const player = game.players.find((player) => player.name === playerName);
   const { hand } = player;
   const card: Card = cards.takeCard();
   hand.addCard(card);
 
-  return game;
+  return { game, card };
 };
 
 exports.discardCard = (game: Game, playerName: string, card: Card): Game => {

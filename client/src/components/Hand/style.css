@@ -1,7 +1,13 @@
 .hand-container {
   display: grid;
-  grid-template-columns: 100px 100px;
+  grid-template-columns: 110px 110px;
   grid-row: auto auto;
   grid-column-gap: 20px;
   grid-row-gap: 20px;
+}
+
+.hand-container div.selected {
+  border: 5px solid salmon;
+  border-radius: 10px;
+  background-color: salmon;
 }
