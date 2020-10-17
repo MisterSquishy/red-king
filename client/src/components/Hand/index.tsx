@@ -35,6 +35,7 @@ export default ({
     <div className="hand-container">
       {hand.cards.map((card) => (
         <div
+          key={JSON.stringify(card)}
           className={classnames({
             selected:
               selectable &&

@@ -1,5 +1,13 @@
 import { DrawType, Game, Player } from "./interfaces";
-import { Card, CardName, Deck, Hand, PlayingCard, Suit } from "typedeck";
+import {
+  Card,
+  CardName,
+  Deck,
+  Hand,
+  JokerCard,
+  PlayingCard,
+  Suit,
+} from "typedeck";
 
 exports.create = (gameId: string, playerNames: string[]): Game => {
   const deck = Deck.Build(
@@ -9,7 +17,8 @@ exports.create = (gameId: string, playerNames: string[]): Game => {
     Object.keys(CardName)
       .filter((key) => !isNaN(parseInt(key)))
       .filter((key) => +key !== CardName.Joker)
-      .map((key) => CardName[key])
+      .map((key) => CardName[key]),
+    [new JokerCard(13), new JokerCard(14)]
   );
 
   deck.shuffle();
