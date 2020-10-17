@@ -67,6 +67,11 @@ exports.discardCard = (game: Game, playerName: string, card: Card): Game => {
   const { hand } = player;
   hand.removeCards([card]);
   discardPile.addCard(card);
+
+  return game;
+};
+
+exports.endTurn = (game: Game): Game => {
   game.currentPlayer = (game.currentPlayer + 1) % game.players.length;
 
   return game;

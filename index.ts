@@ -34,6 +34,7 @@ const worker = (workerId) => {
   app.post("/games/:gameId", webserver.joinGame);
   app.post("/games/:gameId/draw", webserver.drawCard);
   app.post("/games/:gameId/discard", webserver.discardCard);
+  app.post("/games/:gameId/end/turn", webserver.endTurn);
 
   io.on("connection", webserver.onSocketConnection);
 

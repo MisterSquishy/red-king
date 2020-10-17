@@ -46,7 +46,7 @@ exports.drawCard = (req, res) => {
       database.updateGame(updatedGame);
       io.to(gameId).emit("GameUpdate", updatedGame);
       res.send(card);
-      logger.info({ gameId, game, updatedGame }, "card_drawn");
+      logger.info({ gameId, game, updatedGame, userName, type }, "card_drawn");
     } else {
       res.status(404).send("Game not found");
     }
@@ -62,7 +62,26 @@ exports.discardCard = (req, res) => {
       database.updateGame(updatedGame);
       io.to(gameId).emit("GameUpdate", updatedGame);
       res.send();
-      logger.info({ gameId, game, updatedGame, card }, "card_discarded");
+      logger.info(
+        { gameId, game, updatedGame, card, userName },
+        "card_discarded"
+      );
+    } else {
+      res.status(404).send("Game not found");
+    }
+  });
+};
+
+exports.endTurn = (req, res) => {
+  const { gameId } = req.params;
+  const { userName } = req.body;
+  database.findGame(gameId, (game) => {
+    if (game) {
+      const updatedGame = gameManager.endTurn(game);
+      database.updateGame(updatedGame);
+      io.to(gameId).emit("GameUpdate", updatedGame);
+      res.send();
+      logger.info({ gameId, game, updatedGame, userName }, "turn_ended");
     } else {
       res.status(404).send("Game not found");
     }

@@ -3,12 +3,17 @@ import { useToasts } from "react-toast-notifications";
 import { AxiosResponse } from "axios";
 
 import { GameContext, PlayerContext, SocketContext } from "../../App";
-import { GameState, DrawType } from "../../models/interfaces";
+import {
+  GameState,
+  DrawType,
+  DiscardSideEffect,
+} from "../../models/interfaces";
 import WaitingRoom from "./WaitingRoom";
 import Turn from "./Turn";
 import Finished from "./Finished";
-import { discard, draw } from "../../api";
+import { discard, draw, endTurn } from "../../api";
 import { Card, PlayingCard } from "typedeck";
+import { getDiscardSideEffect } from "../Card/util";
 
 export default () => {
   const { userName, gameId } = useContext(PlayerContext);
@@ -16,6 +21,9 @@ export default () => {
   const { game, gameState } = useContext(GameContext);
   const { addToast } = useToasts();
   const [drawnCard, setDrawnCard] = useState<PlayingCard | undefined>();
+  const [activeSideEffect, setActiveSideEffect] = useState<
+    DiscardSideEffect | undefined
+  >();
 
   const onStart = () => {
     socket.emit("StateChange", gameId, GameState.IN_PROGRESS);
@@ -34,13 +42,34 @@ export default () => {
     );
   };
 
-  const onDiscard = (card: Card): Promise<AxiosResponse | void> => {
-    setDrawnCard(undefined);
+  const doEndTurn = (): void => {
     if (gameId && userName) {
-      return discard(gameId, userName, card).catch((err) => {
+      setActiveSideEffect(undefined);
+      endTurn(gameId, userName).catch((err) => {
         console.error(err);
         addToast(err.message, { appearance: "error", autoDismiss: true });
       });
+    }
+  };
+
+  const doDiscardSideEffects = (card: Card) => {
+    const discardSideEffect = getDiscardSideEffect(card);
+    if (!!discardSideEffect) {
+      setActiveSideEffect(discardSideEffect);
+    } else {
+      doEndTurn();
+    }
+  };
+
+  const onDiscard = (card: Card): Promise<AxiosResponse | void> => {
+    setDrawnCard(undefined);
+    if (gameId && userName) {
+      return discard(gameId, userName, card)
+        .then(() => doDiscardSideEffects(card))
+        .catch((err) => {
+          console.error(err);
+          addToast(err.message, { appearance: "error", autoDismiss: true });
+        });
     }
     return Promise.resolve();
   };
@@ -69,6 +98,8 @@ export default () => {
           onDraw={onDraw}
           onDiscard={onDiscard}
           onDiscardAndFinish={onDiscardAndFinish}
+          activeSideEffect={activeSideEffect}
+          onDone={doEndTurn}
         />
       )}
       {gameState === GameState.FINISHED && game && (

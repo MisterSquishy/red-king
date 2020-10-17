@@ -3,7 +3,7 @@ import classnames from "classnames";
 import { PlayingCard } from "typedeck";
 import { Hand } from "../../models/interfaces";
 import Card from "../Card";
-import { displayName } from "../Card/util";
+import { cardEquals } from "../Card//util";
 
 import "./style.css";
 
@@ -14,6 +14,7 @@ export default ({
   selectedCard,
   selectable = false,
   onSelect = () => {},
+  drawnCard,
 }: {
   hand: Hand;
   showableCards?: number;
@@ -21,11 +22,12 @@ export default ({
   selectedCard?: PlayingCard;
   selectable?: boolean;
   onSelect?: Function;
+  drawnCard?: PlayingCard;
 }) => {
-  const [flippedCards, setCardsFlipped] = useState<string[]>([]);
+  const [flippedCards, setCardsFlipped] = useState<PlayingCard[]>([]);
 
   const flipCard = (card: PlayingCard) => {
-    setCardsFlipped([displayName(card), ...flippedCards]);
+    setCardsFlipped([card, ...flippedCards]);
   };
 
   const clickable = selectable || flippedCards.length < showableCards;
@@ -37,18 +39,17 @@ export default ({
         <div
           key={JSON.stringify(card)}
           className={classnames({
-            selected:
-              selectable &&
-              selectedCard &&
-              displayName(selectedCard) === displayName(card),
+            selected: selectable && cardEquals(selectedCard, card),
+            drawn: drawnCard && cardEquals(drawnCard, card),
           })}
         >
           <Card
             card={card}
             key={JSON.stringify(card)}
             hidden={
-              !flippedCards.includes(displayName(card)) &&
-              !shownCards.map(displayName).includes(displayName(card))
+              !flippedCards.includes(card) &&
+              !shownCards.includes(card) &&
+              !(drawnCard && cardEquals(drawnCard, card))
             }
             clickable={clickable}
             onClick={clickHandler}

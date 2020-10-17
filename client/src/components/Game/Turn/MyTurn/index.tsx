@@ -1,4 +1,5 @@
 import React from "react";
+import { PlayingCard } from "typedeck";
 
 import { DrawType, Hand } from "../../../../models/interfaces";
 
@@ -10,23 +11,21 @@ export default ({
   onDiscardAndFinish,
   hand,
   hasDiscard,
-  selectedCard = 0,
+  selectedCard,
 }: {
   onDraw: Function;
   onDiscard: Function;
   onDiscardAndFinish: Function;
   hand?: Hand;
   hasDiscard: boolean;
-  selectedCard?: number;
+  selectedCard?: PlayingCard;
 }) => {
   return (
     <>
       {hand && hand.cards.length > 4 && (
         <>
-          <button onClick={() => onDiscard(hand.cards[selectedCard])}>
-            discard
-          </button>
-          <button onClick={() => onDiscardAndFinish(hand.cards[selectedCard])}>
+          <button onClick={() => onDiscard(selectedCard)}>discard</button>
+          <button onClick={() => onDiscardAndFinish(selectedCard)}>
             discard and finish
           </button>
         </>

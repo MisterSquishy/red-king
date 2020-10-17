@@ -1,0 +1,7 @@
+.card-area {
+  display: flex;
+}
+
+.player-hand-container {
+  margin-right: 48px;
+}

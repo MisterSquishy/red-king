@@ -27,3 +27,17 @@ export interface Player {
 export interface Hand {
   cards: PlayingCard[];
 }
+
+export enum DiscardSideEffect {
+  LOOK_SWAP,
+  BLIND_SWAP,
+  LOOK_OTHER,
+  LOOK_SELF,
+}
+
+export const DiscardSideEffectFriendlyName = {
+  [DiscardSideEffect.LOOK_SWAP]: "Look at someone's card and swap",
+  [DiscardSideEffect.BLIND_SWAP]: "Blindly swap for someone else's card",
+  [DiscardSideEffect.LOOK_OTHER]: "Look at someone's card",
+  [DiscardSideEffect.LOOK_SELF]: "Look at your own card",
+};

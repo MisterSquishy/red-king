@@ -32,3 +32,9 @@ export const discard = (gameId: string, userName: string, card: Card) => {
     card,
   });
 };
+
+export const endTurn = (gameId: string, userName: string) => {
+  return axios.post(`${config.ENDPOINT}/games/${gameId}/end/turn`, {
+    userName,
+  });
+};
