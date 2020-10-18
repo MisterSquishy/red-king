@@ -12,7 +12,7 @@ import WaitingRoom from "./WaitingRoom";
 import Turn from "./Turn";
 import Finished from "./Finished";
 import { discard, draw, endTurn } from "../../api";
-import { Card, PlayingCard } from "typedeck";
+import { PlayingCard } from "typedeck";
 import { getDiscardSideEffect } from "../Card/util";
 
 export default () => {
@@ -52,16 +52,16 @@ export default () => {
     }
   };
 
-  const doDiscardSideEffects = (card: Card) => {
+  const doDiscardSideEffects = (card: PlayingCard) => {
     const discardSideEffect = getDiscardSideEffect(card);
-    if (!!discardSideEffect) {
-      setActiveSideEffect(discardSideEffect);
-    } else {
+    if (discardSideEffect === undefined) {
       doEndTurn();
+    } else {
+      setActiveSideEffect(discardSideEffect);
     }
   };
 
-  const onDiscard = (card: Card): Promise<AxiosResponse | void> => {
+  const onDiscard = (card: PlayingCard): Promise<AxiosResponse | void> => {
     setDrawnCard(undefined);
     if (gameId && userName) {
       return discard(gameId, userName, card)
@@ -74,7 +74,7 @@ export default () => {
     return Promise.resolve();
   };
 
-  const onDiscardAndFinish = (card: Card) => {
+  const onDiscardAndFinish = (card: PlayingCard) => {
     onDiscard(card).then(() =>
       socket.emit("StateChange", gameId, GameState.FINISHED)
     );

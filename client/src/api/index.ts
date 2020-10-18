@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-import { Card, PlayingCard } from "typedeck";
+import { PlayingCard } from "typedeck";
 import config from "../config";
 import { DrawType } from "../models/interfaces";
 
@@ -26,7 +26,11 @@ export const draw = (
   });
 };
 
-export const discard = (gameId: string, userName: string, card: Card) => {
+export const discard = (
+  gameId: string,
+  userName: string,
+  card: PlayingCard
+) => {
   return axios.post(`${config.ENDPOINT}/games/${gameId}/discard`, {
     userName,
     card,

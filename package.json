@@ -31,7 +31,7 @@
     "typescript": "^4.0.3"
   },
   "scripts": {
-    "start": "nodemon index.ts | pino-pretty",
+    "start": "nodemon --ignore './client/' index.ts | pino-pretty",
     "prod": "ts-node index.ts"
   },
   "husky": {

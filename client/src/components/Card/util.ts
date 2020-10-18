@@ -1,4 +1,4 @@
-import { Card, CardName, PlayingCard, Suit } from "typedeck";
+import { CardName, PlayingCard, Suit } from "typedeck";
 import { DiscardSideEffect } from "../../models/interfaces";
 
 export const cardEquals = (card1?: PlayingCard, card2?: PlayingCard) => {
@@ -29,16 +29,13 @@ export const cardValue = (card: PlayingCard): number => {
 const isBlack = (suit: Suit) => suit in [Suit.Clubs, Suit.Spades];
 
 export const getDiscardSideEffect = (
-  card: Card
+  card: PlayingCard
 ): DiscardSideEffect | undefined => {
-  // @ts-ignore typescript is so bad at enums
-  card.cardName = CardName[card.cardName];
-  // @ts-ignore typescript is so bad at enums
-  card.suit = Suit[card.suit];
-  switch (card.cardName) {
+  switch (+CardName[card.cardName]) {
     case CardName.King:
-      // @ts-ignore im so bad at typescript
-      return isBlack(card.suit) ? DiscardSideEffect.LOOK_SWAP : undefined;
+      return isBlack(+Suit[card.suit])
+        ? DiscardSideEffect.LOOK_SWAP
+        : undefined;
     case CardName.Queen:
     case CardName.Jack:
       return DiscardSideEffect.BLIND_SWAP;

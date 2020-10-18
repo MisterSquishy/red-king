@@ -49,7 +49,7 @@ export default ({
       {isMine && (
         <>
           <p>{`${
-            activeSideEffect
+            activeSideEffect !== undefined
               ? DiscardSideEffectFriendlyName[activeSideEffect]
               : "Make your move!"
           }`}</p>
@@ -99,19 +99,19 @@ export default ({
               selectedCard={selectedCard}
             />
           )}
-          {activeSideEffect && (
+          {activeSideEffect !== undefined && (
             <button onClick={() => onDone()}>End turn</button>
           )}
         </div>
         {game.players
           .filter((player) => player.name !== userName)
           .map((player) => (
-            <div className="player-hand-container">
+            <div className="player-hand-container" key={player.name}>
               <h2>{player.name}'s hand</h2>
               <Hand
                 hand={player.hand}
                 shownCards={
-                  activeSideEffect &&
+                  activeSideEffect !== undefined &&
                   discardSideEffectSelectedCard &&
                   activeSideEffect in
                     [DiscardSideEffect.LOOK_OTHER, DiscardSideEffect.LOOK_SWAP]
@@ -120,7 +120,7 @@ export default ({
                 }
                 selectable={
                   !!(
-                    activeSideEffect &&
+                    activeSideEffect !== undefined &&
                     activeSideEffect in
                       [
                         DiscardSideEffect.LOOK_OTHER,
