@@ -35,6 +35,7 @@ const worker = (workerId) => {
   app.post("/games/:gameId/draw", webserver.drawCard);
   app.post("/games/:gameId/discard", webserver.discardCard);
   app.post("/games/:gameId/end/turn", webserver.endTurn);
+  app.get("/health", (req, res) => res.status(200).send("healthy"));
 
   io.on("connection", webserver.onSocketConnection);
 
