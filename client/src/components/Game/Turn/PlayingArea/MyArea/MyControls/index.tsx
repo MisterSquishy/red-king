@@ -29,17 +29,33 @@ export default ({
     <>
       {myHand && myHand.cards.length > 4 && (
         <>
-          <button onClick={() => onDiscard(selectedCard)}>discard</button>
-          <button onClick={() => onDiscardAndFinish(selectedCard)}>
+          <button
+            disabled={!!activeSideEffect || !selectedCard}
+            onClick={() => onDiscard(selectedCard)}
+          >
+            discard
+          </button>
+          <button
+            disabled={!!activeSideEffect || !selectedCard}
+            onClick={() => onDiscardAndFinish(selectedCard)}
+          >
             discard and finish
           </button>
         </>
       )}
       {myHand && myHand.cards.length < 5 && (
         <>
-          <button onClick={() => onDraw(DrawType.DECK)}>draw from deck</button>
           <button
-            disabled={game && game.discardPile.cards.length === 0}
+            disabled={!!activeSideEffect}
+            onClick={() => onDraw(DrawType.DECK)}
+          >
+            draw from deck
+          </button>
+          <button
+            disabled={
+              (game && game.discardPile.cards.length === 0) ||
+              !!activeSideEffect
+            }
             onClick={() => onDraw(DrawType.DISCARD)}
           >
             draw from discard
