@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import { PlayingCard } from "typedeck";
 import { Game, Player } from "../../../models/interfaces";
 import Hand from "../../Hand";
 
@@ -13,6 +14,11 @@ export default ({
   game?: Game;
   onStart: Function;
 }) => {
+  const [shownCards, setShownCards] = useState<PlayingCard[]>([]);
+  const showCard = (card: PlayingCard) => {
+    setShownCards([card, ...shownCards]);
+  };
+
   const player = game?.players.filter((player) => player.name === userName)[0];
   const otherPlayers = game?.players.filter(
     (player) => player.name !== userName
@@ -34,7 +40,12 @@ export default ({
       )}
       <h3>what's in my hand?</h3>
       {player ? (
-        <Hand hand={player.hand} showableCards={2} />
+        <Hand
+          hand={player.hand}
+          shownCards={shownCards}
+          selectable={shownCards.length < 2}
+          onSelect={showCard}
+        />
       ) : (
         <p>wait who even are you</p>
       )}

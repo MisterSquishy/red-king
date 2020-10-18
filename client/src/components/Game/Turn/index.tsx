@@ -3,11 +3,11 @@ import { PlayingCard } from "typedeck";
 import {
   DiscardSideEffect,
   DiscardSideEffectFriendlyName,
+  DrawType,
   Game,
 } from "../../../models/interfaces";
 import Card from "../../Card";
 import Hand from "../../Hand";
-import MyTurn from "./MyTurn";
 
 import "./style.css";
 
@@ -90,14 +90,31 @@ export default ({
             />
           )}
           {isMine && (
-            <MyTurn
-              onDiscard={onDiscard}
-              onDraw={onDraw}
-              onDiscardAndFinish={onDiscardAndFinish}
-              hand={myHand}
-              hasDiscard={game.discardPile.cards.length > 0}
-              selectedCard={selectedCard}
-            />
+            <>
+              {myHand && myHand.cards.length > 4 && (
+                <>
+                  <button onClick={() => onDiscard(selectedCard)}>
+                    discard
+                  </button>
+                  <button onClick={() => onDiscardAndFinish(selectedCard)}>
+                    discard and finish
+                  </button>
+                </>
+              )}
+              {myHand && myHand.cards.length < 5 && (
+                <>
+                  <button onClick={() => onDraw(DrawType.DECK)}>
+                    draw from deck
+                  </button>
+                  <button
+                    disabled={game.discardPile.cards.length === 0}
+                    onClick={() => onDraw(DrawType.DISCARD)}
+                  >
+                    draw from discard
+                  </button>
+                </>
+              )}
+            </>
           )}
           {activeSideEffect !== undefined && (
             <button onClick={() => onDone()}>End turn</button>

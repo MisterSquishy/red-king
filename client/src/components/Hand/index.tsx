@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import classnames from "classnames";
 import { PlayingCard } from "typedeck";
 import { Hand } from "../../models/interfaces";
@@ -9,7 +9,6 @@ import "./style.css";
 
 export default ({
   hand,
-  showableCards = 0,
   shownCards = [],
   selectedCard,
   selectable = false,
@@ -17,22 +16,12 @@ export default ({
   drawnCard,
 }: {
   hand: Hand;
-  showableCards?: number;
   shownCards?: PlayingCard[];
   selectedCard?: PlayingCard;
   selectable?: boolean;
   onSelect?: Function;
   drawnCard?: PlayingCard;
 }) => {
-  const [flippedCards, setCardsFlipped] = useState<PlayingCard[]>([]);
-
-  const flipCard = (card: PlayingCard) => {
-    setCardsFlipped([card, ...flippedCards]);
-  };
-
-  const clickable = selectable || flippedCards.length < showableCards;
-  const clickHandler = selectable ? onSelect : flipCard;
-
   return (
     <div className="hand-container">
       {hand.cards.map((card) => (
@@ -47,12 +36,11 @@ export default ({
             card={card}
             key={JSON.stringify(card)}
             hidden={
-              !flippedCards.includes(card) &&
               !shownCards.includes(card) &&
               !(drawnCard && cardEquals(drawnCard, card))
             }
-            clickable={clickable}
-            onClick={clickHandler}
+            clickable={selectable}
+            onClick={onSelect}
           />
         </div>
       ))}
