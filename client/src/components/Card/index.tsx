@@ -1,6 +1,6 @@
 import React from "react";
-import { PlayingCard } from "typedeck";
-import { displayName } from "./util";
+import { PlayingCard, Suit } from "typedeck";
+import { displayIcon, displayName, isBlack } from "./util";
 import classnames from "classnames";
 
 import "./style.css";
@@ -22,10 +22,19 @@ export default ({
       className={classnames("playing-card-container", {
         hidden,
         clickable,
+        black: isBlack(+Suit[card.suit]),
       })}
       onClick={() => clickable && onClick(card)}
     >
-      {!hidden && displayName(card)}
+      {!hidden && (
+        <>
+          {displayIcon(card)}
+          <br />
+          {displayName(card)}
+          <br />
+          {displayIcon(card)}
+        </>
+      )}
     </div>
   );
 };

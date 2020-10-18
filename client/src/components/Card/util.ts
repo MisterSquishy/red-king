@@ -18,6 +18,21 @@ export const displayName = (card: PlayingCard): string => {
   }
 };
 
+export const displayIcon = (card: PlayingCard): string => {
+  switch (+Suit[card.suit]) {
+    case Suit.Diamonds:
+      return "♦️";
+    case Suit.Hearts:
+      return "♥️";
+    case Suit.Clubs:
+      return "♣️";
+    case Suit.Spades:
+      return "♠️";
+    default:
+      return "🤡";
+  }
+};
+
 export const cardValue = (card: PlayingCard): number => {
   if (card.suit) {
     return parseInt(CardName[card.cardName], 10) + 1;
@@ -26,7 +41,7 @@ export const cardValue = (card: PlayingCard): number => {
   }
 };
 
-const isBlack = (suit: Suit) => suit in [Suit.Clubs, Suit.Spades];
+export const isBlack = (suit: Suit) => suit in [Suit.Clubs, Suit.Spades];
 
 export const getDiscardSideEffect = (
   card: PlayingCard
