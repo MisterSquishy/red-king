@@ -92,8 +92,6 @@ export default () => {
       )}
       {gameState === GameState.IN_PROGRESS && game && (
         <Turn
-          game={game}
-          userName={userName}
           drawnCard={drawnCard}
           onDraw={onDraw}
           onDiscard={onDiscard}

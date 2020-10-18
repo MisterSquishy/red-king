@@ -1,12 +1,9 @@
 import React, { useContext } from "react";
 import { PlayingCard } from "typedeck";
-import { GameContext } from "../../../App";
-import { DiscardSideEffect } from "../../../models/interfaces";
-import DiscardPile from "./DiscardPile";
-import PlayingArea from "./PlayingArea";
-
-import "./style.css";
-import TurnHeader from "./TurnHeader";
+import { GameContext, PlayerContext } from "../../../../App";
+import { DiscardSideEffect } from "../../../../models/interfaces";
+import MyArea from "./MyArea";
+import OpponentArea from "./OpponentArea";
 
 export default ({
   drawnCard,
@@ -23,17 +20,12 @@ export default ({
   activeSideEffect?: DiscardSideEffect;
   onDone: Function;
 }) => {
+  const { userName } = useContext(PlayerContext);
   const { game } = useContext(GameContext);
-  const currentPlayer = game && game.players[game.currentPlayer];
 
   return (
-    <>
-      <TurnHeader
-        currentPlayer={currentPlayer}
-        activeSideEffect={activeSideEffect}
-      />
-      <DiscardPile />
-      <PlayingArea
+    <div className="card-area">
+      <MyArea
         drawnCard={drawnCard}
         onDraw={onDraw}
         onDiscard={onDiscard}
@@ -41,6 +33,12 @@ export default ({
         activeSideEffect={activeSideEffect}
         onDone={onDone}
       />
-    </>
+      {game &&
+        game.players
+          .filter((player) => player.name !== userName)
+          .map((player) => (
+            <OpponentArea player={player} activeSideEffect={activeSideEffect} />
+          ))}
+    </div>
   );
 };

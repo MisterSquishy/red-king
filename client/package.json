@@ -41,7 +41,6 @@
   },
   "devDependencies": {
     "@types/classnames": "^2.2.10",
-    "@types/react-select": "^3.0.22",
     "@types/react-toast-notifications": "^2.4.0",
     "surge": "^0.21.6"
   }
