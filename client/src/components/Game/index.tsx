@@ -62,9 +62,9 @@ export default () => {
   };
 
   const onDiscard = (card: PlayingCard): Promise<AxiosResponse | void> => {
-    setDrawnCard(undefined);
-    if (gameId && userName) {
-      return discard(gameId, userName, card)
+    if (gameId && userName && drawnCard) {
+      return discard(gameId, userName, drawnCard, card)
+        .then(() => setDrawnCard(undefined))
         .then(() => doDiscardSideEffects(card))
         .catch((err) => {
           console.error(err);

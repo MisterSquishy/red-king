@@ -55,10 +55,15 @@ exports.drawCard = (req, res) => {
 
 exports.discardCard = (req, res) => {
   const { gameId } = req.params;
-  const { userName, card } = req.body;
+  const { userName, drawnCard, card } = req.body;
   database.findGame(gameId, (game) => {
     if (game) {
-      const updatedGame = gameManager.discardCard(game, userName, card);
+      const updatedGame = gameManager.discardCard(
+        game,
+        userName,
+        drawnCard,
+        card
+      );
       database.updateGame(updatedGame);
       io.to(gameId).emit("GameUpdate", updatedGame);
       res.send();

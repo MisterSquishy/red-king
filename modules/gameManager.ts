@@ -61,11 +61,20 @@ exports.drawCard = (
   return { game, card };
 };
 
-exports.discardCard = (game: Game, playerName: string, card: Card): Game => {
+exports.discardCard = (
+  game: Game,
+  playerName: string,
+  drawnCard: Card,
+  card: Card
+): Game => {
   const { discardPile } = game;
   const player = game.players.find((player) => player.name === playerName);
   const { hand } = player;
-  hand.removeCards([card]);
+  const indexToDiscard = hand.indexOfCard(card);
+  const indexOfDrawn = hand.indexOfCard(drawnCard);
+  const cards = hand.getCards();
+  cards[indexToDiscard] = drawnCard;
+  cards.splice(indexOfDrawn, 1);
   discardPile.addCard(card);
 
   return game;

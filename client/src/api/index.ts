@@ -29,10 +29,12 @@ export const draw = (
 export const discard = (
   gameId: string,
   userName: string,
+  drawnCard: PlayingCard,
   card: PlayingCard
 ) => {
   return axios.post(`${config.ENDPOINT}/games/${gameId}/discard`, {
     userName,
+    drawnCard,
     card,
   });
 };
