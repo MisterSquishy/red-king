@@ -34,7 +34,12 @@ export const displayIcon = (card: PlayingCard): string => {
 };
 
 export const cardValue = (card: PlayingCard): number => {
-  if (card.suit) {
+  if (
+    +CardName[card.cardName] === CardName.King &&
+    !isBlack(+Suit[card.suit])
+  ) {
+    return 0;
+  } else if (card.suit) {
     return parseInt(CardName[card.cardName], 10) + 1;
   } else {
     return -1;
