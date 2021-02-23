@@ -3,9 +3,6 @@
   "version": "0.0.1",
   "description": "a card game",
   "license": "MIT",
-  "engines": {
-    "node": "12.x"
-  },
   "dependencies": {
     "@types/node": "^14.11.2",
     "cors": "^2.8.5",
