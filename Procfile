@@ -1,1 +1,1 @@
-web: yarn prod
+web: yarn --cwd packages/server prod
