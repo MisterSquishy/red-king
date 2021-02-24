@@ -17,20 +17,20 @@ const LandingPage: React.FC = () => {
   const createGame = (game: Game) =>
     fetcher("/games", {
       method: "POST",
-      body: JSON.stringify(game)
-    }).then(res => res.json());
+      body: JSON.stringify(game),
+    }).then((res) => res.json());
 
   const joinGame = (gameId: string) =>
     fetcher(`/games/${gameId}`, {
       method: "POST",
-      body: JSON.stringify({ userName: "kevin" })
-    }).then(res => res.json());
+      body: JSON.stringify({ userName: "kevin" }),
+    }).then((res) => res.json());
 
   const findWaitingGames = () =>
     fetcher("/games/query", {
       method: "POST",
-      body: JSON.stringify({ state: 0 })
-    }).then(res => res.json());
+      body: JSON.stringify({ state: 0 }),
+    }).then((res) => res.json());
 
   return (
     <>
@@ -40,12 +40,13 @@ const LandingPage: React.FC = () => {
         onJoin={(gameId: string) => {
           joinGame(gameId);
           setJoinGameModalOpen(false);
+          history.push(`/${gameId}`);
         }}
         onClose={() => setJoinGameModalOpen(false)}
       />
       <CreateGameModal
         isOpen={createGameModalOpen}
-        onCreate={async game => {
+        onCreate={async (game) => {
           const { gameId } = await createGame(game);
           setCreateGameModalOpen(false);
           history.push(`/${gameId}`);
