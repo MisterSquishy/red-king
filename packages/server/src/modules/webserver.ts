@@ -98,6 +98,13 @@ export default {
     });
   },
 
+  queryGames: (req, res) => {
+    const query = req.body;
+    database.queryGames(query, (games) => {
+      res.send(games);
+    });
+  },
+
   onSocketConnection: (socket) => {
     logger.info({ socketId: socket.id }, "socket_connected");
     socket.on("join", (gameId) => {
