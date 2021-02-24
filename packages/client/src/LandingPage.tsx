@@ -1,13 +1,15 @@
 import { Button, IconButton } from "@chakra-ui/react";
 import { SunIcon, MoonIcon } from "@chakra-ui/icons";
 import { Game } from "./types";
+// import { GameState } from "shared";
+
 import {
   VStack,
   Grid,
   Flex,
   Box,
   Heading,
-  useColorMode
+  useColorMode,
 } from "@chakra-ui/react";
 import JoinGameModal from "./JoinGameModal";
 import CreateGameModal from "./CreateGameModal";
@@ -21,19 +23,26 @@ const LandingPage: React.FC = () => {
   const createGame = (game: Game) =>
     fetch("/games", {
       method: "POST",
-      body: JSON.stringify(game)
-    }).then(res => res.json());
+      body: JSON.stringify(game),
+    }).then((res) => res.json());
+
+  const findWaitingGames = () =>
+    fetch("/games/query", {
+      method: "POST",
+      body: JSON.stringify({ state: 0 }), // todo GameState.WAITING })
+    }).then((res) => res.json());
 
   return (
     <>
       <JoinGameModal
         isOpen={joinGameModalOpen}
+        findWaitingGames={findWaitingGames}
         onJoin={() => setJoinGameModalOpen(false)}
         onClose={() => setJoinGameModalOpen(false)}
       />
       <CreateGameModal
         isOpen={createGameModalOpen}
-        onCreate={game => {
+        onCreate={(game) => {
           createGame(game);
           setCreateGameModalOpen(false);
         }}

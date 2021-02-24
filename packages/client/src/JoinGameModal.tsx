@@ -11,23 +11,30 @@ import {
   RadioGroup,
   Box,
   Stack,
-  Link
+  Link,
 } from "@chakra-ui/react";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { Game } from "./types";
 
 interface Props {
   isOpen: boolean;
+  findWaitingGames: () => Promise<Game[]>;
   onClose: () => void;
   onJoin: () => void;
 }
 
-const JoinGameModal: React.FC<Props> = ({ isOpen, onClose, onJoin }) => {
-  const games = [
-    { name: "Pete's game", players: 1 },
-    { name: "RJ's world", players: 2 },
-    { name: "Freja's kingdom", players: 4 },
-    { name: "Julie's domain", players: 3 }
-  ];
+const JoinGameModal: React.FC<Props> = ({
+  isOpen,
+  findWaitingGames,
+  onClose,
+  onJoin,
+}) => {
+  const [games, setGames] = useState([]);
+
+  useEffect(() => {
+    findWaitingGames().then(console.log);
+  }, [findWaitingGames, setGames]);
+
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
@@ -38,9 +45,9 @@ const JoinGameModal: React.FC<Props> = ({ isOpen, onClose, onJoin }) => {
           <Box mb="5">Here are some games waiting for players....</Box>
           <RadioGroup>
             <Stack spacing={5} direction="column">
-              {games.map(game => (
-                <Radio value={game.name}>
-                  {game.name} ({game.players} player)
+              {games.map((game: Game) => (
+                <Radio value={game.gameName}>
+                  {game.gameName} ({game.userName} player)
                 </Radio>
               ))}
             </Stack>
