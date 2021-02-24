@@ -36,7 +36,10 @@ export default {
   },
 
   addPlayer: (game: Game, playerName: string) => {
-    const { deck } = game;
+    const { deck, players } = game;
+    if (players.find((player) => player.name === playerName)) {
+      throw new Error("player with this name already exists");
+    }
     const hand: Hand = new Hand();
     deck.deal(hand, 4);
     game.players.push({ name: playerName, hand });
