@@ -14,6 +14,7 @@ export interface Game {
   _id: string;
   frozen?: boolean;
   state: GameState;
+  gameName?: string;
 }
 
 export enum DrawType {
@@ -29,6 +30,7 @@ interface SerializedGame {
   _id: string;
   frozen?: boolean;
   state: GameState;
+  gameName?: string;
 }
 
 interface SerializedPlayer {
@@ -50,6 +52,7 @@ export const GameSerializer = (game: Game): SerializedGame => {
     discardPile: game.discardPile.getCards(),
     frozen: game.frozen,
     state: game.state,
+    gameName: game.gameName,
   };
 };
 
@@ -67,5 +70,6 @@ export const GameDeserializer = (serializedGame: SerializedGame): Game => {
     discardPile: Deck.BuildFrom(serializedGame.discardPile),
     frozen: serializedGame.frozen,
     state: serializedGame.state,
+    gameName: serializedGame.gameName,
   };
 };

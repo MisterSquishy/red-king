@@ -14,18 +14,21 @@ const LandingPage: React.FC = () => {
   const createGame = (game: Game) =>
     fetch("/games", {
       method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(game),
     }).then((res) => res.json());
 
   const joinGame = (gameId: string) =>
     fetch(`/games/${gameId}`, {
       method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ userName: "kevin" }), //todo names
     }).then((res) => res.json());
 
   const findWaitingGames = () =>
     fetch("/games/query", {
       method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ state: 0 }), // todo GameState.WAITING })
     }).then((res) => res.json());
 
