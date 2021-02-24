@@ -1,6 +1,14 @@
-import { Button } from "@chakra-ui/react";
+import { Button, IconButton } from "@chakra-ui/react";
+import { SunIcon, MoonIcon } from "@chakra-ui/icons";
 import { Game } from "./types";
-import { VStack, Grid, Box, Heading } from "@chakra-ui/react";
+import {
+  VStack,
+  Grid,
+  Flex,
+  Box,
+  Heading,
+  useColorMode
+} from "@chakra-ui/react";
 import JoinGameModal from "./JoinGameModal";
 import CreateGameModal from "./CreateGameModal";
 import React, { useState } from "react";
@@ -8,6 +16,8 @@ import React, { useState } from "react";
 const LandingPage: React.FC = () => {
   const [joinGameModalOpen, setJoinGameModalOpen] = useState(false);
   const [createGameModalOpen, setCreateGameModalOpen] = useState(false);
+  const { colorMode, toggleColorMode } = useColorMode();
+
   const createGame = (game: Game) =>
     fetch("/games", {
       method: "POST",
@@ -29,7 +39,21 @@ const LandingPage: React.FC = () => {
         }}
         onClose={() => setCreateGameModalOpen(false)}
       />
-      <Box height="100vh" minHeight="100vh">
+      <Flex
+        height="100vh"
+        minHeight="100vh"
+        maxHeight="100vh"
+        flexDirection="column"
+      >
+        <IconButton
+          variant="ghost"
+          ml="auto"
+          mr="5"
+          mt="5"
+          icon={colorMode === "dark" ? <SunIcon /> : <MoonIcon />}
+          onClick={toggleColorMode}
+          aria-label="Switch to dark / light mode"
+        />
         <Grid
           gridGap="10"
           gridTemplateColumns="auto"
@@ -38,7 +62,7 @@ const LandingPage: React.FC = () => {
           height="100%"
         >
           <Heading>Welcome to Red Queen!</Heading>
-          <VStack>
+          <VStack spacing={5}>
             <Button
               colorScheme="red"
               onClick={() => setJoinGameModalOpen(true)}
@@ -54,7 +78,7 @@ const LandingPage: React.FC = () => {
             </Button>
           </VStack>
         </Grid>
-      </Box>
+      </Flex>
     </>
   );
 };

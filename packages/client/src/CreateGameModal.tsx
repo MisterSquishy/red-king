@@ -48,14 +48,10 @@ const CreateGameModal: React.FC<Props> = ({ isOpen, onClose, onCreate }) => {
           </Grid>
         </ModalBody>
         <ModalFooter>
-          <Button variant="outline" colorScheme="red" mr={3} onClick={onClose}>
+          <Button variant="outline" colorScheme="blue" mr={3} onClick={onClose}>
             Close
           </Button>
-          <Button
-            colorScheme="red"
-            disabled={!game.gameName || !game.userName}
-            onClick={() => game && onCreate(game)}
-          >
+          <Button colorScheme="blue" onClick={() => onCreate(game)}>
             Create
           </Button>
         </ModalFooter>
