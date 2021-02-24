@@ -17,7 +17,7 @@ jobs:
       - run: npm install -g yarn
       - run: npm install -g surge
       - run: yarn
-        working-directory: ./client
+        working-directory: ./packages/client
       - run: yarn build
-        working-directory: ./client
-      - run: surge ./client/build red-king.pdavids.website --token ${{ secrets.SURGE_TOKEN }}
+        working-directory: ./packages/client
+      - run: surge ./packages/client/build red-king.pdavids.website --token ${{ secrets.SURGE_TOKEN }}
