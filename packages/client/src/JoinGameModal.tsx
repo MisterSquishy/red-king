@@ -29,11 +29,11 @@ const JoinGameModal: React.FC<Props> = ({
   onClose,
   onJoin,
 }) => {
-  const [games, setGames] = useState([]);
+  const [games, setGames] = useState<Game[]>([]);
 
   useEffect(() => {
-    findWaitingGames().then(console.log);
-  }, [findWaitingGames, setGames]);
+    findWaitingGames().then(setGames);
+  }, []);
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
