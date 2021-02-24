@@ -1,4 +1,5 @@
 import { Button, IconButton } from "@chakra-ui/react";
+import { fetcher } from "./api";
 import { SunIcon, MoonIcon } from "@chakra-ui/icons";
 import { Game } from "./types";
 import { VStack, Grid, Flex, Heading, useColorMode } from "@chakra-ui/react";
@@ -12,25 +13,22 @@ const LandingPage: React.FC = () => {
   const { colorMode, toggleColorMode } = useColorMode();
 
   const createGame = (game: Game) =>
-    fetch("/games", {
+    fetcher("/games", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(game),
-    }).then((res) => res.json());
+      body: game
+    }).then(res => res.json());
 
   const joinGame = (gameId: string) =>
-    fetch(`/games/${gameId}`, {
+    fetcher(`/games/${gameId}`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ userName: "kevin" }), //todo names
-    }).then((res) => res.json());
+      body: { userName: "kevin" }
+    }).then(res => res.json());
 
   const findWaitingGames = () =>
-    fetch("/games/query", {
+    fetcher("/games/query", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ state: 0 }), // todo GameState.WAITING })
-    }).then((res) => res.json());
+      body: { state: 0 }
+    }).then(res => res.json());
 
   return (
     <>
@@ -45,7 +43,7 @@ const LandingPage: React.FC = () => {
       />
       <CreateGameModal
         isOpen={createGameModalOpen}
-        onCreate={(game) => {
+        onCreate={game => {
           createGame(game);
           setCreateGameModalOpen(false);
         }}
