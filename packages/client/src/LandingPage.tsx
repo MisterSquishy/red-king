@@ -1,14 +1,7 @@
 import { Button, IconButton } from "@chakra-ui/react";
 import { SunIcon, MoonIcon } from "@chakra-ui/icons";
 import { Game } from "./types";
-import {
-  VStack,
-  Grid,
-  Flex,
-  Box,
-  Heading,
-  useColorMode
-} from "@chakra-ui/react";
+import { VStack, Grid, Flex, Heading, useColorMode } from "@chakra-ui/react";
 import JoinGameModal from "./JoinGameModal";
 import CreateGameModal from "./CreateGameModal";
 import React, { useState } from "react";
@@ -46,9 +39,9 @@ const LandingPage: React.FC = () => {
         flexDirection="column"
       >
         <IconButton
+          position="absolute"
           variant="ghost"
-          ml="auto"
-          mr="5"
+          right="5"
           mt="5"
           icon={colorMode === "dark" ? <SunIcon /> : <MoonIcon />}
           onClick={toggleColorMode}
