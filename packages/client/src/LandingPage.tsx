@@ -15,19 +15,19 @@ const LandingPage: React.FC = () => {
   const createGame = (game: Game) =>
     fetcher("/games", {
       method: "POST",
-      body: game
+      body: JSON.stringify(game)
     }).then(res => res.json());
 
   const joinGame = (gameId: string) =>
     fetcher(`/games/${gameId}`, {
       method: "POST",
-      body: { userName: "kevin" }
+      body: JSON.stringify({ userName: "kevin" })
     }).then(res => res.json());
 
   const findWaitingGames = () =>
     fetcher("/games/query", {
       method: "POST",
-      body: { state: 0 }
+      body: JSON.stringify({ state: 0 })
     }).then(res => res.json());
 
   return (
