@@ -11,7 +11,6 @@ import {
   RadioGroup,
   Box,
   Stack,
-  Link,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { Game } from "./types";
@@ -36,7 +35,7 @@ const JoinGameModal: React.FC<Props> = ({
 
   useEffect(() => {
     findWaitingGames().then(setGames);
-  }, []);
+  }, [findWaitingGames]);
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
