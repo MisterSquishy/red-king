@@ -1,3 +1,4 @@
+import { useHistory } from "react-router-dom";
 import { Button, IconButton } from "@chakra-ui/react";
 import { fetcher } from "./api";
 import { SunIcon, MoonIcon } from "@chakra-ui/icons";
@@ -11,6 +12,7 @@ const LandingPage: React.FC = () => {
   const [joinGameModalOpen, setJoinGameModalOpen] = useState(false);
   const [createGameModalOpen, setCreateGameModalOpen] = useState(false);
   const { colorMode, toggleColorMode } = useColorMode();
+  const history = useHistory();
 
   const createGame = (game: Game) =>
     fetcher("/games", {
@@ -43,9 +45,10 @@ const LandingPage: React.FC = () => {
       />
       <CreateGameModal
         isOpen={createGameModalOpen}
-        onCreate={game => {
-          createGame(game);
+        onCreate={async game => {
+          const { gameId } = await createGame(game);
           setCreateGameModalOpen(false);
+          history.push(`/${gameId}`);
         }}
         onClose={() => setCreateGameModalOpen(false)}
       />
