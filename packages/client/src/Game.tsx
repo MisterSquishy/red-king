@@ -1,6 +1,6 @@
-import { useSocket } from "hooks/useSocket";
+import useSocket from "./hooks/useSocket";
 import { useParams } from "react-router-dom";
-import React, { useState, useEffect } from "react";
+import React from "react";
 
 const Game: React.FC = () => {
   const { gameId } = useParams<{ gameId: string }>();
