@@ -1,0 +1,46 @@
+{
+  "name": "server",
+  "version": "0.0.0",
+  "description": "> TODO: description",
+  "author": "Raymond Cox <raymond@raymondjcox.com>",
+  "homepage": "https://github.com/MisterSquishy/red-king#readme",
+  "license": "ISC",
+  "main": "src/index.ts",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-pino-logger": "^5.0.0",
+    "lanes": "^1.1.0",
+    "mongodb": "^3.6.2",
+    "pino": "^6.7.0",
+    "socket.io": "^2.3.0",
+    "throng": "^5.0.0",
+    "ts-node": "^9.0.0",
+    "typedeck": "^1.5.2"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.10",
+    "@types/express": "^4.17.11",
+    "@types/express-pino-logger": "^4.0.2",
+    "@types/mongodb": "^3.5.27",
+    "@types/node": "^14.11.2",
+    "@types/pino": "^6.3.6",
+    "@types/socket.io": "^2.1.13",
+    "@types/throng": "^5.0.0",
+    "migrate-mongo": "^8.1.2",
+    "nodemon": "^2.0.4",
+    "pino-pretty": "^4.3.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MisterSquishy/red-king.git"
+  },
+  "scripts": {
+    "start": "nodemon | pino-pretty",
+    "prod": "ts-node src/index.ts"
+  },
+  "bugs": {
+    "url": "https://github.com/MisterSquishy/red-king/issues"
+  }
+}

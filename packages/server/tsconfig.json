@@ -1,0 +1,15 @@
+{
+  "ts-node": {
+    "files": true
+  },
+  "files": ["src/index.ts", "src/global.d.ts"],
+  "compilerOptions": {
+    "target": "es5",
+    "module": "commonjs",
+    "strict": true,
+    "noImplicitAny": false,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
+  }
+}
