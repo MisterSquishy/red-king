@@ -1,17 +1,23 @@
-const express = require("express");
-const app = express();
-const http = require("http").createServer(app);
-const io = require("socket.io")(http);
-const cors = require("cors");
-const pino = require("pino");
-const expressPino = require("express-pino-logger");
+declare module "lanes";
+
+import express from "express";
+import httpServer from "http";
+import socketIo from "socket.io";
+import cors from "cors";
+import pino from "pino";
+import expressPino from "express-pino-logger";
+import throng from "throng";
+import Lanes from "lanes";
+import dotenv from "dotenv";
+import webserver from "./modules/webserver";
+
 const logger = pino({ level: process.env.LOG_LEVEL || "info" });
 const expressLogger = expressPino({ logger });
-const throng = require("throng");
-const lanes = require("lanes")();
-require("dotenv").config();
-
-const webserver = require("./modules/webserver");
+const lanes = Lanes();
+dotenv.config();
+const app = express();
+const http = httpServer.createServer(app);
+const io = socketIo(http);
 
 app.use(cors());
 app.use(express.json());
@@ -24,7 +30,7 @@ const master = () => {
     logger.info({ port: PORT }, "started_master");
   });
 };
-const worker = (workerId) => {
+const worker = (workerId: any) => {
   lanes.join(http, () => {
     logger.info({ port: PORT, workerId }, "worker_joined");
   });
@@ -35,15 +41,15 @@ const worker = (workerId) => {
   app.post("/games/:gameId/draw", webserver.drawCard);
   app.post("/games/:gameId/discard", webserver.discardCard);
   app.post("/games/:gameId/end/turn", webserver.endTurn);
-  app.get("/health", (req, res) => res.status(200).send("healthy"));
+  app.get("/health", (req: any, res: any) => res.status(200).send("healthy"));
 
   io.on("connection", webserver.onSocketConnection);
 
-  process.on("unhandledRejection", (reason, promise) => {
+  process.on("unhandledRejection", (reason: any, promise: any) => {
     logger.error(reason, "unhandled_promise_rejection");
   });
 
-  process.on("uncaughtExceptionMonitor", (error, origin) => {
+  process.on("uncaughtExceptionMonitor", (error: any, origin: any) => {
     logger.error(error, origin);
   });
 };
