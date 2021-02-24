@@ -112,6 +112,10 @@ export default {
         { socketId: socket.id, gameId, gameState },
         "changed_game_state"
       );
+      database.findGame(gameId, (game) => {
+        game.state = gameState;
+        database.updateGame(game);
+      });
       io.to(gameId).emit("StateChange", gameState);
     });
     socket.on("disconnect", () => {

@@ -1,4 +1,5 @@
 import { DrawType, Game, Player } from "./interfaces";
+import { GameState } from "shared";
 import { Card, CardName, Deck, Hand, JokerCard, Suit } from "typedeck";
 
 export default {
@@ -29,6 +30,7 @@ export default {
       currentPlayer: 0,
       _id: gameId,
       discardPile: Deck.Build([], []),
+      state: GameState.WAITING,
     };
   },
 
