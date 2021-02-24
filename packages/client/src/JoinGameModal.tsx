@@ -20,7 +20,7 @@ interface Props {
   isOpen: boolean;
   findWaitingGames: () => Promise<Game[]>;
   onClose: () => void;
-  onJoin: () => void;
+  onJoin: (gameId: string) => void;
 }
 
 const JoinGameModal: React.FC<Props> = ({
@@ -30,6 +30,9 @@ const JoinGameModal: React.FC<Props> = ({
   onJoin,
 }) => {
   const [games, setGames] = useState<Game[]>([]);
+  const [selectedGame, setSelectedGame] = useState<
+    string | number | undefined
+  >();
 
   useEffect(() => {
     findWaitingGames().then(setGames);
@@ -43,10 +46,10 @@ const JoinGameModal: React.FC<Props> = ({
         <ModalCloseButton />
         <ModalBody>
           <Box mb="5">Here are some games waiting for players....</Box>
-          <RadioGroup>
+          <RadioGroup onChange={setSelectedGame} value={selectedGame}>
             <Stack spacing={5} direction="column">
               {games.map((game: Game) => (
-                <Radio value={game.gameName}>
+                <Radio value={game._id}>
                   {game.gameName} ({game.userName} player)
                 </Radio>
               ))}
@@ -57,7 +60,11 @@ const JoinGameModal: React.FC<Props> = ({
           <Button variant="outline" colorScheme="blue" mr={3} onClick={onClose}>
             Close
           </Button>
-          <Button colorScheme="blue" onClick={onJoin}>
+          <Button
+            colorScheme="blue"
+            disabled={!selectedGame}
+            onClick={() => selectedGame && onJoin(selectedGame.toString())}
+          >
             Join
           </Button>
         </ModalFooter>

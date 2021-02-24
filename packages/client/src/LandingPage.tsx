@@ -17,6 +17,12 @@ const LandingPage: React.FC = () => {
       body: JSON.stringify(game),
     }).then((res) => res.json());
 
+  const joinGame = (gameId: string) =>
+    fetch(`/games/${gameId}`, {
+      method: "POST",
+      body: JSON.stringify({ userName: "kevin" }), //todo names
+    }).then((res) => res.json());
+
   const findWaitingGames = () =>
     fetch("/games/query", {
       method: "POST",
@@ -28,7 +34,10 @@ const LandingPage: React.FC = () => {
       <JoinGameModal
         isOpen={joinGameModalOpen}
         findWaitingGames={findWaitingGames}
-        onJoin={() => setJoinGameModalOpen(false)}
+        onJoin={(gameId: string) => {
+          joinGame(gameId);
+          setJoinGameModalOpen(false);
+        }}
         onClose={() => setJoinGameModalOpen(false)}
       />
       <CreateGameModal
