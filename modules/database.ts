@@ -32,6 +32,9 @@ exports.findGame = (gameId: string, callback: Function) => {
 };
 
 exports.updateGame = (game: Game) => {
+  if (game.frozen) {
+    return;
+  }
   const serializedGame = GameSerializer(game);
   MongoClient.connect(url, (err, db) => {
     if (err) throw err;
