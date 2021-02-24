@@ -5,6 +5,7 @@ import React, { useEffect } from "react";
 const Game: React.FC = () => {
   const { gameId } = useParams<{ gameId: string }>();
   const [connected, socket] = useSocket();
+  const name = JSON.parse(window.localStorage.getItem("game") ?? "{}")[gameId];
   useEffect(() => {
     if (connected) {
       socket.on("GameUpdate", (game: any) => console.log(game, "game"));
@@ -13,7 +14,11 @@ const Game: React.FC = () => {
     }
   }, [connected]);
 
-  return <div>{!connected ? "connecting" : "connected"} This is game</div>;
+  return (
+    <div>
+      {!connected ? "connecting" : "connected"} to game. Your name is {name}
+    </div>
+  );
 };
 
 export default Game;

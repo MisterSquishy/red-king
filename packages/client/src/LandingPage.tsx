@@ -8,6 +8,16 @@ import JoinGameModal from "./JoinGameModal";
 import CreateGameModal from "./CreateGameModal";
 import React, { useState } from "react";
 
+const setName = (gameId: string, name: string) => {
+  window.localStorage.setItem(
+    "game",
+    JSON.stringify({
+      ...JSON.parse(window.localStorage.getItem("game") ?? "{}"),
+      [gameId]: name
+    })
+  );
+};
+
 const LandingPage: React.FC = () => {
   const [joinGameModalOpen, setJoinGameModalOpen] = useState(false);
   const [createGameModalOpen, setCreateGameModalOpen] = useState(false);
@@ -17,28 +27,29 @@ const LandingPage: React.FC = () => {
   const createGame = (game: Game) =>
     fetcher("/games", {
       method: "POST",
-      body: JSON.stringify(game),
-    }).then((res) => res.json());
+      body: JSON.stringify(game)
+    }).then(res => res.json());
 
   const joinGame = (gameId: string) =>
     fetcher(`/games/${gameId}`, {
       method: "POST",
-      body: JSON.stringify({ userName: "kevin" }),
-    }).then((res) => res.json());
+      body: JSON.stringify({ userName: "kevin" })
+    }).then(res => res.json());
 
   const findWaitingGames = () =>
     fetcher("/games/query", {
       method: "POST",
-      body: JSON.stringify({ state: 0 }),
-    }).then((res) => res.json());
+      body: JSON.stringify({ state: 0 })
+    }).then(res => res.json());
 
   return (
     <>
       <JoinGameModal
         isOpen={joinGameModalOpen}
         findWaitingGames={findWaitingGames}
-        onJoin={(gameId: string) => {
+        onJoin={(gameId: string, userName: string) => {
           joinGame(gameId);
+          setName(gameId, userName);
           setJoinGameModalOpen(false);
           history.push(`/${gameId}`);
         }}
@@ -46,9 +57,10 @@ const LandingPage: React.FC = () => {
       />
       <CreateGameModal
         isOpen={createGameModalOpen}
-        onCreate={async (game) => {
-          const { gameId } = await createGame(game);
+        onCreate={async game => {
           setCreateGameModalOpen(false);
+          const { gameId } = await createGame(game);
+          setName(gameId, game.userName);
           history.push(`/${gameId}`);
         }}
         onClose={() => setCreateGameModalOpen(false)}
