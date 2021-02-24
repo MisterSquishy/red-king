@@ -47,7 +47,7 @@ const JoinGameModal: React.FC<Props> = ({ isOpen, onClose, onJoin }) => {
           </RadioGroup>
         </ModalBody>
         <ModalFooter>
-          <Button variant="ghost" mr={3} onClick={onClose}>
+          <Button variant="outline" colorScheme="red" mr={3} onClick={onClose}>
             Close
           </Button>
           <Button colorScheme="red" onClick={onJoin}>

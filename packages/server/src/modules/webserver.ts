@@ -11,9 +11,11 @@ export default {
   },
 
   createGame: (req, res) => {
-    const { userName } = req.body;
-    const gameId = Math.random().toString(36).substr(2, 5);
-    const game = gameManager.create(gameId, [userName]);
+    const { userName, gameName } = req.body;
+    const gameId = Math.random()
+      .toString(36)
+      .substr(2, 5);
+    const game = gameManager.create(gameId, [userName], gameName);
     database.createGame(game);
     res.send({ gameId });
     logger.info({ gameId, game, userName }, "created_game");
@@ -22,7 +24,7 @@ export default {
   joinGame: (req, res) => {
     const { gameId } = req.params;
     const { userName } = req.body;
-    database.findGame(gameId, (game) => {
+    database.findGame(gameId, game => {
       if (game) {
         const updatedGame = gameManager.addPlayer(game, userName);
         database.updateGame(updatedGame);
@@ -37,7 +39,7 @@ export default {
   drawCard: (req, res) => {
     const { gameId } = req.params;
     const { userName, type } = req.body;
-    database.findGame(gameId, (game) => {
+    database.findGame(gameId, game => {
       if (game) {
         const { game: updatedGame, card } = gameManager.drawCard(
           game,
@@ -60,7 +62,7 @@ export default {
   discardCard: (req, res) => {
     const { gameId } = req.params;
     const { userName, drawnCard, card } = req.body;
-    database.findGame(gameId, (game) => {
+    database.findGame(gameId, game => {
       if (game) {
         const updatedGame = gameManager.discardCard(
           game,
@@ -85,7 +87,7 @@ export default {
   endTurn: (req, res) => {
     const { gameId } = req.params;
     const { userName } = req.body;
-    database.findGame(gameId, (game) => {
+    database.findGame(gameId, game => {
       if (game) {
         const updatedGame = gameManager.endTurn(game);
         database.updateGame(updatedGame);
@@ -98,11 +100,11 @@ export default {
     });
   },
 
-  onSocketConnection: (socket) => {
+  onSocketConnection: socket => {
     logger.info({ socketId: socket.id }, "socket_connected");
-    socket.on("join", (gameId) => {
+    socket.on("join", gameId => {
       logger.info({ socketId: socket.id, gameId }, "joined_game");
-      database.findGame(gameId, (game) => {
+      database.findGame(gameId, game => {
         socket.join(gameId);
         io.to(gameId).emit("GameUpdate", game);
       });
@@ -117,5 +119,5 @@ export default {
     socket.on("disconnect", () => {
       logger.info({ socketId: socket.id }, "socket_disconnected");
     });
-  },
+  }
 };

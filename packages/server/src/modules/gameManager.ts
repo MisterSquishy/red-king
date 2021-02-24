@@ -2,15 +2,15 @@ import { DrawType, Game, Player } from "./interfaces";
 import { Card, CardName, Deck, Hand, JokerCard, Suit } from "typedeck";
 
 export default {
-  create: (gameId: string, playerNames: string[]): Game => {
+  create: (gameId: string, playerNames: string[], ...rest: any): Game => {
     const deck = Deck.Build(
       Object.keys(Suit)
-        .filter((key) => !isNaN(parseInt(key)))
-        .map((key) => Suit[key]),
+        .filter(key => !isNaN(parseInt(key)))
+        .map(key => Suit[key]),
       Object.keys(CardName)
-        .filter((key) => !isNaN(parseInt(key)))
-        .filter((key) => +key !== CardName.Joker)
-        .map((key) => CardName[key]),
+        .filter(key => !isNaN(parseInt(key)))
+        .filter(key => +key !== CardName.Joker)
+        .map(key => CardName[key]),
       [new JokerCard(13), new JokerCard(14)]
     );
 
@@ -29,6 +29,7 @@ export default {
       currentPlayer: 0,
       _id: gameId,
       discardPile: Deck.Build([], []),
+      ...rest
     };
   },
 
@@ -42,7 +43,7 @@ export default {
 
   drawCard: (game: Game, playerName: string, type: DrawType) => {
     const cards: Deck = type === DrawType.DECK ? game.deck : game.discardPile;
-    const player = game.players.find((player) => player.name === playerName);
+    const player = game.players.find(player => player.name === playerName);
     const card: Card = cards.takeCard();
     if (!player) return { game, card };
     const { hand } = player;
@@ -57,7 +58,7 @@ export default {
     card: Card
   ) => {
     const { discardPile } = game;
-    const player = game.players.find((player) => player.name === playerName);
+    const player = game.players.find(player => player.name === playerName);
     if (!player) return;
     const { hand } = player;
     const indexToDiscard = hand.indexOfCard(card);
@@ -73,5 +74,5 @@ export default {
   endTurn: (game: Game) => {
     game.currentPlayer = (game.currentPlayer + 1) % game.players.length;
     return game;
-  },
+  }
 };

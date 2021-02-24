@@ -1,10 +1,18 @@
 import { Button } from "@chakra-ui/react";
+import { Game } from "./types";
 import { VStack, Grid, Box, Heading } from "@chakra-ui/react";
 import JoinGameModal from "./JoinGameModal";
+import CreateGameModal from "./CreateGameModal";
 import React, { useState } from "react";
 
 const LandingPage: React.FC = () => {
   const [joinGameModalOpen, setJoinGameModalOpen] = useState(false);
+  const [createGameModalOpen, setCreateGameModalOpen] = useState(false);
+  const createGame = (game: Game) =>
+    fetch("/games", {
+      method: "POST",
+      body: JSON.stringify(game)
+    }).then(res => res.json());
 
   return (
     <>
@@ -12,6 +20,14 @@ const LandingPage: React.FC = () => {
         isOpen={joinGameModalOpen}
         onJoin={() => setJoinGameModalOpen(false)}
         onClose={() => setJoinGameModalOpen(false)}
+      />
+      <CreateGameModal
+        isOpen={createGameModalOpen}
+        onCreate={game => {
+          createGame(game);
+          setCreateGameModalOpen(false);
+        }}
+        onClose={() => setCreateGameModalOpen(false)}
       />
       <Box height="100vh" minHeight="100vh">
         <Grid
@@ -29,7 +45,11 @@ const LandingPage: React.FC = () => {
             >
               Join Game
             </Button>
-            <Button colorScheme="red" variant="outline">
+            <Button
+              colorScheme="red"
+              variant="outline"
+              onClick={() => setCreateGameModalOpen(true)}
+            >
               Host Game
             </Button>
           </VStack>
