@@ -1,0 +1,16 @@
+{
+  "name": "shared",
+  "version": "0.0.0",
+  "description": "> TODO: description",
+  "author": "Raymond Cox <raymond@raymondjcox.com>",
+  "homepage": "https://github.com/MisterSquishy/red-king#readme",
+  "license": "ISC",
+  "main": "index.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MisterSquishy/red-king.git"
+  },
+  "bugs": {
+    "url": "https://github.com/MisterSquishy/red-king/issues"
+  }
+}

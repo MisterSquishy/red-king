@@ -33,6 +33,22 @@ export default {
     });
   },
 
+  queryGames: (query: Record<string, Object>, callback: Function) => {
+    MongoClient.connect(url, (err, db) => {
+      if (err) throw err;
+      var dbo = db.db("red-king");
+      dbo
+        .collection("games")
+        .find(query)
+        .toArray((err, games) => {
+          db.close();
+          if (err) throw err;
+          else if (!games) callback(null);
+          else callback(games.map((game) => GameDeserializer(game)));
+        });
+    });
+  },
+
   updateGame: (game: Game) => {
     if (game.frozen) {
       return;

@@ -100,6 +100,13 @@ export default {
     });
   },
 
+  queryGames: (req, res) => {
+    const query = req.body;
+    database.queryGames(query, (games) => {
+      res.send(games);
+    });
+  },
+
   onSocketConnection: socket => {
     logger.info({ socketId: socket.id }, "socket_connected");
     socket.on("join", gameId => {
@@ -114,6 +121,10 @@ export default {
         { socketId: socket.id, gameId, gameState },
         "changed_game_state"
       );
+      database.findGame(gameId, (game) => {
+        game.state = gameState;
+        database.updateGame(game);
+      });
       io.to(gameId).emit("StateChange", gameState);
     });
     socket.on("disconnect", () => {

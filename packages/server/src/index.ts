@@ -37,6 +37,7 @@ const worker = (workerId: any) => {
 
   app.post("/users", webserver.createUser);
   app.post("/games", webserver.createGame);
+  app.post("/games/query", webserver.queryGames);
   app.post("/games/:gameId", webserver.joinGame);
   app.post("/games/:gameId/draw", webserver.drawCard);
   app.post("/games/:gameId/discard", webserver.discardCard);

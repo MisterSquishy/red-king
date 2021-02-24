@@ -1,4 +1,5 @@
 import { Card, Deck, Hand } from "typedeck";
+import { GameState } from "shared";
 
 export interface Player {
   name: string;
@@ -12,6 +13,7 @@ export interface Game {
   currentPlayer: number;
   _id: string;
   frozen?: boolean;
+  state: GameState;
 }
 
 export enum DrawType {
@@ -26,6 +28,7 @@ interface SerializedGame {
   currentPlayer: number;
   _id: string;
   frozen?: boolean;
+  state: GameState;
 }
 
 interface SerializedPlayer {
@@ -46,6 +49,7 @@ export const GameSerializer = (game: Game): SerializedGame => {
     deck: game.deck.getCards(),
     discardPile: game.discardPile.getCards(),
     frozen: game.frozen,
+    state: game.state,
   };
 };
 
@@ -62,5 +66,6 @@ export const GameDeserializer = (serializedGame: SerializedGame): Game => {
     deck: Deck.BuildFrom(serializedGame.deck),
     discardPile: Deck.BuildFrom(serializedGame.discardPile),
     frozen: serializedGame.frozen,
+    state: serializedGame.state,
   };
 };

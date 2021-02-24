@@ -17,7 +17,8 @@
     "socket.io": "^2.3.0",
     "throng": "^5.0.0",
     "ts-node": "^9.0.0",
-    "typedeck": "^1.5.2"
+    "typedeck": "^1.5.2",
+    "shared": "*"
   },
   "devDependencies": {
     "@types/cors": "^2.8.10",

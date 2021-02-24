@@ -21,7 +21,8 @@
     "react-dom": "^17.0.1",
     "react-scripts": "4.0.3",
     "web-vitals": "^1.0.1",
-    "xstate": "^4.16.2"
+    "xstate": "^4.16.2",
+    "shared": "*"
   },
   "scripts": {
     "start": "PORT=4000 react-scripts start",
