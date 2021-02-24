@@ -10,9 +10,7 @@ const getSocket = (): SocketIOClient.Socket => {
   return singletonSocket;
 };
 
-export default function useSocket(
-  gameId: string
-): [boolean, SocketIOClient.Socket] {
+export default function useSocket(): [boolean, SocketIOClient.Socket] {
   const [connected, setConnected] = useState(false);
   const socket = getSocket();
   socket.on("connect", () => {
