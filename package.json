@@ -18,7 +18,7 @@
     "libbuild": "lerna run libbuild",
     "start": "lerna run start --stream --parallel",
     "prod": "lerna run prod",
-    "build": "lerna run build"
+    "build": "lerna run libbuild && lerna run build"
   },
   "husky": {
     "hooks": {

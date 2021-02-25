@@ -9,8 +9,7 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "libbuild": "tsc",
-    "start": "tsc -w",
-    "build": "tsc -b ."
+    "start": "tsc -w"
   },
   "repository": {
     "type": "git",
