@@ -39,7 +39,7 @@
   },
   "scripts": {
     "start": "nodemon | pino-pretty",
-    "prod": "ts-node src/index.ts"
+    "prod": "ts-node src/index.ts --transpile-only"
   },
   "bugs": {
     "url": "https://github.com/MisterSquishy/red-king/issues"
