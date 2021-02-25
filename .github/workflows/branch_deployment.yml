@@ -16,11 +16,8 @@ jobs:
           node-version: 12
       - run: npm install -g yarn
       - run: npm install -g surge
-      - run: yarn build
-        working-directory: ./packages/shared
       - run: yarn
       - run: yarn build
-        working-directory: ./packages/client
       - run: cp index.html 200.html
         working-directory: ./packages/client/build
       - run: surge ./packages/client/build red-queen.pdavids.website --token ${{ secrets.SURGE_TOKEN }}
