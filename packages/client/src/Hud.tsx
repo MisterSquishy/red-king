@@ -4,7 +4,7 @@ import { fetcher } from "./api";
 import { GameContext } from "./GamePage";
 
 const HUD = () => {
-  const { game } = useContext(GameContext);
+  const game = useContext(GameContext);
   const startGame = () =>
     fetcher(`/games/${game._id}/state`, {
       method: "PATCH",

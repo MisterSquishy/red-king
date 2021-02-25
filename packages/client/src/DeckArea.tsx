@@ -3,7 +3,7 @@ import { Box, Stack, useColorModeValue } from "@chakra-ui/react";
 import { GameContext } from "./GamePage";
 
 const DeckArea = () => {
-  const { game } = useContext(GameContext);
+  const game = useContext(GameContext);
   const backgroundColor = useColorModeValue("gray.200", "white");
   const cardsToRender = Math.min(game.deck.cards.length, 6);
   return (

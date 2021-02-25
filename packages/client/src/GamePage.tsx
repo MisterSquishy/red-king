@@ -13,10 +13,7 @@ import {
 } from "@chakra-ui/react";
 import HUD from "./Hud";
 
-export interface GameContextIF {
-  game: Game;
-}
-export const GameContext = React.createContext({} as GameContextIF);
+export const GameContext = React.createContext({} as Game);
 
 const GamePage: React.FC = () => {
   const { gameId } = useParams<{ gameId: string }>();
@@ -36,7 +33,7 @@ const GamePage: React.FC = () => {
       {!game ? (
         <Spinner size="xl" />
       ) : (
-        <GameContext.Provider value={{ game }}>
+        <GameContext.Provider value={game}>
           <Heading>hey {name}</Heading>
           <Grid
             h="200px"
