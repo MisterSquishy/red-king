@@ -54,6 +54,11 @@ const DeckArea = () => {
         />
         <CardStack
           cardsToRender={discardCards}
+          topCard={
+            game.discardPile.cards.length > 0
+              ? game.discardPile.cards[discardCards - 1]
+              : undefined
+          }
           onClick={
             canDraw && discardCards > 0
               ? onDrawFromDiscard

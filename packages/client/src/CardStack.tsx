@@ -1,13 +1,16 @@
 import { Box, Stack, useColorModeValue } from "@chakra-ui/react";
 import React from "react";
 import ClickArea from "./ClickArea";
+import { Card as CardIF } from "./types";
+import Card from "./Card";
 
 interface Props {
   cardsToRender: number;
   onClick?: () => void;
+  topCard?: CardIF;
 }
 
-const CardStack = ({ cardsToRender, onClick }: Props) => {
+const CardStack = ({ cardsToRender, onClick, topCard }: Props) => {
   const backgroundColor = useColorModeValue("gray.200", "white");
   const borderColor = useColorModeValue("black", "white");
 
@@ -25,7 +28,10 @@ const CardStack = ({ cardsToRender, onClick }: Props) => {
           shadow="md"
         />
       ))}
-      {onClick && <ClickArea onClick={onClick} prompt="Draw card" />}
+      {topCard && <Card card={topCard} exposed={true} onClick={onClick} />}
+      {onClick && !topCard && (
+        <ClickArea onClick={onClick} prompt="Draw card" />
+      )}
     </Stack>
   ) : (
     <Box
