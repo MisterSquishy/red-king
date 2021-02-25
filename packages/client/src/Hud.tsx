@@ -1,5 +1,6 @@
 import { Button, Text } from "@chakra-ui/react";
-import React, { useContext } from "react";
+import { GameState } from "shared";
+import { useContext } from "react";
 import { fetcher } from "./api";
 import { GameContext } from "./GamePage";
 
@@ -8,8 +9,8 @@ const HUD = () => {
   const startGame = () =>
     fetcher(`/games/${game._id}/state`, {
       method: "PATCH",
-      body: JSON.stringify({ state: 1 }), //todo GameState.IN_PROGRESS }),
-    }).then((res) => res.json());
+      body: JSON.stringify({ state: GameState.IN_PROGRESS })
+    }).then(res => res.json());
 
   return (
     <Text bg="lightgrey" w="100%" align="center">

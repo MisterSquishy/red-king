@@ -5,7 +5,12 @@
   "author": "Raymond Cox <raymond@raymondjcox.com>",
   "homepage": "https://github.com/MisterSquishy/red-king#readme",
   "license": "ISC",
-  "main": "index.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "libbuild": "tsc",
+    "start": "tsc -w"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/MisterSquishy/red-king.git"

@@ -15,6 +15,7 @@
     "typescript": "^4.2.2"
   },
   "scripts": {
+    "libbuild": "lerna run libbuild",
     "start": "lerna run start --stream",
     "prod": "lerna run prod"
   },
