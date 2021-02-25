@@ -45,6 +45,12 @@ const JoinGameModal: React.FC<Props> = ({
     findWaitingGames().then(setGames);
   }, [findWaitingGames]);
 
+  useEffect(() => {
+    setUserName("");
+    setSelectedGame(undefined);
+    setShowValidation(false);
+  }, [isOpen]);
+
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
@@ -68,13 +74,10 @@ const JoinGameModal: React.FC<Props> = ({
           </FormControl>
           <FormControl isRequired isInvalid={!validGame && showValidation}>
             <FormLabel mb="5">Games (waiting for players)</FormLabel>
-            <RadioGroup
-              defaultValue={games[0]?._id}
-              onChange={setSelectedGame}
-              value={selectedGame}
-            >
+            <RadioGroup onChange={setSelectedGame} value={selectedGame}>
               <Stack
                 spacing={5}
+                p={2}
                 maxHeight="200px"
                 overflow="auto"
                 direction="column"
@@ -86,6 +89,7 @@ const JoinGameModal: React.FC<Props> = ({
                 ))}
               </Stack>
             </RadioGroup>
+            <FormErrorMessage>You must select a game</FormErrorMessage>
           </FormControl>
         </ModalBody>
         <ModalFooter>
