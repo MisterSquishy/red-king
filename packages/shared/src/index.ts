@@ -3,3 +3,8 @@ export enum GameState {
   IN_PROGRESS,
   FINISHED,
 }
+
+export enum DrawType {
+  DECK,
+  DISCARD,
+}

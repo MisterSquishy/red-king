@@ -17,11 +17,6 @@ export interface Game {
   gameName?: string;
 }
 
-export enum DrawType {
-  DECK,
-  DISCARD,
-}
-
 interface SerializedGame {
   deck: Card[];
   discardPile: Card[];
