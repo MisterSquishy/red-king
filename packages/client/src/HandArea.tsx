@@ -3,28 +3,20 @@ import React, { useContext } from "react";
 import Card from "./Card";
 import { GameContext, PlayerContext } from "./GamePage";
 import { Card as CardIF } from "./types";
-import { fetcher } from "./api";
+import useDiscard from "./hooks/useDiscard";
 
 const HandArea = ({ playerName }: { playerName: string }) => {
   const game = useContext(GameContext);
   const currentPlayer = useContext(PlayerContext);
+  const discard = useDiscard();
   const isMine = playerName === currentPlayer;
   const hand = game.players.find((player) => player.name === playerName)
     ?.hand || { cards: [] };
   const cards = hand?.cards.length > 4 ? hand?.cards.slice(0, 4) : hand?.cards;
   const drawnCard = hand?.cards.length > 4 ? hand?.cards[4] : undefined;
 
-  const onCardClick = (card: CardIF) => {
-    fetcher(`/games/${game._id}/discard`, {
-      method: "POST",
-      body: JSON.stringify({ userName: currentPlayer, drawnCard, card }),
-    }).then(() => {
-      // todo side effectzzzz
-      fetcher(`/games/${game._id}/end/turn`, {
-        method: "POST",
-        body: JSON.stringify({ userName: currentPlayer }),
-      });
-    });
+  const onCardClick = (cardToDiscard: CardIF, cardToAdd: CardIF) => {
+    discard(game._id, cardToDiscard, cardToAdd, currentPlayer);
   };
 
   return (
@@ -43,7 +35,9 @@ const HandArea = ({ playerName }: { playerName: string }) => {
                 card={card}
                 exposed={false}
                 onClick={
-                  isMine && drawnCard ? () => onCardClick(card) : undefined
+                  isMine && drawnCard
+                    ? () => onCardClick(card, drawnCard)
+                    : undefined
                 }
               />
             </GridItem>

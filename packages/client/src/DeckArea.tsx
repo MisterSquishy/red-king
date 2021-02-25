@@ -4,10 +4,12 @@ import { GameContext, PlayerContext } from "./GamePage";
 import { DrawType, GameState } from "shared";
 import CardStack from "./CardStack";
 import { fetcher } from "./api";
+import useDiscard from "./hooks/useDiscard";
 
 const DeckArea = () => {
   const game = useContext(GameContext);
   const me = useContext(PlayerContext);
+  const discard = useDiscard();
   const deckCards = Math.min(game.deck.cards.length, 6);
   const discardCards = Math.min(game.discardPile.cards.length, 6);
   const canDraw =
@@ -30,19 +32,9 @@ const DeckArea = () => {
   const onDrawFromDeck = () => onDraw(DrawType.DECK);
   const onDrawFromDiscard = () => onDraw(DrawType.DISCARD);
 
-  // todo share this fn with the one from HandArea
   const onDiscard = () => {
     const drawnCard = game.players[game.currentPlayer].hand.cards[4];
-    fetcher(`/games/${game._id}/discard`, {
-      method: "POST",
-      body: JSON.stringify({ userName: me, drawnCard, card: drawnCard }),
-    }).then(() => {
-      // todo side effectzzzz
-      fetcher(`/games/${game._id}/end/turn`, {
-        method: "POST",
-        body: JSON.stringify({ userName: me }),
-      });
-    });
+    discard(game._id, drawnCard, drawnCard, me);
   };
 
   return (
