@@ -49,7 +49,7 @@ const HandArea = ({ playerName }: { playerName: string }) => {
             </GridItem>
           ))}
         </Grid>
-        {drawnCard && <Card exposed={true} card={drawnCard} />}
+        {drawnCard && <Card exposed={isMine} card={drawnCard} />}
       </HStack>
     </Heading>
   );
