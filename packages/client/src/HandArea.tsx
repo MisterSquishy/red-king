@@ -1,5 +1,5 @@
 import { Grid, GridItem, Heading, HStack } from "@chakra-ui/react";
-import React, { useContext } from "react";
+import { useContext } from "react";
 import Card from "./Card";
 import { GameContext, PlayerContext } from "./GamePage";
 import { Card as CardIF } from "./types";
@@ -10,7 +10,7 @@ const HandArea = ({ playerName }: { playerName: string }) => {
   const currentPlayer = useContext(PlayerContext);
   const discard = useDiscard();
   const isMine = playerName === currentPlayer;
-  const hand = game.players.find((player) => player.name === playerName)
+  const hand = game.players.find(player => player.name === playerName)
     ?.hand || { cards: [] };
   const cards = hand?.cards.length > 4 ? hand?.cards.slice(0, 4) : hand?.cards;
   const drawnCard = hand?.cards.length > 4 ? hand?.cards[4] : undefined;

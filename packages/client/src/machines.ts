@@ -16,3 +16,19 @@ export const gameMachine = Machine({
     playGame: {}
   }
 });
+
+export const sideEffectsMachine = Machine({
+  id: "sideEffects",
+  initial: "none",
+  states: {
+    none: {
+      on: { lookyMe: "lookyMeChoose" }
+    },
+    lookyMeChoose: {
+      on: { lookyMeChooseCard: "lookyMeReveal" }
+    },
+    lookyMeReveal: {
+      on: { lookyMeDone: "none" }
+    }
+  }
+});

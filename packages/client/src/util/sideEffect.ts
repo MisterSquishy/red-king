@@ -4,10 +4,11 @@ export enum SideEffect {
   LOOKY_YOU,
   LOOKY_ME,
   NO_LOOK_SWAP,
-  LOOKY_SWAPPY,
+  LOOKY_SWAPPY
 }
 
 export const getSideEffect = (card: Card): SideEffect | undefined => {
+  return SideEffect.LOOKY_ME;
   switch (card.cardName) {
     case "Five":
     case "Six":

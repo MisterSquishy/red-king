@@ -1,12 +1,13 @@
 import React, { useContext } from "react";
 import { Box, HStack } from "@chakra-ui/react";
-import { GameContext, PlayerContext } from "./GamePage";
+import { GameContext, PlayerContext, SideEffectsContext } from "./GamePage";
 import { DrawType, GameState } from "shared";
 import CardStack from "./CardStack";
 import { fetcher } from "./api";
 import useDiscard from "./hooks/useDiscard";
 
 const DeckArea = () => {
+  const [sideEffectsState, _] = useContext(SideEffectsContext);
   const game = useContext(GameContext);
   const me = useContext(PlayerContext);
   const discard = useDiscard();
@@ -26,7 +27,7 @@ const DeckArea = () => {
   const onDraw = (drawType: DrawType) => {
     fetcher(`/games/${game._id}/draw`, {
       method: "POST",
-      body: JSON.stringify({ userName: me, type: drawType }),
+      body: JSON.stringify({ userName: me, type: drawType })
     });
   };
   const onDrawFromDeck = () => onDraw(DrawType.DECK);
@@ -39,6 +40,7 @@ const DeckArea = () => {
 
   return (
     <Box>
+      {sideEffectsState.value}
       <HStack spacing="24px">
         <CardStack
           cardsToRender={deckCards}
