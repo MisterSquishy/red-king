@@ -1,7 +1,7 @@
 import useSocket from "./hooks/useSocket";
 import { useParams } from "react-router-dom";
 import React, { useEffect, useState } from "react";
-import { Game, GameState } from "shared";
+import { Game } from "shared";
 import { fetcher } from "./api";
 
 const GamePage: React.FC = () => {

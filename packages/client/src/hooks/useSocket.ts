@@ -1,11 +1,12 @@
 import io from "socket.io-client";
 import { useState } from "react";
+import config from "../config";
 
 let singletonSocket: SocketIOClient.Socket | null = null;
 
 const getSocket = (): SocketIOClient.Socket => {
   if (!singletonSocket) {
-    singletonSocket = io("/");
+    singletonSocket = io(config.SERVER_HOST + "/");
   }
   return singletonSocket;
 };
