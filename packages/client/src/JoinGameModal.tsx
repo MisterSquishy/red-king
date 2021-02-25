@@ -9,11 +9,11 @@ import {
   ModalCloseButton,
   Radio,
   RadioGroup,
-  Box,
+  FormErrorMessage,
   Stack,
   FormControl,
   FormLabel,
-  Input,
+  Input
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { Game } from "shared";
@@ -29,13 +29,17 @@ const JoinGameModal: React.FC<Props> = ({
   isOpen,
   findWaitingGames,
   onClose,
-  onJoin,
+  onJoin
 }) => {
   const [games, setGames] = useState<Game[]>([]);
   const [userName, setUserName] = useState("");
   const [selectedGame, setSelectedGame] = useState<
     string | number | undefined
   >();
+  const validName = !!userName;
+  const validGame = !!selectedGame;
+  const validationPassed = validGame && validName;
+  const [showValidation, setShowValidation] = useState(false);
 
   useEffect(() => {
     findWaitingGames().then(setGames);
@@ -48,28 +52,41 @@ const JoinGameModal: React.FC<Props> = ({
         <ModalHeader>Join a game!</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          <FormControl id="userName" isRequired mb="5">
-            <FormLabel>Name</FormLabel>
+          <FormControl
+            id="userName"
+            isRequired
+            mb="5"
+            isInvalid={!validName && showValidation}
+          >
+            <FormLabel>Your name</FormLabel>
             <Input
-              onChange={(e) => setUserName(e.target.value)}
+              onChange={e => setUserName(e.target.value)}
               placeholder="Peter Davids"
             />
+
+            <FormErrorMessage>Your name is required</FormErrorMessage>
           </FormControl>
-          <Box mb="5">Here are some games waiting for players....</Box>
-          <RadioGroup onChange={setSelectedGame} value={selectedGame}>
-            <Stack
-              spacing={5}
-              maxHeight="200px"
-              overflow="auto"
-              direction="column"
+          <FormControl isRequired isInvalid={!validGame && showValidation}>
+            <FormLabel mb="5">Games (waiting for players)</FormLabel>
+            <RadioGroup
+              defaultValue={games[0]?._id}
+              onChange={setSelectedGame}
+              value={selectedGame}
             >
-              {games.map((game: Game) => (
-                <Radio value={game._id}>
-                  {game.gameName} ({game.userName} player)
-                </Radio>
-              ))}
-            </Stack>
-          </RadioGroup>
+              <Stack
+                spacing={5}
+                maxHeight="200px"
+                overflow="auto"
+                direction="column"
+              >
+                {games.map((game: Game) => (
+                  <Radio value={game._id}>
+                    {game.gameName} ({game.userName} player)
+                  </Radio>
+                ))}
+              </Stack>
+            </RadioGroup>
+          </FormControl>
         </ModalBody>
         <ModalFooter>
           <Button variant="outline" colorScheme="blue" mr={3} onClick={onClose}>
@@ -77,10 +94,14 @@ const JoinGameModal: React.FC<Props> = ({
           </Button>
           <Button
             colorScheme="blue"
-            disabled={!selectedGame}
-            onClick={() =>
-              selectedGame && onJoin(selectedGame.toString(), userName)
-            }
+            disabled={games.length === 0}
+            onClick={() => {
+              if (validationPassed) {
+                onJoin(selectedGame?.toString() ?? "", userName);
+              } else {
+                setShowValidation(true);
+              }
+            }}
           >
             Join
           </Button>
