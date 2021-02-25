@@ -13,8 +13,10 @@ export const PlayerContext = React.createContext("");
 const GamePage: React.FC = () => {
   const { gameId } = useParams<{ gameId: string }>();
   const [connected, socket] = useSocket();
-  const name = JSON.parse(window.localStorage.getItem("game") ?? "{}")[gameId];
   const [game, setGame] = useState<Game>();
+  const name = JSON.parse(window.localStorage.getItem("game") ?? "{}")[gameId];
+  const otherPlayers =
+    game?.players.filter((player) => player.name !== name) || [];
 
   useEffect(() => {
     if (connected) {
@@ -35,7 +37,14 @@ const GamePage: React.FC = () => {
             templateColumns="repeat(5, 1fr)"
             gap={4}
           >
-            <GridItem rowSpan={2} colSpan={1} bg="papayawhip" />
+            <GridItem rowSpan={2} colSpan={1}>
+              {otherPlayers.length >= 2 && (
+                <HandArea playerName={otherPlayers[1].name} />
+              )}
+              {otherPlayers.length >= 4 && (
+                <HandArea playerName={otherPlayers[3].name} />
+              )}
+            </GridItem>
             <GridItem colSpan={3}>
               <Center>
                 <VStack w="100%">
@@ -44,7 +53,14 @@ const GamePage: React.FC = () => {
                 </VStack>
               </Center>
             </GridItem>
-            <GridItem rowSpan={2} colSpan={1} bg="papayawhip" />
+            <GridItem rowSpan={2} colSpan={1}>
+              {otherPlayers.length >= 3 && (
+                <HandArea playerName={otherPlayers[2].name} />
+              )}
+              {otherPlayers.length >= 5 && (
+                <HandArea playerName={otherPlayers[4].name} />
+              )}
+            </GridItem>
             <GridItem colSpan={3}>
               <Center>
                 <HandArea playerName={name} />
