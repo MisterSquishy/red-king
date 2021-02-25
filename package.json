@@ -16,7 +16,7 @@
   },
   "scripts": {
     "libbuild": "lerna run libbuild",
-    "start": "lerna run start --stream",
+    "start": "lerna run start --stream --parallel",
     "prod": "lerna run prod"
   },
   "husky": {
