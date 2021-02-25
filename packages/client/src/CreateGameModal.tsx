@@ -1,5 +1,5 @@
 import { Button } from "@chakra-ui/react";
-import { Game } from "./types";
+import { DraftGame } from "./types";
 import {
   Modal,
   ModalOverlay,
@@ -19,11 +19,11 @@ import React, { useState, useEffect } from "react";
 interface Props {
   isOpen: boolean;
   onClose: () => void;
-  onCreate: (game: Game) => void;
+  onCreate: (game: DraftGame) => void;
 }
 
 const CreateGameModal: React.FC<Props> = ({ isOpen, onClose, onCreate }) => {
-  const [game, setGame] = useState<Game>({
+  const [game, setGame] = useState<DraftGame>({
     userName: "",
     gameName: "",
   });

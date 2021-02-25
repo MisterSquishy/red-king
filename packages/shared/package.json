@@ -6,6 +6,9 @@
   "homepage": "https://github.com/MisterSquishy/red-king#readme",
   "license": "ISC",
   "main": "index.ts",
+  "dependencies": {
+    "typedeck": "^1.5.2"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/MisterSquishy/red-king.git"

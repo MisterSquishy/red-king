@@ -1,5 +1,5 @@
-import { DrawType, Game, Player } from "./interfaces";
-import { GameState } from "shared";
+import { DrawType } from "./interfaces";
+import { Game, GameState, Player } from "shared";
 import { Card, CardName, Deck, Hand, JokerCard, Suit } from "typedeck";
 
 export default {

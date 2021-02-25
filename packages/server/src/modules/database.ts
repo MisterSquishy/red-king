@@ -1,4 +1,5 @@
-import { Game, GameDeserializer, GameSerializer } from "./interfaces";
+import { GameDeserializer, GameSerializer } from "./interfaces";
+import { Game } from "shared";
 import { MongoClient } from "mongodb";
 import dotenv from "dotenv";
 dotenv.config();

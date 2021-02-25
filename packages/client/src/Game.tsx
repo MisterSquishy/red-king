@@ -12,7 +12,7 @@ const Game: React.FC = () => {
       socket.on("StateChange", (state: any) => console.log(state, "state"));
       socket.emit("join", gameId);
     }
-  }, [connected]);
+  }, [connected, gameId, socket]);
 
   return (
     <div>

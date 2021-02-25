@@ -1,5 +1,4 @@
-export interface Game {
-  _id?: string;
+export interface DraftGame {
   userName: string;
   gameName: string;
 }
