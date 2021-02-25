@@ -30,11 +30,18 @@ const DeckArea = () => {
   const onDrawFromDeck = () => onDraw(DrawType.DECK);
   const onDrawFromDiscard = () => onDraw(DrawType.DISCARD);
 
+  // todo share this fn with the one from HandArea
   const onDiscard = () => {
     const drawnCard = game.players[game.currentPlayer].hand.cards[4];
     fetcher(`/games/${game._id}/discard`, {
       method: "POST",
       body: JSON.stringify({ userName: me, drawnCard, card: drawnCard }),
+    }).then(() => {
+      // todo side effectzzzz
+      fetcher(`/games/${game._id}/end/turn`, {
+        method: "POST",
+        body: JSON.stringify({ userName: me }),
+      });
     });
   };
 

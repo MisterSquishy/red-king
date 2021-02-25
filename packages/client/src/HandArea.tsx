@@ -18,6 +18,12 @@ const HandArea = ({ playerName }: { playerName: string }) => {
     fetcher(`/games/${game._id}/discard`, {
       method: "POST",
       body: JSON.stringify({ userName: currentPlayer, drawnCard, card }),
+    }).then(() => {
+      // todo side effectzzzz
+      fetcher(`/games/${game._id}/end/turn`, {
+        method: "POST",
+        body: JSON.stringify({ userName: currentPlayer }),
+      });
     });
   };
 
