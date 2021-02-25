@@ -81,7 +81,8 @@ const JoinGameModal: React.FC<Props> = ({
               <Stack spacing={5} p={2} overflow="auto" direction="column">
                 {games.slice(page * 5, page * 5 + 5).map((game: Game) => (
                   <Radio value={game._id}>
-                    {game.gameName} ({game.players.length} players)
+                    {game.gameName} ({game.players.length}{" "}
+                    {game.players.length === 1 ? "player" : "players"})
                   </Radio>
                 ))}
               </Stack>
