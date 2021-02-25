@@ -1,4 +1,38 @@
+import { GameState } from "shared";
+
 export interface DraftGame {
   userName: string;
   gameName: string;
+}
+
+export interface Card {
+  cardName:
+    | "Ace"
+    | "Two"
+    | "Three"
+    | "Four"
+    | "Five"
+    | "Six"
+    | "Seven"
+    | "Eight"
+    | "Nine"
+    | "Ten"
+    | "Jack"
+    | "Queen"
+    | "King"
+    | "Joker";
+  suit: "Spades" | "Hearts" | "Diamonds" | "Clubs";
+}
+
+export interface Player {
+  name: string;
+}
+export interface Game {
+  currentPlayer: number;
+  deck: { cards: Card[] };
+  discardPile: { card: Card[] };
+  gameName: string;
+  players: Player[];
+  state: GameState;
+  _id: string;
 }

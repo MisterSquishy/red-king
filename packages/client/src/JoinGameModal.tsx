@@ -15,10 +15,10 @@ import {
   Flex,
   FormControl,
   FormLabel,
-  Input
+  Input,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
-import { Game } from "shared";
+import { Game } from "./types";
 
 interface Props {
   isOpen: boolean;
@@ -31,7 +31,7 @@ const JoinGameModal: React.FC<Props> = ({
   isOpen,
   findWaitingGames,
   onClose,
-  onJoin
+  onJoin,
 }) => {
   const [games, setGames] = useState<Game[]>([]);
   const [userName, setUserName] = useState("");
@@ -69,7 +69,7 @@ const JoinGameModal: React.FC<Props> = ({
           >
             <FormLabel>Your name</FormLabel>
             <Input
-              onChange={e => setUserName(e.target.value)}
+              onChange={(e) => setUserName(e.target.value)}
               placeholder="Peter Davids"
             />
 
@@ -89,14 +89,14 @@ const JoinGameModal: React.FC<Props> = ({
             </RadioGroup>
             <Flex m={2}>
               {page > 0 && (
-                <Link onClick={() => setPage(p => p - 1)} color="blue">
+                <Link onClick={() => setPage((p) => p - 1)} color="blue">
                   ← Prev
                 </Link>
               )}
               {(page + 1) * 5 < games.length && (
                 <Link
                   ml="auto"
-                  onClick={() => setPage(p => p + 1)}
+                  onClick={() => setPage((p) => p + 1)}
                   color="blue"
                 >
                   Next →

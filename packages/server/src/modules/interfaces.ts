@@ -1,5 +1,21 @@
 import { Card, Deck, Hand } from "typedeck";
-import { Game, GameState } from "shared";
+import { GameState } from "shared";
+
+export interface Player {
+  name: string;
+  hand: Hand;
+}
+
+export interface Game {
+  deck: Deck;
+  discardPile: Deck;
+  players: Player[];
+  currentPlayer: number;
+  _id: string;
+  frozen?: boolean;
+  state: GameState;
+  gameName?: string;
+}
 
 export enum DrawType {
   DECK,

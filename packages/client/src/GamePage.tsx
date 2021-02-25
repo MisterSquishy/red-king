@@ -1,8 +1,10 @@
 import useSocket from "./hooks/useSocket";
 import { useParams } from "react-router-dom";
 import React, { useEffect, useState } from "react";
-import { Game } from "shared";
 import { fetcher } from "./api";
+import DeckArea from "./DeckArea";
+import { Game } from "./types";
+import { Button, Heading, Text } from "@chakra-ui/react";
 
 const GamePage: React.FC = () => {
   const { gameId } = useParams<{ gameId: string }>();
@@ -26,18 +28,25 @@ const GamePage: React.FC = () => {
 
   return (
     <div>
-      <h2>hey {name}</h2>
-      <h4>
+      <Heading as="h2" size="xl">
+        hey {name}
+      </Heading>
+      <Heading as="h4" size="lg">
         you're {!connected ? "connecting" : "connected"} to{" "}
         {game?.gameName || "the game"}, which is {game?.state}.
-      </h4>
-      <p>
+      </Heading>
+      <Text fontSize="lg">
         you're here{" "}
         {alone
           ? "alone"
           : `with ${game?.players.map((player) => player.name).join(", ")}`}
-      </p>
-      <button onClick={startGame}>get cookin</button>
+      </Text>
+      <Button onClick={startGame}>get cookin</Button>
+      {game && (
+        <>
+          <DeckArea deckSize={game.deck.cards.length} />{" "}
+        </>
+      )}
     </div>
   );
 };

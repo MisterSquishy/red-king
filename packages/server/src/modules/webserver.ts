@@ -1,7 +1,8 @@
 import { io, logger } from "../index";
 import gameManager from "./gameManager";
 import database from "./database";
-import { Game, GameState } from "shared";
+import { Game } from "./interfaces";
+import { GameState } from "shared";
 
 export default {
   createUser: (req, res) => {
