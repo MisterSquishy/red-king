@@ -1,15 +1,18 @@
 import useSocket from "./hooks/useSocket";
 import { useParams } from "react-router-dom";
 import React, { useEffect } from "react";
+import { Game, GameState } from "shared";
 
-const Game: React.FC = () => {
+const GamePage: React.FC = () => {
   const { gameId } = useParams<{ gameId: string }>();
   const [connected, socket] = useSocket();
   const name = JSON.parse(window.localStorage.getItem("game") ?? "{}")[gameId];
   useEffect(() => {
     if (connected) {
-      socket.on("GameUpdate", (game: any) => console.log(game, "game"));
-      socket.on("StateChange", (state: any) => console.log(state, "state"));
+      socket.on("GameUpdate", (game: Game) => console.log(game, "game"));
+      socket.on("StateChange", (state: GameState) =>
+        console.log(state, "state")
+      );
       socket.emit("join", gameId);
     }
   }, [connected, gameId, socket]);
@@ -21,4 +24,4 @@ const Game: React.FC = () => {
   );
 };
 
-export default Game;
+export default GamePage;
