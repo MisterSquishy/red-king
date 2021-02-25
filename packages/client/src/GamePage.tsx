@@ -4,7 +4,16 @@ import React, { useEffect, useState } from "react";
 import { fetcher } from "./api";
 import DeckArea from "./DeckArea";
 import { Game } from "./types";
-import { Button, Heading, Text } from "@chakra-ui/react";
+import {
+  Button,
+  Center,
+  Grid,
+  GridItem,
+  Heading,
+  Text,
+  VStack,
+} from "@chakra-ui/react";
+import HUD from "./Hud";
 
 const GamePage: React.FC = () => {
   const { gameId } = useParams<{ gameId: string }>();
@@ -43,9 +52,24 @@ const GamePage: React.FC = () => {
       </Text>
       <Button onClick={startGame}>get cookin</Button>
       {game && (
-        <>
-          <DeckArea deckSize={game.deck.cards.length} />{" "}
-        </>
+        <Grid
+          h="200px"
+          templateRows="repeat(2, 1fr)"
+          templateColumns="repeat(5, 1fr)"
+          gap={4}
+        >
+          <GridItem rowSpan={2} colSpan={1} bg="papayawhip" />
+          <GridItem colSpan={3}>
+            <Center>
+              <VStack w="100%">
+                <DeckArea deckSize={game.deck.cards.length} />
+                <HUD />
+              </VStack>
+            </Center>
+          </GridItem>
+          <GridItem rowSpan={2} colSpan={1} bg="papayawhip" />
+          <GridItem colSpan={3} bg="papayawhip" />
+        </Grid>
       )}
     </div>
   );
