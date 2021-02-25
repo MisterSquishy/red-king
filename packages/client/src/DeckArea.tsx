@@ -14,7 +14,7 @@ const DeckArea = () => {
   const deckCards = Math.min(game.deck.cards.length, 6);
   const discardCards = Math.min(game.discardPile.cards.length, 6);
   const canDraw =
-    game.state === GameState.IN_PROGRESS && // game is underway
+    (game.state === GameState.IN_PROGRESS || game.state === 3) && // game is underway todo GameState.FINISHING
     game.players[game.currentPlayer].name === me && // it's my turn
     game.players[game.currentPlayer].hand.cards.length === 4 && // i havent drawn a card yet &&
     sideEffectsState.value === "none"; // there are no current side effects;
@@ -29,7 +29,7 @@ const DeckArea = () => {
   const onDraw = (drawType: DrawType) => {
     fetcher(`/games/${game._id}/draw`, {
       method: "POST",
-      body: JSON.stringify({ userName: me, type: drawType })
+      body: JSON.stringify({ userName: me, type: drawType }),
     });
   };
   const onDrawFromDeck = () => onDraw(DrawType.DECK);

@@ -1,6 +1,6 @@
 import { Box, Button, Flex, Spacer, Text } from "@chakra-ui/react";
 import { SideEffectsContext } from "./GamePage";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { GameState } from "shared";
 import { fetcher } from "./api";
 import { GameContext, PlayerContext } from "./GamePage";
@@ -12,8 +12,11 @@ const getHudState = ({
   activePlayer,
   sideEffectsState,
   send,
-  turnStage,
-  startGame
+  hasDrawn,
+  startGame,
+  startEndGame,
+  endEndGame,
+  endingPlayer,
 }: {
   isHost: boolean;
   gameState: GameState;
@@ -21,8 +24,11 @@ const getHudState = ({
   activePlayer: string;
   sideEffectsState: any;
   send: any;
-  turnStage: number; //todo
+  hasDrawn: boolean;
   startGame: () => void;
+  startEndGame: () => void;
+  endEndGame: () => void;
+  endingPlayer?: string;
 }) => {
   switch (gameState) {
     case GameState.WAITING:
@@ -46,6 +52,16 @@ const getHudState = ({
     case GameState.IN_PROGRESS:
       if (activePlayer === currentPlayer) {
         return (
+          <Flex>
+            <Text w="100%" align="center">
+              It's your turn! Do something!!!
+            </Text>
+            <Spacer />
+            {!hasDrawn && <Button onClick={startEndGame}>End game</Button>}
+          </Flex>
+        );
+      } else {
+        return (
           <Text w="100%" align="center">
             {sideEffectsState.value === "lookyMeChoose" ||
             sideEffectsState.value === "lookyMeReveal" ? (
@@ -60,10 +76,25 @@ const getHudState = ({
             )}
           </Text>
         );
+      }
+    case 3: // todo GameState.FINISHING:
+      if (activePlayer === endingPlayer) {
+        endEndGame();
+        return (
+          <Text w="100%" align="center">
+            Game over
+          </Text>
+        );
+      } else if (activePlayer === currentPlayer) {
+        return (
+          <Text w="100%" align="center">
+            Make your final move
+          </Text>
+        );
       } else {
         return (
           <Text w="100%" align="center">
-            Waiting for {activePlayer}
+            Waiting for {activePlayer}'s final turn
           </Text>
         );
       }
@@ -75,13 +106,16 @@ const HUD = () => {
   const [sideEffectsState, send] = useContext(SideEffectsContext);
   const game = useContext(GameContext);
   const currentPlayer = useContext(PlayerContext);
+  const activePlayer = game.players[game.currentPlayer].name;
+  const [endingPlayer, setEndingPlayer] = useState<string | undefined>();
   const isHost = currentPlayer === game.players[0].name;
+  const hasDrawn = game.players[game.currentPlayer].hand.cards.length > 4;
 
-  const startGame = () =>
+  const updateGameState = (state: GameState) =>
     fetcher(`/games/${game._id}/state`, {
       method: "PATCH",
-      body: JSON.stringify({ state: GameState.IN_PROGRESS })
-    }).then(res => res.json());
+      body: JSON.stringify({ state }),
+    }).then((res) => res.json());
 
   return (
     <Box bg="lightgrey" w="100%">
@@ -89,11 +123,24 @@ const HUD = () => {
         isHost,
         gameState: game.state,
         currentPlayer,
-        activePlayer: game.players[game.currentPlayer].name,
-        turnStage: 0, //todo
+        activePlayer: activePlayer,
+        hasDrawn: hasDrawn,
         sideEffectsState,
         send,
-        startGame
+        startGame: () => updateGameState(GameState.IN_PROGRESS),
+        startEndGame: () => {
+          setEndingPlayer(activePlayer);
+          fetcher(`/games/${game._id}/end/turn`, {
+            method: "POST",
+            body: JSON.stringify({
+              userName: currentPlayer,
+            }),
+          }).then(() => {
+            updateGameState(3); // todo GameState.FINISHING
+          });
+        },
+        endEndGame: () => updateGameState(GameState.FINISHED),
+        endingPlayer: endingPlayer,
       })}
     </Box>
   );

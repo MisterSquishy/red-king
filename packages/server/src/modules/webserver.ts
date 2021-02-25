@@ -40,7 +40,7 @@ export default {
     const { gameId } = req.params;
     const { state } = req.body;
     database.findGame(gameId, (game: Game) => {
-      if (game && game.state === GameState.WAITING) {
+      if (game) {
         game.state = state;
         database.updateGame(game);
         io.to(gameId).emit("GameUpdate", game);

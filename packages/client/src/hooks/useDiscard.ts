@@ -18,13 +18,23 @@ const useDiscard = () => {
       body: JSON.stringify({
         userName,
         drawnCard: cardToAdd,
-        card: cardToDiscard
+        card: cardToDiscard,
+      }),
+    })
+      .then(() => {
+        switch (getSideEffect(cardToDiscard)) {
+          case SideEffect.LOOKY_ME:
+            sendSideEffect("lookyMe");
+        }
       })
-    });
-    switch (getSideEffect(cardToDiscard)) {
-      case SideEffect.LOOKY_ME:
-        sendSideEffect("lookyMe");
-    }
+      .then(() => {
+        fetcher(`/games/${gameId}/end/turn`, {
+          method: "POST",
+          body: JSON.stringify({
+            userName,
+          }),
+        });
+      });
   };
 };
 
