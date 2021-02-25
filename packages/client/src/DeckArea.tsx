@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Box, Stack, useColorModeValue } from "@chakra-ui/react";
+import { GameContext } from "./GamePage";
 
-const DeckArea = ({ deckSize }: { deckSize: number }) => {
+const DeckArea = () => {
+  const { game } = useContext(GameContext);
   const backgroundColor = useColorModeValue("gray.200", "white");
-  const cardsToRender = Math.min(deckSize, 6);
+  const cardsToRender = Math.min(game.deck.cards.length, 6);
   return (
     <Box>
       <Stack direction={["column", "row"]} spacing="-75">
