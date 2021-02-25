@@ -1,22 +1,83 @@
-import { Button, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, Spacer, Text } from "@chakra-ui/react";
+import React, { useContext } from "react";
 import { GameState } from "shared";
-import { useContext } from "react";
 import { fetcher } from "./api";
-import { GameContext } from "./GamePage";
+import { GameContext, PlayerContext } from "./GamePage";
+
+const getHudState = ({
+  isHost,
+  gameState,
+  currentPlayer,
+  activePlayer,
+  turnStage,
+  startGame,
+}: {
+  isHost: boolean;
+  gameState: GameState;
+  currentPlayer: string;
+  activePlayer: string;
+  turnStage: number; //todo
+  startGame: () => void;
+}) => {
+  switch (gameState) {
+    case GameState.WAITING:
+      if (isHost) {
+        return (
+          <Flex>
+            <Text w="100%" align="center">
+              Ready to go
+            </Text>
+            <Spacer />
+            <Button onClick={startGame}>Start game</Button>
+          </Flex>
+        );
+      } else {
+        return (
+          <Text w="100%" align="center">
+            Waiting for host to start the game
+          </Text>
+        );
+      }
+    case GameState.IN_PROGRESS:
+      if (activePlayer === currentPlayer) {
+        return (
+          <Text w="100%" align="center">
+            It's your turn! Do something!!!
+          </Text>
+        );
+      } else {
+        return (
+          <Text w="100%" align="center">
+            Waiting for {activePlayer}
+          </Text>
+        );
+      }
+  }
+  return <Text>go get em tiger</Text>;
+};
 
 const HUD = () => {
   const game = useContext(GameContext);
+  const currentPlayer = useContext(PlayerContext);
+  const isHost = currentPlayer === game.players[0].name;
+
   const startGame = () =>
     fetcher(`/games/${game._id}/state`, {
       method: "PATCH",
-      body: JSON.stringify({ state: GameState.IN_PROGRESS })
-    }).then(res => res.json());
+      body: JSON.stringify({ state: GameState.IN_PROGRESS }),
+    }).then((res) => res.json());
 
   return (
-    <Text bg="lightgrey" w="100%" align="center">
-      This is the game
-      <Button onClick={startGame}>get cookin</Button>
-    </Text>
+    <Box bg="lightgrey" w="100%">
+      {getHudState({
+        isHost,
+        gameState: game.state,
+        currentPlayer,
+        activePlayer: game.players[game.currentPlayer].name,
+        turnStage: 0, //todo
+        startGame,
+      })}
+    </Box>
   );
 };
 

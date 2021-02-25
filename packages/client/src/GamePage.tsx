@@ -38,11 +38,11 @@ const GamePage: React.FC = () => {
             gap={4}
           >
             <GridItem rowSpan={2} colSpan={1}>
-              {otherPlayers.length >= 2 && (
-                <HandArea playerName={otherPlayers[1].name} />
+              {otherPlayers.length >= 1 && (
+                <HandArea playerName={otherPlayers[0].name} />
               )}
-              {otherPlayers.length >= 4 && (
-                <HandArea playerName={otherPlayers[3].name} />
+              {otherPlayers.length >= 3 && (
+                <HandArea playerName={otherPlayers[2].name} />
               )}
             </GridItem>
             <GridItem colSpan={3}>
@@ -54,11 +54,11 @@ const GamePage: React.FC = () => {
               </Center>
             </GridItem>
             <GridItem rowSpan={2} colSpan={1}>
-              {otherPlayers.length >= 3 && (
-                <HandArea playerName={otherPlayers[2].name} />
+              {otherPlayers.length >= 2 && (
+                <HandArea playerName={otherPlayers[1].name} />
               )}
-              {otherPlayers.length >= 5 && (
-                <HandArea playerName={otherPlayers[4].name} />
+              {otherPlayers.length >= 4 && (
+                <HandArea playerName={otherPlayers[3].name} />
               )}
             </GridItem>
             <GridItem colSpan={3}>
