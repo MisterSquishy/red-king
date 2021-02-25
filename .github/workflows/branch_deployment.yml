@@ -19,7 +19,6 @@ jobs:
       - run: yarn build
         working-directory: ./packages/shared
       - run: yarn
-        working-directory: ./packages/client
       - run: yarn build
         working-directory: ./packages/client
       - run: cp index.html 200.html
