@@ -16,8 +16,6 @@ jobs:
           node-version: 12
       - run: npm install -g yarn
       - run: npm install -g surge
-      - run: yarn
-        working-directory: ./packages/shared
       - run: yarn build
         working-directory: ./packages/shared
       - run: yarn
