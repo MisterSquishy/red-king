@@ -7,7 +7,7 @@ import { fetcher } from "./api";
 import useDiscard from "./hooks/useDiscard";
 
 const DeckArea = () => {
-  const [sideEffectsState, _] = useContext(SideEffectsContext);
+  const [sideEffectsState] = useContext(SideEffectsContext);
   const game = useContext(GameContext);
   const me = useContext(PlayerContext);
   const discard = useDiscard();

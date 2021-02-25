@@ -1,6 +1,7 @@
 import { Box, useColorModeValue } from "@chakra-ui/react";
+import { SideEffectsContext } from "./GamePage";
 import { Card as CardIF } from "./types";
-import React from "react";
+import React, { useContext } from "react";
 import ClickArea from "./ClickArea";
 
 interface Props {
@@ -10,6 +11,7 @@ interface Props {
 }
 
 const Card = ({ card, exposed, onClick }: Props) => {
+  const [sideEffectsState] = useContext(SideEffectsContext);
   const backgroundColor = useColorModeValue("gray.200", "white");
 
   return exposed ? (
@@ -34,7 +36,14 @@ const Card = ({ card, exposed, onClick }: Props) => {
       overflow="hidden"
       shadow="md"
     >
-      {onClick && <ClickArea onClick={onClick} prompt="Select card" />}
+      {onClick && (
+        <ClickArea
+          onClick={onClick}
+          prompt={
+            sideEffectsState.value === "lookyMeChoose" ? "Looky" : "Select card"
+          }
+        />
+      )}
     </Box>
   );
 };

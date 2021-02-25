@@ -1,11 +1,12 @@
 import { Grid, GridItem, Heading, HStack } from "@chakra-ui/react";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import Card from "./Card";
-import { GameContext, PlayerContext } from "./GamePage";
+import { GameContext, PlayerContext, SideEffectsContext } from "./GamePage";
 import { Card as CardIF } from "./types";
 import useDiscard from "./hooks/useDiscard";
 
 const HandArea = ({ playerName }: { playerName: string }) => {
+  const [sideEffectsState, send] = useContext(SideEffectsContext);
   const game = useContext(GameContext);
   const currentPlayer = useContext(PlayerContext);
   const discard = useDiscard();
@@ -17,6 +18,12 @@ const HandArea = ({ playerName }: { playerName: string }) => {
 
   const onCardClick = (cardToDiscard: CardIF, cardToAdd: CardIF) => {
     discard(game._id, cardToDiscard, cardToAdd, currentPlayer);
+  };
+  const [revealedCard, setRevealedCard] = useState<CardIF | null>(null);
+
+  const revealCard = (card: CardIF) => {
+    setRevealedCard(card);
+    send("lookyMeChooseCard");
   };
 
   return (
@@ -33,10 +40,15 @@ const HandArea = ({ playerName }: { playerName: string }) => {
             <GridItem key={index}>
               <Card
                 card={card}
-                exposed={false}
+                exposed={
+                  revealedCard === card &&
+                  sideEffectsState.value === "lookyMeReveal"
+                }
                 onClick={
                   isMine && drawnCard
                     ? () => onCardClick(card, drawnCard)
+                    : sideEffectsState.value === "lookyMeChoose"
+                    ? () => revealCard(card)
                     : undefined
                 }
               />
