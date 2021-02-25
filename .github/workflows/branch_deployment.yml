@@ -1,0 +1,23 @@
+name: Deploy client
+
+on:
+  push:
+    branches:
+      - cra
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: Deploy via surge
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - run: npm install -g yarn
+      - run: npm install -g surge
+      - run: yarn
+        working-directory: ./packages/client
+      - run: yarn build
+        working-directory: ./packages/client
+      - run: surge ./packages/client/build red-queen.pdavids.website --token ${{ secrets.SURGE_TOKEN }}
