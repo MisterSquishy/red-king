@@ -3,14 +3,7 @@ import { useParams } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import DeckArea from "./DeckArea";
 import { Game } from "./types";
-import {
-  Center,
-  Grid,
-  GridItem,
-  Heading,
-  Spinner,
-  VStack,
-} from "@chakra-ui/react";
+import { Center, Grid, GridItem, Spinner, VStack } from "@chakra-ui/react";
 import HUD from "./Hud";
 import HandArea from "./HandArea";
 
@@ -54,7 +47,7 @@ const GamePage: React.FC = () => {
             <GridItem rowSpan={2} colSpan={1} bg="papayawhip" />
             <GridItem colSpan={3} bg="papayawhip">
               <Center>
-                <HandArea />
+                <HandArea playerName={name} />
               </Center>
             </GridItem>
           </Grid>

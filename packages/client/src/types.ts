@@ -26,11 +26,12 @@ export interface Card {
 
 export interface Player {
   name: string;
+  hand: { cards: Card[] };
 }
 export interface Game {
   currentPlayer: number;
   deck: { cards: Card[] };
-  discardPile: { card: Card[] };
+  discardPile: { cards: Card[] };
   gameName: string;
   players: Player[];
   state: GameState;
