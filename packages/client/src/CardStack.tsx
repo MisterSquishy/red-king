@@ -1,5 +1,4 @@
 import { Box, Stack, useColorModeValue } from "@chakra-ui/react";
-import React from "react";
 import ClickArea from "./ClickArea";
 import { Card as CardIF } from "./types";
 import Card from "./Card";

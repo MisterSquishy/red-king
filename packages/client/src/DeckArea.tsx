@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { Box, HStack } from "@chakra-ui/react";
 import { GameContext, PlayerContext, SideEffectsContext } from "./GamePage";
 import { DrawType, GameState } from "shared";
@@ -16,11 +16,13 @@ const DeckArea = () => {
   const canDraw =
     game.state === GameState.IN_PROGRESS && // game is underway
     game.players[game.currentPlayer].name === me && // it's my turn
-    game.players[game.currentPlayer].hand.cards.length === 4; // i havent drawn a card yet
+    game.players[game.currentPlayer].hand.cards.length === 4 && // i havent drawn a card yet &&
+    sideEffectsState.value === "none"; // there are no current side effects;
   const canDiscard =
     game.state === GameState.IN_PROGRESS && // game is underway
     game.players[game.currentPlayer].name === me && // it's my turn
-    game.players[game.currentPlayer].hand.cards.length === 5; // i have drawn a card
+    game.players[game.currentPlayer].hand.cards.length === 5 && // i have drawn a card
+    sideEffectsState.value === "none"; // there are no current side effects
 
   console.log(game.players[game.currentPlayer].hand.cards);
 
