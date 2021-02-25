@@ -12,8 +12,10 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import HUD from "./Hud";
+import HandArea from "./HandArea";
 
 export const GameContext = React.createContext({} as Game);
+export const PlayerContext = React.createContext("");
 
 const GamePage: React.FC = () => {
   const { gameId } = useParams<{ gameId: string }>();
@@ -29,12 +31,11 @@ const GamePage: React.FC = () => {
   }, [connected, gameId, socket, setGame]);
 
   return (
-    <>
+    <PlayerContext.Provider value={name}>
       {!game ? (
         <Spinner size="xl" />
       ) : (
         <GameContext.Provider value={game}>
-          <Heading>hey {name}</Heading>
           <Grid
             h="200px"
             templateRows="repeat(2, 1fr)"
@@ -51,11 +52,15 @@ const GamePage: React.FC = () => {
               </Center>
             </GridItem>
             <GridItem rowSpan={2} colSpan={1} bg="papayawhip" />
-            <GridItem colSpan={3} bg="papayawhip" />
+            <GridItem colSpan={3} bg="papayawhip">
+              <Center>
+                <HandArea />
+              </Center>
+            </GridItem>
           </Grid>
         </GameContext.Provider>
       )}
-    </>
+    </PlayerContext.Provider>
   );
 };
 
