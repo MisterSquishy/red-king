@@ -3,8 +3,9 @@ import React from "react";
 
 const CardStack = ({ cardsToRender }: { cardsToRender: number }) => {
   const backgroundColor = useColorModeValue("gray.200", "white");
+  const borderColor = useColorModeValue("black", "white");
 
-  return (
+  return cardsToRender > 0 ? (
     <Stack direction={["column", "row"]} spacing="-75">
       {Array.from({ length: cardsToRender }, (_, k) => (
         <Box
@@ -19,6 +20,15 @@ const CardStack = ({ cardsToRender }: { cardsToRender: number }) => {
         />
       ))}
     </Stack>
+  ) : (
+    <Box
+      w="72px"
+      h="100px"
+      borderWidth="1px"
+      borderRadius="lg"
+      borderStyle="dashed"
+      borderColor={borderColor}
+    />
   );
 };
 

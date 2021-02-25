@@ -1,14 +1,18 @@
 import React, { useContext } from "react";
-import { Box } from "@chakra-ui/react";
+import { Box, HStack } from "@chakra-ui/react";
 import { GameContext } from "./GamePage";
 import CardStack from "./CardStack";
 
 const DeckArea = () => {
   const game = useContext(GameContext);
-  const cardsToRender = Math.min(game.deck.cards.length, 6);
+  const deckCards = Math.min(game.deck.cards.length, 6);
+  const discardCards = Math.min(game.discardPile.cards.length, 6);
   return (
     <Box>
-      <CardStack cardsToRender={cardsToRender} />
+      <HStack spacing="24px">
+        <CardStack cardsToRender={deckCards} />
+        <CardStack cardsToRender={discardCards} />
+      </HStack>
     </Box>
   );
 };
