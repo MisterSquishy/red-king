@@ -42,7 +42,9 @@ const HandArea = ({ playerName }: { playerName: string }) => {
               <Card
                 card={card}
                 exposed={false}
-                onClick={drawnCard ? () => onCardClick(card) : undefined}
+                onClick={
+                  isMine && drawnCard ? () => onCardClick(card) : undefined
+                }
               />
             </GridItem>
           ))}
