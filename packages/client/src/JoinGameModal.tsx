@@ -9,8 +9,10 @@ import {
   ModalCloseButton,
   Radio,
   RadioGroup,
+  Link,
   FormErrorMessage,
   Stack,
+  Flex,
   FormControl,
   FormLabel,
   Input
@@ -40,6 +42,7 @@ const JoinGameModal: React.FC<Props> = ({
   const validGame = !!selectedGame;
   const validationPassed = validGame && validName;
   const [showValidation, setShowValidation] = useState(false);
+  const [page, setPage] = useState(0);
 
   useEffect(() => {
     findWaitingGames().then(setGames);
@@ -75,20 +78,30 @@ const JoinGameModal: React.FC<Props> = ({
           <FormControl isRequired isInvalid={!validGame && showValidation}>
             <FormLabel mb="5">Games (waiting for players)</FormLabel>
             <RadioGroup onChange={setSelectedGame} value={selectedGame}>
-              <Stack
-                spacing={5}
-                p={2}
-                maxHeight="200px"
-                overflow="auto"
-                direction="column"
-              >
-                {games.map((game: Game) => (
+              <Stack spacing={5} p={2} overflow="auto" direction="column">
+                {games.slice(page * 5, page * 5 + 5).map((game: Game) => (
                   <Radio value={game._id}>
-                    {game.gameName} ({game.userName} player)
+                    ← {game.gameName} ({game.userName} player)
                   </Radio>
                 ))}
               </Stack>
             </RadioGroup>
+            <Flex m={2}>
+              {page > 0 && (
+                <Link onClick={() => setPage(p => p - 1)} color="blue">
+                  ← Prev
+                </Link>
+              )}
+              {(page + 1) * 5 < games.length && (
+                <Link
+                  ml="auto"
+                  onClick={() => setPage(p => p + 1)}
+                  color="blue"
+                >
+                  Next →
+                </Link>
+              )}
+            </Flex>
             <FormErrorMessage>You must select a game</FormErrorMessage>
           </FormControl>
         </ModalBody>
