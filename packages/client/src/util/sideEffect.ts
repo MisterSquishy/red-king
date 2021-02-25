@@ -8,7 +8,6 @@ export enum SideEffect {
 }
 
 export const getSideEffect = (card: Card): SideEffect | undefined => {
-  return SideEffect.LOOKY_ME;
   switch (card.cardName) {
     case "Five":
     case "Six":

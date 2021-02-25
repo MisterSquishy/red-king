@@ -11,6 +11,7 @@ const getHudState = ({
   currentPlayer,
   activePlayer,
   sideEffectsState,
+  send,
   turnStage,
   startGame
 }: {
@@ -19,6 +20,7 @@ const getHudState = ({
   currentPlayer: string;
   activePlayer: string;
   sideEffectsState: any;
+  send: any;
   turnStage: number; //todo
   startGame: () => void;
 }) => {
@@ -46,9 +48,16 @@ const getHudState = ({
         return (
           <Text w="100%" align="center">
             {sideEffectsState.value === "lookyMeChoose" ||
-            sideEffectsState === "lookyMeReveal"
-              ? "Look at one of your own cards"
-              : "It's your turn! Do something!!!"}
+            sideEffectsState.value === "lookyMeReveal" ? (
+              <Flex justifyContent="space-between" alignItems="center" p="4">
+                <Box>Look at one of your own cards</Box>
+                {sideEffectsState.value === "lookyMeReveal" && (
+                  <Button onClick={() => send("lookyMeDone")}>Done</Button>
+                )}
+              </Flex>
+            ) : (
+              "It's your turn! Do something!!!"
+            )}
           </Text>
         );
       } else {
@@ -63,7 +72,7 @@ const getHudState = ({
 };
 
 const HUD = () => {
-  const [sideEffectsState] = useContext(SideEffectsContext);
+  const [sideEffectsState, send] = useContext(SideEffectsContext);
   const game = useContext(GameContext);
   const currentPlayer = useContext(PlayerContext);
   const isHost = currentPlayer === game.players[0].name;
@@ -83,6 +92,7 @@ const HUD = () => {
         activePlayer: game.players[game.currentPlayer].name,
         turnStage: 0, //todo
         sideEffectsState,
+        send,
         startGame
       })}
     </Box>
