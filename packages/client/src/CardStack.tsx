@@ -35,7 +35,9 @@ const CardStack = ({ cardsToRender, onClick }: Props) => {
       borderRadius="lg"
       borderStyle="dashed"
       borderColor={borderColor}
-    />
+    >
+      {onClick && <ClickArea onClick={onClick} prompt="Draw card" />}
+    </Box>
   );
 };
 

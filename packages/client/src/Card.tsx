@@ -20,7 +20,7 @@ const Card = ({ card, exposed, onClick }: Props) => {
       overflow="hidden"
       shadow="md"
     >
-      this is where julie's sick illustrations go
+      {card.cardName} of {card.suit}
     </Box>
   ) : (
     <Box
