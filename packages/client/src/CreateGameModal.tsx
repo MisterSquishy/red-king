@@ -12,7 +12,7 @@ import {
   FormLabel,
   FormErrorMessage,
   Input,
-  Grid,
+  Grid
 } from "@chakra-ui/react";
 import React, { useState, useEffect } from "react";
 
@@ -25,7 +25,7 @@ interface Props {
 const CreateGameModal: React.FC<Props> = ({ isOpen, onClose, onCreate }) => {
   const [game, setGame] = useState<DraftGame>({
     userName: "",
-    gameName: "",
+    gameName: ""
   });
   const [showValidation, setShowValidation] = useState(false);
   const validUserName = !!game.userName;
@@ -52,7 +52,7 @@ const CreateGameModal: React.FC<Props> = ({ isOpen, onClose, onCreate }) => {
             >
               <FormLabel>Game name</FormLabel>
               <Input
-                onChange={(e) => setGame({ ...game, gameName: e.target.value })}
+                onChange={e => setGame({ ...game, gameName: e.target.value })}
                 placeholder="Some game"
               />
               <FormErrorMessage>Game name is required</FormErrorMessage>
@@ -65,9 +65,9 @@ const CreateGameModal: React.FC<Props> = ({ isOpen, onClose, onCreate }) => {
               <FormLabel>Your name</FormLabel>
               <Input
                 placeholder="Peter Davids"
-                onChange={(e) => setGame({ ...game, userName: e.target.value })}
+                onChange={e => setGame({ ...game, userName: e.target.value })}
               />
-              <FormErrorMessage>Name is required</FormErrorMessage>
+              <FormErrorMessage>Your name is required</FormErrorMessage>
             </FormControl>
           </Grid>
         </ModalBody>

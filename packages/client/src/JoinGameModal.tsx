@@ -9,7 +9,7 @@ import {
   ModalCloseButton,
   Radio,
   RadioGroup,
-  Box,
+  FormErrorMessage,
   Stack,
   FormControl,
   FormLabel,
@@ -63,6 +63,8 @@ const JoinGameModal: React.FC<Props> = ({
               onChange={e => setUserName(e.target.value)}
               placeholder="Peter Davids"
             />
+
+            <FormErrorMessage>Your name is required</FormErrorMessage>
           </FormControl>
           <FormControl isRequired isInvalid={!validGame && showValidation}>
             <FormLabel mb="5">Games (waiting for players)</FormLabel>
