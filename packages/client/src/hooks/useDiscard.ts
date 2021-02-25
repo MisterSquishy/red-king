@@ -1,5 +1,6 @@
 import { fetcher } from "../api";
 import { Card } from "../types";
+import { getSideEffect, SideEffect } from "../util/sideEffect";
 
 const useDiscard = () => {
   return (
@@ -15,13 +16,19 @@ const useDiscard = () => {
         drawnCard: cardToAdd,
         card: cardToDiscard,
       }),
-    }).then(() => {
-      // todo side effectzzzz
-      fetcher(`/games/${gameId}/end/turn`, {
-        method: "POST",
-        body: JSON.stringify({ userName }),
+    })
+      .then(() => {
+        switch (getSideEffect(cardToDiscard)) {
+          case SideEffect.LOOKY_ME:
+            console.log("WOOF");
+        }
+      })
+      .then(() => {
+        fetcher(`/games/${gameId}/end/turn`, {
+          method: "POST",
+          body: JSON.stringify({ userName }),
+        });
       });
-    });
   };
 };
 
