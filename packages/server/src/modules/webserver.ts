@@ -1,6 +1,7 @@
 import { io, logger } from "../index";
 import gameManager from "./gameManager";
 import database from "./database";
+import { Game, GameState } from "shared";
 
 export default {
   createUser: (req, res) => {
@@ -28,6 +29,22 @@ export default {
         database.updateGame(updatedGame);
         res.send({ gameId });
         logger.info({ gameId, game, updatedGame, userName }, "joined_game");
+      } else {
+        res.status(404).send("Game not found");
+      }
+    });
+  },
+
+  patchGameState: (req, res) => {
+    const { gameId } = req.params;
+    const { state } = req.body;
+    database.findGame(gameId, (game: Game) => {
+      if (game && game.state === GameState.WAITING) {
+        game.state = state;
+        database.updateGame(game);
+        io.to(gameId).emit("GameUpdate", game);
+        res.send({ gameId });
+        logger.info({ gameId, state }, "patched_game_state");
       } else {
         res.status(404).send("Game not found");
       }

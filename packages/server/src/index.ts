@@ -39,6 +39,7 @@ const worker = (workerId: any) => {
   app.post("/games", webserver.createGame);
   app.post("/games/query", webserver.queryGames);
   app.post("/games/:gameId", webserver.joinGame);
+  app.patch("/games/:gameId/state", webserver.patchGameState);
   app.post("/games/:gameId/draw", webserver.drawCard);
   app.post("/games/:gameId/discard", webserver.discardCard);
   app.post("/games/:gameId/end/turn", webserver.endTurn);
