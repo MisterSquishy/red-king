@@ -5,9 +5,22 @@ import { useParams } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import DeckArea from "./DeckArea";
 import { Game } from "./types";
-import { Center, Grid, GridItem, Spinner, VStack } from "@chakra-ui/react";
+import {
+  Center,
+  Grid,
+  GridItem,
+  Heading,
+  Spinner,
+  Table,
+  Td,
+  Th,
+  Tr,
+  VStack,
+} from "@chakra-ui/react";
 import HUD from "./Hud";
 import HandArea from "./HandArea";
+import { GameState } from "shared";
+import { getScore } from "./util/score";
 
 export const SideEffectsContext = React.createContext<any>(null);
 export const GameContext = React.createContext({} as Game);
@@ -20,7 +33,7 @@ const GamePage: React.FC = () => {
   const [game, setGame] = useState<Game>();
   const name = JSON.parse(window.localStorage.getItem("game") ?? "{}")[gameId];
   const otherPlayers =
-    game?.players.filter(player => player.name !== name) || [];
+    game?.players.filter((player) => player.name !== name) || [];
 
   useEffect(() => {
     if (connected) {
@@ -52,10 +65,30 @@ const GamePage: React.FC = () => {
               </GridItem>
               <GridItem colSpan={3}>
                 <Center>
-                  <VStack w="100%">
-                    <DeckArea />
-                    <HUD />
-                  </VStack>
+                  {game.state === GameState.FINISHED ? (
+                    <VStack>
+                      <Heading as="h2">This game is OVA</Heading>
+                      <Table>
+                        <Tr>
+                          <Th>Player</Th>
+                          <Th>Final score</Th>
+                        </Tr>
+                        {game.players.map((player, index) => {
+                          return (
+                            <Tr key={index}>
+                              <Td>{player.name}</Td>
+                              <Td>{getScore(player.hand.cards)}</Td>
+                            </Tr>
+                          );
+                        })}
+                      </Table>
+                    </VStack>
+                  ) : (
+                    <VStack w="100%">
+                      <DeckArea />
+                      <HUD />
+                    </VStack>
+                  )}
                 </Center>
               </GridItem>
               <GridItem rowSpan={2} colSpan={1}>

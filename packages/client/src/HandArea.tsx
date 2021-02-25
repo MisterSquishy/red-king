@@ -4,14 +4,16 @@ import Card from "./Card";
 import { GameContext, PlayerContext, SideEffectsContext } from "./GamePage";
 import { Card as CardIF } from "./types";
 import useDiscard from "./hooks/useDiscard";
+import { GameState } from "shared";
 
 const HandArea = ({ playerName }: { playerName: string }) => {
   const [sideEffectsState, send] = useContext(SideEffectsContext);
   const game = useContext(GameContext);
+  const isOver = game.state === GameState.FINISHED;
   const currentPlayer = useContext(PlayerContext);
   const discard = useDiscard();
   const isMine = playerName === currentPlayer;
-  const hand = game.players.find(player => player.name === playerName)
+  const hand = game.players.find((player) => player.name === playerName)
     ?.hand || { cards: [] };
   const cards = hand?.cards.length > 4 ? hand?.cards.slice(0, 4) : hand?.cards;
   const drawnCard = hand?.cards.length > 4 ? hand?.cards[4] : undefined;
@@ -41,8 +43,9 @@ const HandArea = ({ playerName }: { playerName: string }) => {
               <Card
                 card={card}
                 exposed={
-                  revealedCard === card &&
-                  sideEffectsState.value === "lookyMeReveal"
+                  (revealedCard === card &&
+                    sideEffectsState.value === "lookyMeReveal") ||
+                  isOver
                 }
                 onClick={
                   isMine && drawnCard
@@ -55,7 +58,7 @@ const HandArea = ({ playerName }: { playerName: string }) => {
             </GridItem>
           ))}
         </Grid>
-        {drawnCard && <Card exposed={isMine} card={drawnCard} />}
+        {drawnCard && <Card exposed={isMine || isOver} card={drawnCard} />}
       </HStack>
     </Heading>
   );
