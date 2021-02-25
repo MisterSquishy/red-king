@@ -45,7 +45,7 @@ const GamePage: React.FC = () => {
               </Center>
             </GridItem>
             <GridItem rowSpan={2} colSpan={1} bg="papayawhip" />
-            <GridItem colSpan={3} bg="papayawhip">
+            <GridItem colSpan={3}>
               <Center>
                 <HandArea playerName={name} />
               </Center>

@@ -1,6 +1,6 @@
-import { Heading } from "@chakra-ui/react";
+import { Grid, GridItem, Heading } from "@chakra-ui/react";
 import React, { useContext } from "react";
-import CardStack from "./CardStack";
+import Card from "./Card";
 import { GameContext, PlayerContext } from "./GamePage";
 
 const HandArea = ({ playerName }: { playerName: string }) => {
@@ -13,7 +13,18 @@ const HandArea = ({ playerName }: { playerName: string }) => {
   return (
     <Heading as="h4" size="md">
       {isMine ? "My hand" : playerName}
-      {hand && <CardStack cardsToRender={hand.cards.length} />}
+      <Grid
+        h="200px"
+        templateRows="repeat(2, 1fr)"
+        templateColumns="repeat(2, 1fr)"
+        gap={4}
+      >
+        {hand?.cards.map((card) => (
+          <GridItem>
+            <Card card={card} exposed={false} />
+          </GridItem>
+        ))}
+      </Grid>
     </Heading>
   );
 };
