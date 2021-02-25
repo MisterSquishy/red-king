@@ -1,6 +1,7 @@
 import { Box, useColorModeValue } from "@chakra-ui/react";
 import { Card as CardIF } from "./types";
 import React from "react";
+import ClickArea from "./ClickArea";
 
 interface Props {
   card: CardIF;
@@ -21,6 +22,7 @@ const Card = ({ card, exposed, onClick }: Props) => {
       shadow="md"
     >
       {card.cardName} of {card.suit}
+      {onClick && <ClickArea onClick={onClick} prompt="Select card" />}
     </Box>
   ) : (
     <Box
@@ -31,7 +33,9 @@ const Card = ({ card, exposed, onClick }: Props) => {
       borderRadius="lg"
       overflow="hidden"
       shadow="md"
-    />
+    >
+      {onClick && <ClickArea onClick={onClick} prompt="Select card" />}
+    </Box>
   );
 };
 

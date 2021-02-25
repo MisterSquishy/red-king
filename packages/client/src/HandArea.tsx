@@ -2,6 +2,8 @@ import { Grid, GridItem, Heading, HStack } from "@chakra-ui/react";
 import React, { useContext } from "react";
 import Card from "./Card";
 import { GameContext, PlayerContext } from "./GamePage";
+import { Card as CardIF } from "./types";
+import { fetcher } from "./api";
 
 const HandArea = ({ playerName }: { playerName: string }) => {
   const game = useContext(GameContext);
@@ -11,6 +13,13 @@ const HandArea = ({ playerName }: { playerName: string }) => {
     ?.hand || { cards: [] };
   const cards = hand?.cards.length > 4 ? hand?.cards.slice(0, 4) : hand?.cards;
   const drawnCard = hand?.cards.length > 4 ? hand?.cards[4] : undefined;
+
+  const onCardClick = (card: CardIF) => {
+    fetcher(`/games/${game._id}/discard`, {
+      method: "POST",
+      body: JSON.stringify({ userName: currentPlayer, drawnCard, card }),
+    });
+  };
 
   return (
     <Heading as="h4" size="md">
@@ -24,7 +33,11 @@ const HandArea = ({ playerName }: { playerName: string }) => {
         >
           {cards.map((card, index) => (
             <GridItem key={index}>
-              <Card card={card} exposed={false} />
+              <Card
+                card={card}
+                exposed={false}
+                onClick={drawnCard ? () => onCardClick(card) : undefined}
+              />
             </GridItem>
           ))}
         </Grid>

@@ -31,7 +31,7 @@ const DeckArea = () => {
   const onDrawFromDiscard = () => onDraw(DrawType.DISCARD);
 
   const onDiscard = () => {
-    const drawnCard = game.players[game.currentPlayer].hand.cards[5];
+    const drawnCard = game.players[game.currentPlayer].hand.cards[4];
     fetcher(`/games/${game._id}/discard`, {
       method: "POST",
       body: JSON.stringify({ userName: me, drawnCard, card: drawnCard }),

@@ -52,7 +52,7 @@ export default {
     const card: Card = cards.takeCard();
     if (!player) return { game, card };
     const { hand } = player;
-    hand.addCard(card);
+    hand.addCardsToBottom([card]);
     return { game, card };
   },
 
