@@ -29,7 +29,7 @@ const DeckArea = () => {
   const onDraw = (drawType: DrawType) => {
     fetcher(`/games/${game._id}/draw`, {
       method: "POST",
-      body: JSON.stringify({ userName: me, type: drawType }),
+      body: JSON.stringify({ userName: me, type: drawType })
     });
   };
   const onDrawFromDeck = () => onDraw(DrawType.DECK);
@@ -42,7 +42,6 @@ const DeckArea = () => {
 
   return (
     <Box>
-      {sideEffectsState.value}
       <HStack spacing="24px">
         <CardStack
           cardsToRender={deckCards}
