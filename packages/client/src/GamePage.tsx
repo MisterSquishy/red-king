@@ -18,7 +18,7 @@ import {
   Th,
   Tr,
   VStack,
-  Box
+  Box,
 } from "@chakra-ui/react";
 import HUD from "./Hud";
 import HandArea from "./HandArea";
@@ -36,7 +36,7 @@ const GamePage: React.FC = () => {
   const [game, setGame] = useState<Game>();
   const name = JSON.parse(window.localStorage.getItem("game") ?? "{}")[gameId];
   const otherPlayers =
-    game?.players.filter(player => player.name !== name) || [];
+    game?.players.filter((player) => player.name !== name) || [];
 
   useEffect(() => {
     if (connected) {
@@ -70,12 +70,14 @@ const GamePage: React.FC = () => {
                 gap={4}
               >
                 <GridItem rowSpan={2} colSpan={1}>
-                  {otherPlayers.length >= 1 && (
-                    <HandArea playerName={otherPlayers[0].name} />
-                  )}
-                  {otherPlayers.length >= 3 && (
-                    <HandArea playerName={otherPlayers[2].name} />
-                  )}
+                  <VStack>
+                    {otherPlayers.length >= 1 && (
+                      <HandArea playerName={otherPlayers[0].name} />
+                    )}
+                    {otherPlayers.length >= 3 && (
+                      <HandArea playerName={otherPlayers[2].name} />
+                    )}
+                  </VStack>
                 </GridItem>
                 <GridItem colSpan={3}>
                   <Center>
@@ -106,12 +108,14 @@ const GamePage: React.FC = () => {
                   </Center>
                 </GridItem>
                 <GridItem rowSpan={2} colSpan={1}>
-                  {otherPlayers.length >= 2 && (
-                    <HandArea playerName={otherPlayers[1].name} />
-                  )}
-                  {otherPlayers.length >= 4 && (
-                    <HandArea playerName={otherPlayers[3].name} />
-                  )}
+                  <VStack>
+                    {otherPlayers.length >= 2 && (
+                      <HandArea playerName={otherPlayers[1].name} />
+                    )}
+                    {otherPlayers.length >= 4 && (
+                      <HandArea playerName={otherPlayers[3].name} />
+                    )}
+                  </VStack>
                 </GridItem>
                 <GridItem colSpan={3}>
                   <Center>

@@ -46,7 +46,9 @@ const getHudState = ({
               Ready to go
             </Text>
             <Spacer />
-            <Button onClick={startGame}>Start game</Button>
+            <Button onClick={startGame} bg="#732A2A" textColor="white">
+              Start game
+            </Button>
           </Flex>
         );
       } else {
@@ -63,8 +65,11 @@ const getHudState = ({
             <Text w="100%" align="center">
               It's your turn! Do something!!!
             </Text>
-            <Spacer />
-            {!hasDrawn && <Button onClick={startEndGame}>End game</Button>}
+            {!hasDrawn && (
+              <Button onClick={startEndGame} bg="#732A2A" textColor="white">
+                End game
+              </Button>
+            )}
           </Flex>
         );
       } else {
@@ -75,11 +80,17 @@ const getHudState = ({
               <Flex justifyContent="space-between" alignItems="center" p="4">
                 <Box>Look at one of your own cards</Box>
                 {sideEffectsState.value === "lookyMeReveal" && (
-                  <Button onClick={() => send("lookyMeDone")}>Done</Button>
+                  <Button
+                    onClick={() => send("lookyMeDone")}
+                    bg="#732A2A"
+                    textColor="white"
+                  >
+                    Done
+                  </Button>
                 )}
               </Flex>
             ) : (
-              "It's your turn! Do something!!!"
+              `Waiting on ${activePlayer}`
             )}
           </Text>
         );
@@ -126,7 +137,13 @@ const HUD = () => {
     }).then((res) => res.json());
 
   return (
-    <Box w="100%" backgroundColor={colorMode === "dark" ? "gray" : "white"}>
+    <Box
+      w="100%"
+      h="67px"
+      lineHeight="67px"
+      alignItems="center"
+      backgroundColor={colorMode === "dark" ? "gray" : "white"}
+    >
       {getHudState({
         isHost,
         gameState: game.state,

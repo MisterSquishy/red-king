@@ -46,10 +46,10 @@ const HandArea = ({ playerName }: { playerName: string }) => {
     if (isMine && drawnCard) {
       // it's my turn and i drew a card, swap it with the one i picked
       return () => onCardClick(card, drawnCard);
-    } else if (sideEffectsState.value === "lookyMeChoose") {
+    } else if (isMine && sideEffectsState.value === "lookyMeChoose") {
       // looky me -- select one card to reveal
       return () => revealCard(card);
-    } else if (isWaiting) {
+    } else if (isMine && isWaiting) {
       // before the game starts, up to two cards can be revealed
       //  TODO UP TO TWO
       return () => revealCard(card);

@@ -5,16 +5,16 @@ export const gameMachine = Machine({
   initial: "landing",
   states: {
     landingPage: {
-      on: { createGame: "hostWaiting", joinGame: "playerWaiting" }
+      on: { createGame: "hostWaiting", joinGame: "playerWaiting" },
     },
     hostWaiting: {
-      on: { start: "playGame" }
+      on: { start: "playGame" },
     },
     playerWaiting: {
-      on: { start: "playGame" }
+      on: { start: "playGame" },
     },
-    playGame: {}
-  }
+    playGame: {},
+  },
 });
 
 export const sideEffectsMachine = Machine({
@@ -22,13 +22,13 @@ export const sideEffectsMachine = Machine({
   initial: "none",
   states: {
     none: {
-      on: { lookyMe: "lookyMeChoose" }
+      on: { lookyMe: "lookyMeChoose" },
     },
     lookyMeChoose: {
-      on: { lookyMeChooseCard: "lookyMeReveal" }
+      on: { lookyMeChooseCard: "lookyMeReveal" },
     },
     lookyMeReveal: {
-      on: { lookyMeDone: "none" }
-    }
-  }
+      on: { lookyMeDone: "none" }, //todo end turn
+    },
+  },
 });
