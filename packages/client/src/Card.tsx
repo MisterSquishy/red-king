@@ -1,41 +1,42 @@
-import { Box, useColorModeValue } from "@chakra-ui/react";
+import { Box, Image } from "@chakra-ui/react";
 import { SideEffectsContext } from "./GamePage";
 import { Card as CardIF } from "./types";
 import React, { useContext } from "react";
 import ClickArea from "./ClickArea";
 
 interface Props {
-  card: CardIF;
+  card?: CardIF;
   exposed?: boolean;
   onClick?: () => void;
 }
 
 const Card = ({ card, exposed, onClick }: Props) => {
   const [sideEffectsState] = useContext(SideEffectsContext);
-  const backgroundColor = useColorModeValue("gray.200", "white");
+  const toSvgName = (card: CardIF): string => {
+    // eslint-disable-next-line
+    if (card.cardName == "13") {
+      return "Joker_Black";
+      // eslint-disable-next-line
+    } else if (card.cardName == "14") {
+      return "Joker_Red";
+    } else {
+      return `${card.cardName}_${card.suit}`;
+    }
+  };
 
-  return exposed ? (
-    <Box
-      w="72px"
-      h="100px"
-      borderWidth="1px"
-      borderRadius="lg"
-      overflow="hidden"
-      shadow="md"
-    >
-      {card.cardName} of {card.suit}
+  const toSvgSrc = (svgName: string): string => {
+    const { default: svg } = require(`./images/${svgName}.svg`);
+    return svg;
+  };
+
+  return exposed && card ? (
+    <Box w="72px" h="109px">
+      <Image src={toSvgSrc(toSvgName(card))} />
       {onClick && <ClickArea onClick={onClick} prompt="Select card" />}
     </Box>
   ) : (
-    <Box
-      w="72px"
-      h="100px"
-      bg={backgroundColor}
-      borderWidth="1px"
-      borderRadius="lg"
-      overflow="hidden"
-      shadow="md"
-    >
+    <Box w="72px" h="109px">
+      <Image src={toSvgSrc("Back")} />
       {onClick && (
         <ClickArea
           onClick={onClick}

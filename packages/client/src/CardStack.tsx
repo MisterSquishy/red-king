@@ -19,7 +19,7 @@ const CardStack = ({ cardsToRender, onClick, topCard }: Props) => {
         <Box
           key={k}
           w="72px"
-          h="100px"
+          h="109px"
           bg={backgroundColor}
           borderWidth="1px"
           borderRadius="lg"
@@ -27,7 +27,11 @@ const CardStack = ({ cardsToRender, onClick, topCard }: Props) => {
           shadow="md"
         />
       ))}
-      {topCard && <Card card={topCard} exposed={true} onClick={onClick} />}
+      {topCard ? (
+        <Card card={topCard} exposed={true} onClick={onClick} />
+      ) : (
+        <Card />
+      )}
       {onClick && !topCard && (
         <ClickArea onClick={onClick} prompt="Draw card" />
       )}

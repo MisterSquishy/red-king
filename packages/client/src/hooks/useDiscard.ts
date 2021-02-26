@@ -5,6 +5,7 @@ import { getSideEffect, SideEffect } from "../util/sideEffect";
 import { SideEffectsContext } from "../GamePage";
 
 const useDiscard = () => {
+  // eslint-disable-next-line
   const [_, sendSideEffect] = useContext(SideEffectsContext);
 
   return (

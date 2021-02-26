@@ -20,7 +20,8 @@ export interface Card {
     | "Jack"
     | "Queen"
     | "King"
-    | "Joker";
+    | "13"
+    | "14";
   suit: "Spades" | "Hearts" | "Diamonds" | "Clubs";
 }
 
