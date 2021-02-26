@@ -86,7 +86,7 @@ const GamePage: React.FC = () => {
                 <GridItem colSpan={3}>
                   <Center>
                     {game.state === GameState.FINISHED ? (
-                      <VStack spacing="100px">
+                      <VStack spacing="50px">
                         <Heading as="h2">The game has ended!</Heading>
                         <Table>
                           <Tr>
