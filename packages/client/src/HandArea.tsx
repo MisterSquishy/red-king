@@ -57,7 +57,14 @@ const HandArea = ({ playerName }: { playerName: string }) => {
   };
 
   return (
-    <Heading as="h4" size="md">
+    <Heading
+      as="h4"
+      size="md"
+      textTransform="uppercase"
+      color="#732A2A"
+      fontFamily="Rockwell"
+      textAlign="center"
+    >
       {isMine ? "My hand" : playerName}
       <HStack>
         <Grid
