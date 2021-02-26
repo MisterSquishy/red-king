@@ -1,4 +1,4 @@
-import { Box, Stack, useColorModeValue } from "@chakra-ui/react";
+import { Box, Flex, Stack, useColorModeValue } from "@chakra-ui/react";
 import ClickArea from "./ClickArea";
 import { Card as CardIF } from "./types";
 import Card from "./Card";
@@ -39,16 +39,18 @@ const CardStack = ({ cardsToRender, onClick, topCard }: Props) => {
       )}
     </Stack>
   ) : (
-    <Box
+    <Flex
       w="88px"
       h="136px"
       borderWidth="1px"
       borderRadius="lg"
       borderStyle="dashed"
       borderColor={borderColor}
+      alignItems="center"
+      justifyContent="center"
     >
       {onClick && <ClickArea onClick={onClick} prompt="Discard card" />}
-    </Box>
+    </Flex>
   );
 };
 
