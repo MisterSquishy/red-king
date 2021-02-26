@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { Box, HStack } from "@chakra-ui/react";
+import { Box, Heading, HStack } from "@chakra-ui/react";
 import { GameContext, PlayerContext, SideEffectsContext } from "./GamePage";
 import { DrawType, GameState } from "shared";
 import CardStack from "./CardStack";
@@ -42,6 +42,17 @@ const DeckArea = () => {
 
   return (
     <Box>
+      <Heading
+        as="h4"
+        size="md"
+        textTransform="uppercase"
+        color="#732A2A"
+        fontFamily="Rockwell"
+        textAlign="center"
+        fontSize="14px"
+      >
+        Deck
+      </Heading>
       <HStack spacing="24px">
         <CardStack
           cardsToRender={deckCards}
