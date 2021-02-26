@@ -84,7 +84,7 @@ const GamePage: React.FC = () => {
                   <Center>
                     {game.state === GameState.FINISHED ? (
                       <VStack spacing="100px">
-                        <Heading as="h2">This game is OVA</Heading>
+                        <Heading as="h2">The game has ended!</Heading>
                         <Table>
                           <Tr>
                             <Th>Player</Th>
