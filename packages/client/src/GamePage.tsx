@@ -46,7 +46,7 @@ const GamePage: React.FC = () => {
   }, [connected, gameId, socket, setGame]);
 
   return (
-    <Box pt={20}>
+    <Box>
       <DarkModeSwitcher />
       <SideEffectsContext.Provider value={machine}>
         <PlayerContext.Provider value={name}>
@@ -64,6 +64,7 @@ const GamePage: React.FC = () => {
           ) : (
             <GameContext.Provider value={game}>
               <Grid
+                pt={20}
                 h="200px"
                 templateRows="repeat(2, 1fr)"
                 templateColumns="repeat(5, 1fr)"
