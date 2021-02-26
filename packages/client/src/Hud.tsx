@@ -155,6 +155,7 @@ const HUD = () => {
       alignItems="center"
       backgroundColor={colorMode === "dark" ? "gray" : "white"}
       borderRadius="8px"
+      filter="drop-shadow(0 4px 4px rgb(129, 61, 61, .05))"
     >
       {getHudState({
         isHost,
