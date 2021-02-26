@@ -128,7 +128,7 @@ const GamePage: React.FC = () => {
                   </VStack>
                 </GridItem>
                 <GridItem colSpan={3}>
-                  <Center>
+                  <Center marginTop="20px">
                     <HandArea playerName={name} />
                   </Center>
                 </GridItem>
