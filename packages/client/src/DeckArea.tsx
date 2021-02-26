@@ -42,7 +42,6 @@ const DeckArea = () => {
 
   return (
     <Box>
-      {sideEffectsState.value}
       <HStack spacing="24px">
         <CardStack
           cardsToRender={deckCards}
