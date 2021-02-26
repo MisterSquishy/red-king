@@ -71,7 +71,7 @@ const GamePage: React.FC = () => {
                 gap={4}
               >
                 <GridItem rowSpan={2} colSpan={1}>
-                  <VStack>
+                  <VStack spacing="100px">
                     {otherPlayers.length >= 1 && (
                       <HandArea playerName={otherPlayers[0].name} />
                     )}
@@ -83,7 +83,7 @@ const GamePage: React.FC = () => {
                 <GridItem colSpan={3}>
                   <Center>
                     {game.state === GameState.FINISHED ? (
-                      <VStack>
+                      <VStack spacing="100px">
                         <Heading as="h2">This game is OVA</Heading>
                         <Table>
                           <Tr>
