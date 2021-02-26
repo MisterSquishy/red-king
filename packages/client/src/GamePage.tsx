@@ -9,6 +9,7 @@ import { Game } from "./types";
 import {
   Center,
   Grid,
+  Flex,
   GridItem,
   Heading,
   Spinner,
@@ -50,7 +51,16 @@ const GamePage: React.FC = () => {
       <SideEffectsContext.Provider value={machine}>
         <PlayerContext.Provider value={name}>
           {!game ? (
-            <Spinner size="xl" />
+            <Flex
+              minHeight="100vh"
+              minWidth="100vw"
+              alignItems="center"
+              justifyContent="center"
+              flexDirection="column"
+            >
+              <Spinner size="xl" color="red" />
+              <Box mt="8">Loading...</Box>
+            </Flex>
           ) : (
             <GameContext.Provider value={game}>
               <Grid
