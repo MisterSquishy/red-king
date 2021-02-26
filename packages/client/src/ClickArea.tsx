@@ -8,7 +8,7 @@ interface Props {
 
 const ClickArea = ({ prompt, onClick }: Props) => {
   return (
-    <Flex alignItems="center" textAlign="center">
+    <Flex alignItems="center" textAlign="center" position="absolute">
       <Circle
         w="60px"
         h="60px"

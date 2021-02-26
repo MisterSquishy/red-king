@@ -28,12 +28,14 @@ const CardStack = ({ cardsToRender, onClick, topCard }: Props) => {
         />
       ))}
       {topCard ? (
-        <Card card={topCard} exposed={true} onClick={onClick} />
+        <Card
+          card={topCard}
+          exposed={true}
+          onClick={onClick}
+          prompt="Draw card"
+        />
       ) : (
-        <Card />
-      )}
-      {onClick && !topCard && (
-        <ClickArea onClick={onClick} prompt="Draw card" />
+        <Card onClick={onClick} prompt="Draw card" />
       )}
     </Stack>
   ) : (
@@ -45,7 +47,7 @@ const CardStack = ({ cardsToRender, onClick, topCard }: Props) => {
       borderStyle="dashed"
       borderColor={borderColor}
     >
-      {onClick && <ClickArea onClick={onClick} prompt="Draw card" />}
+      {onClick && <ClickArea onClick={onClick} prompt="Discard card" />}
     </Box>
   );
 };

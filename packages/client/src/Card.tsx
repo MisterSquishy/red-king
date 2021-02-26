@@ -1,17 +1,16 @@
-import { Box, Image } from "@chakra-ui/react";
-import { SideEffectsContext } from "./GamePage";
+import { Box, Center, Image, Stack } from "@chakra-ui/react";
 import { Card as CardIF } from "./types";
-import React, { useContext } from "react";
+import React from "react";
 import ClickArea from "./ClickArea";
 
 interface Props {
   card?: CardIF;
   exposed?: boolean;
   onClick?: () => void;
+  prompt?: string;
 }
 
-const Card = ({ card, exposed, onClick }: Props) => {
-  const [sideEffectsState] = useContext(SideEffectsContext);
+const Card = ({ card, exposed, onClick, prompt }: Props) => {
   const toSvgName = (card: CardIF): string => {
     // eslint-disable-next-line
     if (card.cardName == "13") {
@@ -29,22 +28,18 @@ const Card = ({ card, exposed, onClick }: Props) => {
     return svg;
   };
 
-  return exposed && card ? (
+  const svgName = exposed && card ? toSvgName(card) : "Back";
+
+  return (
     <Box w="72px" h="109px">
-      <Image src={toSvgSrc(toSvgName(card))} />
-      {onClick && <ClickArea onClick={onClick} prompt="Select card" />}
-    </Box>
-  ) : (
-    <Box w="72px" h="109px">
-      <Image src={toSvgSrc("Back")} />
-      {onClick && (
-        <ClickArea
-          onClick={onClick}
-          prompt={
-            sideEffectsState.value === "lookyMeChoose" ? "Looky" : "Select card"
-          }
-        />
-      )}
+      <Stack spacing="-35">
+        <Image src={toSvgSrc(svgName)} />
+        {onClick && (
+          <Center>
+            <ClickArea onClick={onClick} prompt={prompt || "Select card"} />
+          </Center>
+        )}
+      </Stack>
     </Box>
   );
 };
