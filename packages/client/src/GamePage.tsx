@@ -1,4 +1,5 @@
 import useSocket from "./hooks/useSocket";
+import DarkModeSwitcher from "./DarkModeSwitcher";
 import { sideEffectsMachine } from "./machines";
 import { useMachine } from "@xstate/react";
 import { useParams } from "react-router-dom";
@@ -8,6 +9,7 @@ import { Game } from "./types";
 import {
   Center,
   Grid,
+  Flex,
   GridItem,
   Heading,
   Spinner,
@@ -16,6 +18,7 @@ import {
   Th,
   Tr,
   VStack,
+  Box
 } from "@chakra-ui/react";
 import HUD from "./Hud";
 import HandArea from "./HandArea";
@@ -33,7 +36,7 @@ const GamePage: React.FC = () => {
   const [game, setGame] = useState<Game>();
   const name = JSON.parse(window.localStorage.getItem("game") ?? "{}")[gameId];
   const otherPlayers =
-    game?.players.filter((player) => player.name !== name) || [];
+    game?.players.filter(player => player.name !== name) || [];
 
   useEffect(() => {
     if (connected) {
@@ -43,72 +46,84 @@ const GamePage: React.FC = () => {
   }, [connected, gameId, socket, setGame]);
 
   return (
-    <SideEffectsContext.Provider value={machine}>
-      <PlayerContext.Provider value={name}>
-        {!game ? (
-          <Spinner size="xl" />
-        ) : (
-          <GameContext.Provider value={game}>
-            <Grid
-              h="200px"
-              templateRows="repeat(2, 1fr)"
-              templateColumns="repeat(5, 1fr)"
-              gap={4}
+    <Box pt={20}>
+      <DarkModeSwitcher />
+      <SideEffectsContext.Provider value={machine}>
+        <PlayerContext.Provider value={name}>
+          {!game ? (
+            <Flex
+              minHeight="100vh"
+              minWidth="100vw"
+              alignItems="center"
+              justifyContent="center"
+              flexDirection="column"
             >
-              <GridItem rowSpan={2} colSpan={1}>
-                {otherPlayers.length >= 1 && (
-                  <HandArea playerName={otherPlayers[0].name} />
-                )}
-                {otherPlayers.length >= 3 && (
-                  <HandArea playerName={otherPlayers[2].name} />
-                )}
-              </GridItem>
-              <GridItem colSpan={3}>
-                <Center>
-                  {game.state === GameState.FINISHED ? (
-                    <VStack>
-                      <Heading as="h2">This game is OVA</Heading>
-                      <Table>
-                        <Tr>
-                          <Th>Player</Th>
-                          <Th>Final score</Th>
-                        </Tr>
-                        {game.players.map((player, index) => {
-                          return (
-                            <Tr key={index}>
-                              <Td>{player.name}</Td>
-                              <Td>{getScore(player.hand.cards)}</Td>
-                            </Tr>
-                          );
-                        })}
-                      </Table>
-                    </VStack>
-                  ) : (
-                    <VStack w="100%">
-                      <DeckArea />
-                      <HUD />
-                    </VStack>
+              <Spinner size="xl" color="red" />
+              <Box mt="8">Loading...</Box>
+            </Flex>
+          ) : (
+            <GameContext.Provider value={game}>
+              <Grid
+                h="200px"
+                templateRows="repeat(2, 1fr)"
+                templateColumns="repeat(5, 1fr)"
+                gap={4}
+              >
+                <GridItem rowSpan={2} colSpan={1}>
+                  {otherPlayers.length >= 1 && (
+                    <HandArea playerName={otherPlayers[0].name} />
                   )}
-                </Center>
-              </GridItem>
-              <GridItem rowSpan={2} colSpan={1}>
-                {otherPlayers.length >= 2 && (
-                  <HandArea playerName={otherPlayers[1].name} />
-                )}
-                {otherPlayers.length >= 4 && (
-                  <HandArea playerName={otherPlayers[3].name} />
-                )}
-              </GridItem>
-              <GridItem colSpan={3}>
-                <Center>
-                  <HandArea playerName={name} />
-                </Center>
-              </GridItem>
-            </Grid>
-          </GameContext.Provider>
-        )}
-      </PlayerContext.Provider>
-    </SideEffectsContext.Provider>
+                  {otherPlayers.length >= 3 && (
+                    <HandArea playerName={otherPlayers[2].name} />
+                  )}
+                </GridItem>
+                <GridItem colSpan={3}>
+                  <Center>
+                    {game.state === GameState.FINISHED ? (
+                      <VStack>
+                        <Heading as="h2">This game is OVA</Heading>
+                        <Table>
+                          <Tr>
+                            <Th>Player</Th>
+                            <Th>Final score</Th>
+                          </Tr>
+                          {game.players.map((player, index) => {
+                            return (
+                              <Tr key={index}>
+                                <Td>{player.name}</Td>
+                                <Td>{getScore(player.hand.cards)}</Td>
+                              </Tr>
+                            );
+                          })}
+                        </Table>
+                      </VStack>
+                    ) : (
+                      <VStack w="100%">
+                        <DeckArea />
+                        <HUD />
+                      </VStack>
+                    )}
+                  </Center>
+                </GridItem>
+                <GridItem rowSpan={2} colSpan={1}>
+                  {otherPlayers.length >= 2 && (
+                    <HandArea playerName={otherPlayers[1].name} />
+                  )}
+                  {otherPlayers.length >= 4 && (
+                    <HandArea playerName={otherPlayers[3].name} />
+                  )}
+                </GridItem>
+                <GridItem colSpan={3}>
+                  <Center>
+                    <HandArea playerName={name} />
+                  </Center>
+                </GridItem>
+              </Grid>
+            </GameContext.Provider>
+          )}
+        </PlayerContext.Provider>
+      </SideEffectsContext.Provider>
+    </Box>
   );
 };
 

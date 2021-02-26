@@ -1,4 +1,11 @@
-import { Box, Button, Flex, Spacer, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  Spacer,
+  Text,
+  useColorMode
+} from "@chakra-ui/react";
 import { SideEffectsContext } from "./GamePage";
 import React, { useContext, useState } from "react";
 import { GameState } from "shared";
@@ -16,7 +23,7 @@ const getHudState = ({
   startGame,
   startEndGame,
   endEndGame,
-  endingPlayer,
+  endingPlayer
 }: {
   isHost: boolean;
   gameState: GameState;
@@ -34,7 +41,7 @@ const getHudState = ({
     case GameState.WAITING:
       if (isHost) {
         return (
-          <Flex>
+          <Flex alignItems="center">
             <Text w="100%" align="center">
               Ready to go
             </Text>
@@ -52,7 +59,7 @@ const getHudState = ({
     case GameState.IN_PROGRESS:
       if (activePlayer === currentPlayer) {
         return (
-          <Flex>
+          <Flex alignItems="center">
             <Text w="100%" align="center">
               It's your turn! Do something!!!
             </Text>
@@ -103,6 +110,7 @@ const getHudState = ({
 };
 
 const HUD = () => {
+  const { colorMode } = useColorMode();
   const [sideEffectsState, send] = useContext(SideEffectsContext);
   const game = useContext(GameContext);
   const currentPlayer = useContext(PlayerContext);
@@ -114,11 +122,11 @@ const HUD = () => {
   const updateGameState = (state: GameState) =>
     fetcher(`/games/${game._id}/state`, {
       method: "PATCH",
-      body: JSON.stringify({ state }),
-    }).then((res) => res.json());
+      body: JSON.stringify({ state })
+    }).then(res => res.json());
 
   return (
-    <Box bg="lightgrey" w="100%">
+    <Box w="100%" backgroundColor={colorMode === "dark" ? "gray" : "lightgray"}>
       {getHudState({
         isHost,
         gameState: game.state,
@@ -133,14 +141,14 @@ const HUD = () => {
           fetcher(`/games/${game._id}/end/turn`, {
             method: "POST",
             body: JSON.stringify({
-              userName: currentPlayer,
-            }),
+              userName: currentPlayer
+            })
           }).then(() => {
             updateGameState(3); // todo GameState.FINISHING
           });
         },
         endEndGame: () => updateGameState(GameState.FINISHED),
-        endingPlayer: endingPlayer,
+        endingPlayer: endingPlayer
       })}
     </Box>
   );

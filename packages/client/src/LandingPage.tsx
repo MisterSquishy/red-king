@@ -1,7 +1,7 @@
 import { useHistory } from "react-router-dom";
-import { Button, IconButton } from "@chakra-ui/react";
+import { Button } from "@chakra-ui/react";
 import { fetcher } from "./api";
-import { SunIcon, MoonIcon } from "@chakra-ui/icons";
+import DarkModeSwitcher from "./DarkModeSwitcher";
 import { DraftGame } from "./types";
 import { VStack, Grid, Flex, Heading, useColorMode } from "@chakra-ui/react";
 import JoinGameModal from "./JoinGameModal";
@@ -13,7 +13,7 @@ const setName = (gameId: string, name: string) => {
     "game",
     JSON.stringify({
       ...JSON.parse(window.localStorage.getItem("game") ?? "{}"),
-      [gameId]: name,
+      [gameId]: name
     })
   );
 };
@@ -27,20 +27,20 @@ const LandingPage: React.FC = () => {
   const createGame = (game: DraftGame) =>
     fetcher("/games", {
       method: "POST",
-      body: JSON.stringify(game),
-    }).then((res) => res.json());
+      body: JSON.stringify(game)
+    }).then(res => res.json());
 
   const joinGame = (gameId: string, userName: string) =>
     fetcher(`/games/${gameId}`, {
       method: "POST",
-      body: JSON.stringify({ userName }),
-    }).then((res) => res.json());
+      body: JSON.stringify({ userName })
+    }).then(res => res.json());
 
   const findWaitingGames = () =>
     fetcher("/games/query", {
       method: "POST",
-      body: JSON.stringify({ state: 0 }),
-    }).then((res) => res.json());
+      body: JSON.stringify({ state: 0 })
+    }).then(res => res.json());
 
   return (
     <>
@@ -57,7 +57,7 @@ const LandingPage: React.FC = () => {
       />
       <CreateGameModal
         isOpen={createGameModalOpen}
-        onCreate={async (game) => {
+        onCreate={async game => {
           setCreateGameModalOpen(false);
           const { gameId } = await createGame(game);
           setName(gameId, game.userName);
@@ -71,15 +71,7 @@ const LandingPage: React.FC = () => {
         maxHeight="100vh"
         flexDirection="column"
       >
-        <IconButton
-          position="absolute"
-          variant="ghost"
-          right="5"
-          mt="5"
-          icon={colorMode === "dark" ? <SunIcon /> : <MoonIcon />}
-          onClick={toggleColorMode}
-          aria-label="Switch to dark / light mode"
-        />
+        <DarkModeSwitcher />
         <Grid
           gridGap="10"
           gridTemplateColumns="auto"
