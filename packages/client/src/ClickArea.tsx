@@ -27,6 +27,7 @@ const ClickArea = ({ prompt, onClick }: Props) => {
             lineHeight="normal"
             fontWeight="bold"
             color="#732A2A"
+            textTransform="none"
           >
             {prompt}
           </Text>

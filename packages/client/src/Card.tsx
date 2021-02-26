@@ -36,7 +36,7 @@ const Card = ({ card, exposed, onClick, prompt }: Props) => {
         <Image src={toSvgSrc(svgName)} />
         {onClick && (
           <Center>
-            <ClickArea onClick={onClick} prompt={prompt || "Select card"} />
+            <ClickArea onClick={onClick} prompt={prompt || "Pick card"} />
           </Center>
         )}
       </Stack>
