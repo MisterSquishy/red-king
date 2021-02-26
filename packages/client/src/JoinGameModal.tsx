@@ -89,16 +89,10 @@ const JoinGameModal: React.FC<Props> = ({
             </RadioGroup>
             <Flex m={2}>
               {page > 0 && (
-                <Link onClick={() => setPage(p => p - 1)} color="blue">
-                  ← Prev
-                </Link>
+                <Link onClick={() => setPage(p => p - 1)}>← Prev</Link>
               )}
               {(page + 1) * 5 < games.length && (
-                <Link
-                  ml="auto"
-                  onClick={() => setPage(p => p + 1)}
-                  color="blue"
-                >
+                <Link ml="auto" onClick={() => setPage(p => p + 1)}>
                   Next →
                 </Link>
               )}
