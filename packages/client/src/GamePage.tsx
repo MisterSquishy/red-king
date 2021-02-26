@@ -37,6 +37,9 @@ const GamePage: React.FC = () => {
   const name = JSON.parse(window.localStorage.getItem("game") ?? "{}")[gameId];
   const otherPlayers =
     game?.players.filter((player) => player.name !== name) || [];
+  const scores =
+    game?.players.map((player) => getScore(player.hand.cards)) || [];
+  const winningScore = Math.max(...scores);
 
   useEffect(() => {
     if (connected) {
@@ -87,12 +90,15 @@ const GamePage: React.FC = () => {
                         <Heading as="h2">The game has ended!</Heading>
                         <Table>
                           <Tr>
+                            <Th />
                             <Th>Player</Th>
                             <Th>Final score</Th>
                           </Tr>
                           {game.players.map((player, index) => {
                             return (
                               <Tr key={index}>
+                                {getScore(player.hand.cards) ===
+                                  winningScore && <Td>👑</Td>}
                                 <Td>{player.name}</Td>
                                 <Td>{getScore(player.hand.cards)}</Td>
                               </Tr>
