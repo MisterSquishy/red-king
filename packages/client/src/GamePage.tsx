@@ -101,7 +101,7 @@ const GamePage: React.FC = () => {
                         </Table>
                       </VStack>
                     ) : (
-                      <VStack w="100%">
+                      <VStack w="100%" spacing="40px">
                         <DeckArea />
                         <HUD />
                       </VStack>
