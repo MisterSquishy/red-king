@@ -64,6 +64,7 @@ const HandArea = ({ playerName }: { playerName: string }) => {
       color="#732A2A"
       fontFamily="Rockwell"
       textAlign="center"
+      fontSize="14px"
     >
       {isMine ? "My hand" : playerName}
       <HStack>
