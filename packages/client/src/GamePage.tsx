@@ -118,7 +118,7 @@ const GamePage: React.FC = () => {
                   </Center>
                 </GridItem>
                 <GridItem rowSpan={2} colSpan={1}>
-                  <VStack>
+                  <VStack spacing="100px">
                     {otherPlayers.length >= 2 && (
                       <HandArea playerName={otherPlayers[1].name} />
                     )}
