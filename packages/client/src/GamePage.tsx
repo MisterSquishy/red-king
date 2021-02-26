@@ -39,7 +39,7 @@ const GamePage: React.FC = () => {
     game?.players.filter((player) => player.name !== name) || [];
   const scores =
     game?.players.map((player) => getScore(player.hand.cards)) || [];
-  const winningScore = Math.min(...scores);
+  const winningScore = Math.max(...scores);
 
   useEffect(() => {
     if (connected) {

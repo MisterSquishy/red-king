@@ -154,6 +154,7 @@ const HUD = () => {
       lineHeight="67px"
       alignItems="center"
       backgroundColor={colorMode === "dark" ? "gray" : "white"}
+      borderRadius="8px"
     >
       {getHudState({
         isHost,
