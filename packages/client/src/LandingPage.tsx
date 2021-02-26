@@ -3,7 +3,7 @@ import { Button } from "@chakra-ui/react";
 import { fetcher } from "./api";
 import DarkModeSwitcher from "./DarkModeSwitcher";
 import { DraftGame } from "./types";
-import { VStack, Grid, Flex, Heading, useColorMode } from "@chakra-ui/react";
+import { VStack, Grid, Flex, Heading } from "@chakra-ui/react";
 import JoinGameModal from "./JoinGameModal";
 import CreateGameModal from "./CreateGameModal";
 import React, { useState } from "react";
@@ -13,7 +13,7 @@ const setName = (gameId: string, name: string) => {
     "game",
     JSON.stringify({
       ...JSON.parse(window.localStorage.getItem("game") ?? "{}"),
-      [gameId]: name
+      [gameId]: name,
     })
   );
 };
@@ -21,26 +21,25 @@ const setName = (gameId: string, name: string) => {
 const LandingPage: React.FC = () => {
   const [joinGameModalOpen, setJoinGameModalOpen] = useState(false);
   const [createGameModalOpen, setCreateGameModalOpen] = useState(false);
-  const { colorMode, toggleColorMode } = useColorMode();
   const history = useHistory();
 
   const createGame = (game: DraftGame) =>
     fetcher("/games", {
       method: "POST",
-      body: JSON.stringify(game)
-    }).then(res => res.json());
+      body: JSON.stringify(game),
+    }).then((res) => res.json());
 
   const joinGame = (gameId: string, userName: string) =>
     fetcher(`/games/${gameId}`, {
       method: "POST",
-      body: JSON.stringify({ userName })
-    }).then(res => res.json());
+      body: JSON.stringify({ userName }),
+    }).then((res) => res.json());
 
   const findWaitingGames = () =>
     fetcher("/games/query", {
       method: "POST",
-      body: JSON.stringify({ state: 0 })
-    }).then(res => res.json());
+      body: JSON.stringify({ state: 0 }),
+    }).then((res) => res.json());
 
   return (
     <>
@@ -57,7 +56,7 @@ const LandingPage: React.FC = () => {
       />
       <CreateGameModal
         isOpen={createGameModalOpen}
-        onCreate={async game => {
+        onCreate={async (game) => {
           setCreateGameModalOpen(false);
           const { gameId } = await createGame(game);
           setName(gameId, game.userName);
