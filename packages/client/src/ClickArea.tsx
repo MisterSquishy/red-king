@@ -21,7 +21,9 @@ const ClickArea = ({ prompt, onClick }: Props) => {
         }}
       >
         <Center>
-          <Text align="center">{prompt}</Text>
+          <Text align="center" fontWeight="bold" color="#732A2A">
+            {prompt}
+          </Text>
         </Center>
       </Circle>
     </Flex>
