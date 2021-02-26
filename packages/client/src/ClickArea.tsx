@@ -12,10 +12,11 @@ const ClickArea = ({ prompt, onClick }: Props) => {
       <Circle
         w="60px"
         h="60px"
-        bg="lightblue"
+        bg="#FBEEEE"
+        borderWidth="3px"
+        borderColor="#732A2A"
         onClick={onClick}
         _hover={{
-          background: "blue.100",
           cursor: "pointer",
         }}
       >
