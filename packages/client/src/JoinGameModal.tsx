@@ -78,7 +78,13 @@ const JoinGameModal: React.FC<Props> = ({
           <FormControl isRequired isInvalid={!validGame && showValidation}>
             <FormLabel mb="5">Games (waiting for players)</FormLabel>
             <RadioGroup onChange={setSelectedGame} value={selectedGame}>
-              <Stack spacing={5} p={2} overflow="auto" direction="column">
+              <Stack
+                spacing={5}
+                p={2}
+                overflow="auto"
+                direction="column"
+                minHeight={games.length > 5 ? "216px" : "0px"}
+              >
                 {games.slice(page * 5, page * 5 + 5).map((game: Game) => (
                   <Radio value={game._id} key={game._id}>
                     {game.gameName} ({game.players.length}{" "}
