@@ -97,8 +97,11 @@ const GamePage: React.FC = () => {
                           {game.players.map((player, index) => {
                             return (
                               <Tr key={index}>
-                                {getScore(player.hand.cards) ===
-                                  winningScore && <Td>👑</Td>}
+                                <Td>
+                                  {getScore(player.hand.cards) === winningScore
+                                    ? "👑"
+                                    : ""}
+                                </Td>
                                 <Td>{player.name}</Td>
                                 <Td>{getScore(player.hand.cards)}</Td>
                               </Tr>
