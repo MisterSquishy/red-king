@@ -41,7 +41,7 @@ const getHudState = ({
     case GameState.WAITING:
       if (isHost) {
         return (
-          <Flex>
+          <Flex alignItems="center">
             <Text w="100%" align="center">
               Ready to go
             </Text>
@@ -59,7 +59,7 @@ const getHudState = ({
     case GameState.IN_PROGRESS:
       if (activePlayer === currentPlayer) {
         return (
-          <Flex>
+          <Flex alignItems="center">
             <Text w="100%" align="center">
               It's your turn! Do something!!!
             </Text>
