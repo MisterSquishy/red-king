@@ -46,7 +46,12 @@ const getHudState = ({
               Ready to go
             </Text>
             <Spacer />
-            <Button onClick={startGame} bg="#732A2A" textColor="white">
+            <Button
+              onClick={startGame}
+              bg="#732A2A"
+              textColor="white"
+              marginRight="20px"
+            >
               Start game
             </Button>
           </Flex>
@@ -66,7 +71,12 @@ const getHudState = ({
               It's your turn! Do something!!!
             </Text>
             {!hasDrawn && (
-              <Button onClick={startEndGame} bg="#732A2A" textColor="white">
+              <Button
+                onClick={startEndGame}
+                bg="#732A2A"
+                textColor="white"
+                marginRight="20px"
+              >
                 End game
               </Button>
             )}
@@ -84,6 +94,7 @@ const getHudState = ({
                     onClick={() => send("lookyMeDone")}
                     bg="#732A2A"
                     textColor="white"
+                    marginRight="20px"
                   >
                     Done
                   </Button>

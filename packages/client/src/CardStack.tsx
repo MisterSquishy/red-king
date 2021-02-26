@@ -14,12 +14,12 @@ const CardStack = ({ cardsToRender, onClick, topCard }: Props) => {
   const borderColor = useColorModeValue("black", "white");
 
   return cardsToRender > 0 ? (
-    <Stack direction={["column", "row"]} spacing="-75">
+    <Stack direction={["column", "row"]} spacing="-90px">
       {Array.from({ length: cardsToRender }, (_, k) => (
         <Box
           key={k}
-          w="72px"
-          h="109px"
+          w="88px"
+          h="136px"
           bg={backgroundColor}
           borderWidth="1px"
           borderRadius="lg"
@@ -40,8 +40,8 @@ const CardStack = ({ cardsToRender, onClick, topCard }: Props) => {
     </Stack>
   ) : (
     <Box
-      w="72px"
-      h="100px"
+      w="88px"
+      h="136px"
       borderWidth="1px"
       borderRadius="lg"
       borderStyle="dashed"
