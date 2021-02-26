@@ -29,7 +29,7 @@ const DeckArea = () => {
   const onDraw = (drawType: DrawType) => {
     fetcher(`/games/${game._id}/draw`, {
       method: "POST",
-      body: JSON.stringify({ userName: me, type: drawType })
+      body: JSON.stringify({ userName: me, type: drawType }),
     });
   };
   const onDrawFromDeck = () => onDraw(DrawType.DECK);
@@ -51,7 +51,7 @@ const DeckArea = () => {
           cardsToRender={discardCards}
           topCard={
             game.discardPile.cards.length > 0
-              ? game.discardPile.cards[discardCards - 1]
+              ? game.discardPile.cards[0]
               : undefined
           }
           onClick={
