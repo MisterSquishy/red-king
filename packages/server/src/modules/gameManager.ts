@@ -1,8 +1,9 @@
-import { DrawType, Game, Player } from "./interfaces";
+import { Game, Player } from "./interfaces";
+import { DrawType, GameState } from "shared";
 import { Card, CardName, Deck, Hand, JokerCard, Suit } from "typedeck";
 
 export default {
-  create: (gameId: string, playerNames: string[]): Game => {
+  create: (gameId: string, playerNames: string[], gameName: string): Game => {
     const deck = Deck.Build(
       Object.keys(Suit)
         .filter((key) => !isNaN(parseInt(key)))
@@ -29,11 +30,16 @@ export default {
       currentPlayer: 0,
       _id: gameId,
       discardPile: Deck.Build([], []),
+      state: GameState.WAITING,
+      gameName,
     };
   },
 
   addPlayer: (game: Game, playerName: string) => {
-    const { deck } = game;
+    const { deck, players } = game;
+    if (players.find((player) => player.name === playerName)) {
+      throw new Error("player with this name already exists");
+    }
     const hand: Hand = new Hand();
     deck.deal(hand, 4);
     game.players.push({ name: playerName, hand });
@@ -46,7 +52,7 @@ export default {
     const card: Card = cards.takeCard();
     if (!player) return { game, card };
     const { hand } = player;
-    hand.addCard(card);
+    hand.addCardsToBottom([card]);
     return { game, card };
   },
 

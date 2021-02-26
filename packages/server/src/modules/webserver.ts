@@ -1,6 +1,8 @@
 import { io, logger } from "../index";
 import gameManager from "./gameManager";
 import database from "./database";
+import { Game } from "./interfaces";
+import { GameState } from "shared";
 
 export default {
   createUser: (req, res) => {
@@ -11,9 +13,9 @@ export default {
   },
 
   createGame: (req, res) => {
-    const { userName } = req.body;
+    const { userName, gameName } = req.body;
     const gameId = Math.random().toString(36).substr(2, 5);
-    const game = gameManager.create(gameId, [userName]);
+    const game = gameManager.create(gameId, [userName], gameName);
     database.createGame(game);
     res.send({ gameId });
     logger.info({ gameId, game, userName }, "created_game");
@@ -28,6 +30,22 @@ export default {
         database.updateGame(updatedGame);
         res.send({ gameId });
         logger.info({ gameId, game, updatedGame, userName }, "joined_game");
+      } else {
+        res.status(404).send("Game not found");
+      }
+    });
+  },
+
+  patchGameState: (req, res) => {
+    const { gameId } = req.params;
+    const { state } = req.body;
+    database.findGame(gameId, (game: Game) => {
+      if (game) {
+        game.state = state;
+        database.updateGame(game);
+        io.to(gameId).emit("GameUpdate", game);
+        res.send({ gameId });
+        logger.info({ gameId, state }, "patched_game_state");
       } else {
         res.status(404).send("Game not found");
       }
@@ -98,6 +116,13 @@ export default {
     });
   },
 
+  queryGames: (req, res) => {
+    const query = req.body;
+    database.queryGames(query, (games) => {
+      res.send(games);
+    });
+  },
+
   onSocketConnection: (socket) => {
     logger.info({ socketId: socket.id }, "socket_connected");
     socket.on("join", (gameId) => {
@@ -106,13 +131,6 @@ export default {
         socket.join(gameId);
         io.to(gameId).emit("GameUpdate", game);
       });
-    });
-    socket.on("StateChange", (gameId, gameState) => {
-      logger.info(
-        { socketId: socket.id, gameId, gameState },
-        "changed_game_state"
-      );
-      io.to(gameId).emit("StateChange", gameState);
     });
     socket.on("disconnect", () => {
       logger.info({ socketId: socket.id }, "socket_disconnected");
