@@ -9,6 +9,14 @@ const theme = extendTheme({
     body: "'Rubik', sans-serif",
     heading: "'Rubik', sans-serif",
   },
+  styles: {
+    global: (props) => ({
+      body: {
+        backgroundColor:
+          props.colorMode === "dark" ? "rgb(26, 32, 44);" : "#EEEBEB",
+      },
+    }),
+  },
 });
 
 function App() {

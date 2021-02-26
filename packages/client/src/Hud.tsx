@@ -4,7 +4,7 @@ import {
   Flex,
   Spacer,
   Text,
-  useColorMode
+  useColorMode,
 } from "@chakra-ui/react";
 import { SideEffectsContext } from "./GamePage";
 import React, { useContext, useState } from "react";
@@ -23,7 +23,7 @@ const getHudState = ({
   startGame,
   startEndGame,
   endEndGame,
-  endingPlayer
+  endingPlayer,
 }: {
   isHost: boolean;
   gameState: GameState;
@@ -122,11 +122,11 @@ const HUD = () => {
   const updateGameState = (state: GameState) =>
     fetcher(`/games/${game._id}/state`, {
       method: "PATCH",
-      body: JSON.stringify({ state })
-    }).then(res => res.json());
+      body: JSON.stringify({ state }),
+    }).then((res) => res.json());
 
   return (
-    <Box w="100%" backgroundColor={colorMode === "dark" ? "gray" : "lightgray"}>
+    <Box w="100%" backgroundColor={colorMode === "dark" ? "gray" : "white"}>
       {getHudState({
         isHost,
         gameState: game.state,
@@ -141,14 +141,14 @@ const HUD = () => {
           fetcher(`/games/${game._id}/end/turn`, {
             method: "POST",
             body: JSON.stringify({
-              userName: currentPlayer
-            })
+              userName: currentPlayer,
+            }),
           }).then(() => {
             updateGameState(3); // todo GameState.FINISHING
           });
         },
         endEndGame: () => updateGameState(GameState.FINISHED),
-        endingPlayer: endingPlayer
+        endingPlayer: endingPlayer,
       })}
     </Box>
   );
