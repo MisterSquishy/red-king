@@ -31,8 +31,8 @@ const Card = ({ card, exposed, onClick, prompt }: Props) => {
   const svgName = exposed && card ? toSvgName(card) : "Back";
 
   return (
-    <Box w="72px" h="109px">
-      <Stack spacing="-35">
+    <Box w="88px" h="136px">
+      <Stack spacing="-50">
         <Image src={toSvgSrc(svgName)} />
         {onClick && (
           <Center>

@@ -10,8 +10,8 @@ const ClickArea = ({ prompt, onClick }: Props) => {
   return (
     <Flex alignItems="center" textAlign="center" position="absolute">
       <Circle
-        w="60px"
-        h="60px"
+        w="80px"
+        h="80px"
         bg="#FBEEEE"
         borderWidth="3px"
         borderColor="#732A2A"
@@ -21,7 +21,13 @@ const ClickArea = ({ prompt, onClick }: Props) => {
         }}
       >
         <Center>
-          <Text align="center" fontWeight="bold" color="#732A2A">
+          <Text
+            align="center"
+            fontSize="20px"
+            lineHeight="normal"
+            fontWeight="bold"
+            color="#732A2A"
+          >
             {prompt}
           </Text>
         </Center>
