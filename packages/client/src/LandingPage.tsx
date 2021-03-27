@@ -5,6 +5,7 @@ import DarkModeSwitcher from "./DarkModeSwitcher";
 import { DraftGame } from "./types";
 import { VStack, Grid, Flex, Heading } from "@chakra-ui/react";
 import React, { useState } from "react";
+import totemize from "totemize";
 
 const setName = (gameId: string, name: string) => {
   window.localStorage.setItem(
@@ -48,11 +49,12 @@ const UndecidedOptions = ({
         variant="outline"
         width="xs"
         onClick={async () => {
+          const userName = totemize();
           const { gameId } = await createGame({
-            userName: "todo",
-            gameName: "todo",
+            userName: userName,
+            gameName: "unnamed game",
           });
-          setName(gameId, "todo");
+          setName(gameId, userName);
           history.push(`/${gameId}`);
         }}
       >
@@ -77,8 +79,9 @@ const JoinOptions: React.FC = () => {
         variant="outline"
         width="xs"
         onClick={() => {
-          joinGame(gameToJoin, "todo");
-          setName(gameToJoin, "todo");
+          const userName = totemize();
+          joinGame(gameToJoin, userName);
+          setName(gameToJoin, userName);
           history.push(`/${gameToJoin}`);
         }}
       >
