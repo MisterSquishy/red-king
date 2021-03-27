@@ -7,51 +7,32 @@ import {
   ModalFooter,
   ModalBody,
   ModalCloseButton,
-  Radio,
-  RadioGroup,
-  Link,
   FormErrorMessage,
-  Stack,
-  Flex,
   FormControl,
   FormLabel,
-  Input
+  Input,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
-import { Game } from "./types";
 
 interface Props {
   isOpen: boolean;
-  findWaitingGames: () => Promise<Game[]>;
   onClose: () => void;
   onJoin: (gameId: string, userName: string) => void;
 }
 
-const JoinGameModal: React.FC<Props> = ({
-  isOpen,
-  findWaitingGames,
-  onClose,
-  onJoin
-}) => {
-  const [games, setGames] = useState<Game[]>([]);
+const JoinGameModal: React.FC<Props> = ({ isOpen, onClose, onJoin }) => {
   const [userName, setUserName] = useState("");
-  const [selectedGame, setSelectedGame] = useState<
-    string | number | undefined
-  >();
+  const [gameId, setGameId] = useState("");
   const validName = !!userName;
-  const validGame = !!selectedGame;
-  const validationPassed = validGame && validName;
-  const [showValidation, setShowValidation] = useState(false);
-  const [page, setPage] = useState(0);
-
-  useEffect(() => {
-    findWaitingGames().then(setGames);
-  }, [findWaitingGames]);
+  const validGame = !!gameId;
+  const [showNameValidation, setShowNameValidation] = useState(false);
+  const [showGameValidation, setShowGameValidation] = useState(false);
 
   useEffect(() => {
     setUserName("");
-    setSelectedGame(undefined);
-    setShowValidation(false);
+    setGameId("");
+    setShowNameValidation(false);
+    setShowGameValidation(false);
   }, [isOpen]);
 
   return (
@@ -65,45 +46,28 @@ const JoinGameModal: React.FC<Props> = ({
             id="userName"
             isRequired
             mb="5"
-            isInvalid={!validName && showValidation}
+            isInvalid={!validName && showNameValidation}
           >
             <FormLabel>Your name</FormLabel>
             <Input
-              onChange={e => setUserName(e.target.value)}
+              onChange={(e) => setUserName(e.target.value)}
               placeholder="Peter Davids"
             />
 
-            <FormErrorMessage>Your name is required</FormErrorMessage>
+            <FormErrorMessage>Tell people your name!</FormErrorMessage>
           </FormControl>
-          <FormControl isRequired isInvalid={!validGame && showValidation}>
-            <FormLabel mb="5">Games (waiting for players)</FormLabel>
-            <RadioGroup onChange={setSelectedGame} value={selectedGame}>
-              <Stack
-                spacing={5}
-                p={2}
-                overflow="auto"
-                direction="column"
-                minHeight={games.length > 5 ? "216px" : "0px"}
-              >
-                {games.slice(page * 5, page * 5 + 5).map((game: Game) => (
-                  <Radio value={game._id} key={game._id}>
-                    {game.gameName} ({game.players.length}{" "}
-                    {game.players.length === 1 ? "player" : "players"})
-                  </Radio>
-                ))}
-              </Stack>
-            </RadioGroup>
-            <Flex m={2}>
-              {page > 0 && (
-                <Link onClick={() => setPage(p => p - 1)}>← Prev</Link>
-              )}
-              {(page + 1) * 5 < games.length && (
-                <Link ml="auto" onClick={() => setPage(p => p + 1)}>
-                  Next →
-                </Link>
-              )}
-            </Flex>
-            <FormErrorMessage>You must select a game</FormErrorMessage>
+          <FormControl
+            id="gameId"
+            isRequired
+            mb="5"
+            isInvalid={!validName && showGameValidation}
+          >
+            <FormLabel>Game to join</FormLabel>
+            <Input
+              onChange={(e) => setGameId(e.target.value)}
+              placeholder="abc123"
+            />
+            <FormErrorMessage>What game do you want to join?</FormErrorMessage>
           </FormControl>
         </ModalBody>
         <ModalFooter>
@@ -112,12 +76,14 @@ const JoinGameModal: React.FC<Props> = ({
           </Button>
           <Button
             colorScheme="blue"
-            disabled={games.length === 0}
+            disabled={!validName || !validGame}
             onClick={() => {
-              if (validationPassed) {
-                onJoin(selectedGame?.toString() ?? "", userName);
-              } else {
-                setShowValidation(true);
+              if (validName && validGame) {
+                onJoin(gameId ?? "", userName);
+              } else if (!validName) {
+                setShowNameValidation(true);
+              } else if (!validGame) {
+                setShowGameValidation(true);
               }
             }}
           >
