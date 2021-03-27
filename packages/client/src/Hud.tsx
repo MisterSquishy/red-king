@@ -13,6 +13,7 @@ import { fetcher } from "./api";
 import { GameContext, PlayerContext } from "./GamePage";
 
 const getHudState = ({
+  gameId,
   isHost,
   gameState,
   currentPlayer,
@@ -25,6 +26,7 @@ const getHudState = ({
   endEndGame,
   endingPlayer,
 }: {
+  gameId: string;
   isHost: boolean;
   gameState: GameState;
   currentPlayer: string;
@@ -43,7 +45,10 @@ const getHudState = ({
         return (
           <Flex alignItems="center">
             <Text w="100%" align="center">
-              Ready to go
+              Invite people using game code:{" "}
+              <Text as="samp" padding="6px">
+                {gameId}
+              </Text>
             </Text>
             <Spacer />
             <Button
@@ -135,6 +140,7 @@ const HUD = () => {
   const { colorMode } = useColorMode();
   const [sideEffectsState, send] = useContext(SideEffectsContext);
   const game = useContext(GameContext);
+  const gameId = game._id;
   const currentPlayer = useContext(PlayerContext);
   const activePlayer = game.players[game.currentPlayer].name;
   const [endingPlayer, setEndingPlayer] = useState<string | undefined>();
@@ -158,6 +164,7 @@ const HUD = () => {
       filter="drop-shadow(0 4px 4px rgb(129, 61, 61, .05))"
     >
       {getHudState({
+        gameId,
         isHost,
         gameState: game.state,
         currentPlayer,
