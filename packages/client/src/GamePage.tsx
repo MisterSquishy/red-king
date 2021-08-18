@@ -62,7 +62,7 @@ const GamePage: React.FC = () => {
               flexDirection="column"
             >
               <Spinner size="xl" color="red" />
-              <Box mt="8">Loading...</Box>
+              <Box mt="8">Loading…</Box>
             </Flex>
           ) : (
             <GameContext.Provider value={game}>
